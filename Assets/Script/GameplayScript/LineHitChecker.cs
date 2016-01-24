@@ -9,7 +9,6 @@ public class LineHitChecker : MonoBehaviour {
 	public string key = "q";
 	public Transform lineChecker;
 	private Vector3 firstPosition;
-	private float zScale;
 	private float score;
 	private List<NoteDescription> laneNotes;
 
@@ -19,8 +18,6 @@ public class LineHitChecker : MonoBehaviour {
 		Vector3 pos = lineChecker.transform.localPosition;
 		firstPosition = new Vector3 (pos.x, pos.y, pos.z);
 		Vector3 scale = lineChecker.transform.localScale;
-		lineChecker.transform.localScale = new Vector3 (scale.x, scale.y, Runner.speed);
-		zScale = lineChecker.transform.lossyScale.z;
 	}
 
 	// Update is called once per frame

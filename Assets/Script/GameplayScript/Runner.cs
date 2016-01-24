@@ -4,7 +4,7 @@ using System.Collections;
 public class Runner : MonoBehaviour {
 
 	public Transform camera;
-	public static float speed = 5*2;
+	public static float speed = 5*2*1.5f;
 
 	// Use this for initialization
 	void Start () {

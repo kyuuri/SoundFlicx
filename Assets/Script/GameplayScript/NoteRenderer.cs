@@ -14,12 +14,12 @@ public class NoteRenderer : MonoBehaviour {
 		allnotes[2] = new List<NoteDescription>();
 		allnotes[3] = new List<NoteDescription>();
 
-		InvokeRepeating("GenTestNote", 0.0f, 0.5f);
+		InvokeRepeating("GenTestNote", 0.0f, 0.25f);
 	}
 
 	void GenTestNote(){
 		//for generating further notes, will be removed later
-		float x = 10;
+		float x = 20;
 		GameObject note = Instantiate(Resources.Load("Note")) as GameObject;
 		int random = Random.Range (0, 4);
 		note.transform.position = new Vector3 (lanePosition [random].position.x, 0.03f, lanePosition [random].position.z - 13f + x);
