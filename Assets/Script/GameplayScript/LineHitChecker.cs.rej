@@ -1,0 +1,9 @@
+diff a/Assets/Script/GameplayScript/LineHitChecker.cs b/Assets/Script/GameplayScript/LineHitChecker.cs	(rejected hunks)
+@@ -9,7 +9,6 @@
+ 	public string key = "q";
+ 	public Transform lineChecker;
+ 	private Vector3 firstPosition;
+-	private float zScale;
+ 	private float score;
+ 	private List<NoteDescription> laneNotes;
+ 
