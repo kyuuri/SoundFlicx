@@ -12,8 +12,16 @@ public class NoteDestroyer : MonoBehaviour {
 
 		for (int i = 0; i < allnotes.Length; i++) {
 			laneNotes = NoteRenderer.allnotes[i];
-			NoteDescription note = laneNotes [0];
-			float deltaTime = GetDeltaTime (note.HitTime);
+			if (laneNotes.Count > 0) {
+				NoteDescription note = laneNotes [0];
+				float deltaTime = GetDeltaTime (note.HitTime);
+
+				if (OutRange (deltaTime)) {
+					Debug.Log (0);
+					note.DestroySelf ();
+					laneNotes.Remove (note);
+				}
+			}
 		}
 	}
 
@@ -21,6 +29,10 @@ public class NoteDestroyer : MonoBehaviour {
 		float hitDeltaTime = noteTime - TimerScript.timePass;
 		hitDeltaTime *= 1000;
 		return hitDeltaTime;
+	}
+
+	private bool OutRange(float deltaTime){
+		return deltaTime < -120;
 	}
 
 
