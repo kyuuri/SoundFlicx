@@ -18,6 +18,11 @@ ExportedObj/
 *.booproj
 *.svd
 /Temp/
+/Gizmos/
+/LeapMotion/
+/LeapMotionVR/
+/OVR/
+/Plugins/
 
 
 # Unity3D generated meta files
