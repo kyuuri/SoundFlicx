@@ -5,9 +5,11 @@ public class LineHitChecker : MonoBehaviour {
 
 	enum LaneState {none, hit, hold} //0, 1, 2
 
+	public Transform lineChecker;
+	public ParticleSystem hitParticle;
+
 	public int laneNumber = 0;
 	public string key = "q";
-	public Transform lineChecker;
 	private Vector3 firstPosition;
 	private float score;
 	private List<NoteDescription> laneNotes;
@@ -66,6 +68,7 @@ public class LineHitChecker : MonoBehaviour {
 					if (note.NoteState == 0) {
 						CalculatePercentage (hitDeltaTime, note);
 						DestroyNote (note);
+						hitParticle.Play();
 						break;
 					}
 				} else {

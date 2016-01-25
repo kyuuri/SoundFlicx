@@ -14,7 +14,7 @@ public class NoteRenderer : MonoBehaviour {
 		allnotes[2] = new List<NoteDescription>();
 		allnotes[3] = new List<NoteDescription>();
 
-		InvokeRepeating("GenTestNote", 0.0f, 0.25f);
+		InvokeRepeating("GenTestNote", 0.0f, 0.2f);
 	}
 
 	void GenTestNote(){
