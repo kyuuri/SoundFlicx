@@ -18,7 +18,7 @@ public class NoteRenderer : MonoBehaviour {
 	}
 
 	void GenTestNote(){
-		//for generating further notes, will be removed later
+		//for generating further notes, will be removed later.
 		float x = 20;
 		GameObject note = Instantiate(Resources.Load("Note")) as GameObject;
 		int random = Random.Range (0, 4);
