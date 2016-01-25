@@ -8,9 +8,9 @@ using System.Collections.Generic;
 public class Item {
 	public string name;
 	public Sprite icon;
-	public string type;
-	public string rarity;
-	public bool isChampion;
+//	public string type;
+//	public string rarity;
+//	public bool isChampion;
 	public Button.ButtonClickedEvent thingToDo;
 }
 
