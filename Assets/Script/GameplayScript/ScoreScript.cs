@@ -1,25 +1,36 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ScoreScript : MonoBehaviour {
 
-	private static float score = 0;
+	public Text scoreText;
+	public static ScoreScript Instance { get; private set;}
+
+	private float score = 0;
+
+	void Awake(){
+		Instance = this;
+	}
 
 	void Start () {
 		score = 0;
+		scoreText.text = score + "";
 	}
 
 
-	public static float getScore(){
+	public float getScore(){
 		return score;
 	}
 
-	public static void setScore(float sc){
+	public void setScore(float sc){
 		score = sc;
+		scoreText.text = score + "";
 	}
 
-	public static void addScore(float sc){
+	public void addScore(float sc){
 		score += sc;
+		scoreText.text = score + "";
 	}
 
 }

@@ -17,7 +17,7 @@ public class NoteDestroyer : MonoBehaviour {
 				float deltaTime = GetDeltaTime (note.HitTime);
 
 				if (OutRange (deltaTime)) {
-					Debug.Log (0);
+					JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
 					note.DestroySelf ();
 					laneNotes.Remove (note);
 				}

@@ -11,7 +11,7 @@ public class LineHitChecker : MonoBehaviour {
 	public int laneNumber = 0;
 	public string key = "q";
 	private Vector3 firstPosition;
-	private float score;
+	private JudgeScript.Judge judge;
 	private List<NoteDescription> laneNotes;
 
 	private LaneState laneState = LaneState.none;
@@ -41,19 +41,19 @@ public class LineHitChecker : MonoBehaviour {
 
 	private float CalculatePercentage (float hitDeltaTime, NoteDescription note){
 		//120 max
-		float score = 0;
+		judge = JudgeScript.Judge.MISS;
 		if (note.NoteState == 0) {
 			if (hitDeltaTime < 60) { // Fantastic
-				score = 100;
+				judge = JudgeScript.Judge.FANTASTIC;
 			} else if (hitDeltaTime < 100) { // Good
-				score = 50;
+				judge = JudgeScript.Judge.GOOD;
 			} else { // Bad
-				score = 10;
+				judge = JudgeScript.Judge.BAD;
 			}
+			JudgeScript.Instance.ApplyJudge (judge);
 			note.NoteState = 1;
 		}
-		Debug.Log (score);
-		return score;
+		return (int)judge;
 	}
 
 	public void Press(){
@@ -66,9 +66,10 @@ public class LineHitChecker : MonoBehaviour {
 				float hitDeltaTime = GetHitDeltaTime (hitTime, note.HitTime);
 				if (InRange (hitDeltaTime)) {
 					if (note.NoteState == 0) {
-						CalculatePercentage (hitDeltaTime, note);
+						float score = CalculatePercentage (hitDeltaTime, note);
 						DestroyNote (note);
 						hitParticle.Play();
+						ApplyScore (score);
 						break;
 					}
 				} else {
@@ -78,11 +79,11 @@ public class LineHitChecker : MonoBehaviour {
 		}
 	}
 
-	public bool InRange(float hitDeltaTime){
+	private bool InRange(float hitDeltaTime){
 		return hitDeltaTime <= 120;
 	}
 
-	public float GetHitDeltaTime(float hitTime, float noteTime){
+	private float GetHitDeltaTime(float hitTime, float noteTime){
 		float hitDeltaTime = noteTime - hitTime;
 
 		if (hitDeltaTime < 0) { // make sure it is positive
@@ -92,9 +93,15 @@ public class LineHitChecker : MonoBehaviour {
 		return hitDeltaTime;
 	}
 
-	public void DestroyNote(NoteDescription note){
+	private void DestroyNote(NoteDescription note){
 		laneNotes.Remove (note);
 		note.DestroySelf ();
 		note = null;
+	}
+
+	private void ApplyScore (float score){
+		if (score != 0) {
+			ScoreScript.Instance.addScore(score);
+		}
 	}
 }
