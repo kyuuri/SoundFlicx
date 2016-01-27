@@ -11,10 +11,10 @@ public class PlaySound : MonoBehaviour {
 		mySource.PlayOneShot(x);
 	}
 
-	void Awake() {
-		
-		DontDestroyOnLoad(transform.gameObject);
-	
-	}
+//	void Awake() {
+//		
+//		DontDestroyOnLoad(transform.gameObject);
+//	
+//	}
 
 }
