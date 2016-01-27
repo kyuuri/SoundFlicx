@@ -14,11 +14,11 @@ public class NoteRenderer : MonoBehaviour {
 		allnotes[2] = new List<NoteDescription>();
 		allnotes[3] = new List<NoteDescription>();
 
-		InvokeRepeating("GenTestNote", 0.0f, 0.25f);
+		InvokeRepeating("GenTestNote", 0.0f, 0.46875f);
 	}
 
 	void GenTestNote(){
-		//for generating further notes, will be removed later
+		//for generating further notes, will be removed later.
 		float x = 20;
 		GameObject note = Instantiate(Resources.Load("Note")) as GameObject;
 		int random = Random.Range (0, 4);
