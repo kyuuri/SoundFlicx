@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b709f546859f740d19301b72b777bb5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sampleButton: {fileID: 120090, guid: 98191b9ba518f4368a9829f3faab2e20, type: 2}
+  sampleButton: {fileID: 163074, guid: 8d9f44a98f40e49d0ae3b70f9e92fe4c, type: 2}
   itemList:
   - name: Song A
     icon: {fileID: 0}

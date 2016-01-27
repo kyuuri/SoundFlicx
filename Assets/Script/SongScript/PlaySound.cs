@@ -10,4 +10,11 @@ public class PlaySound : MonoBehaviour {
 		mySource = GetComponent<AudioSource> ();
 		mySource.PlayOneShot(x);
 	}
+
+//	void Awake() {
+//		
+//		DontDestroyOnLoad(transform.gameObject);
+//	
+//	}
+
 }
