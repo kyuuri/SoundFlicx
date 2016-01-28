@@ -18,18 +18,37 @@ public class NoteRenderer : MonoBehaviour {
 	}
 
 	void GenTestNote(){
-		//for generating further notes, will be removed later.
-		float x = 20;
-		GameObject note = Instantiate(Resources.Load("Note")) as GameObject;
-		int random = Random.Range (0, 4);
-		note.transform.position = new Vector3 (lanePosition [random].position.x, 0.03f, lanePosition [random].position.z - 13f + x);
-		NoteDescription noteDescription = note.GetComponent<NoteDescription> ();
-		//Debug.Log ("before " + noteDescription.ToString());
-		// s = vt
-		noteDescription = new NoteDescription(TimerScript.timePass + x/Runner.speed, random, 1, 0);
-		noteDescription.NoteObject = note;
-		//Debug.Log ("after " + noteDescription);
-		allnotes[random].Add(noteDescription);
+
+		int ranNote = Random.Range (0, 10);
+
+		if (ranNote > 0) {
+			//for generating further notes, will be removed later.
+			float x = 20;
+			GameObject note = Instantiate (Resources.Load ("Note")) as GameObject;
+			int random = Random.Range (0, 4);
+			note.transform.position = new Vector3 (lanePosition [random].position.x, 0.03f, lanePosition [random].position.z - 13f + x);
+			NoteDescription noteDescription = note.GetComponent<NoteDescription> ();
+			//Debug.Log ("before " + noteDescription.ToString());
+			// s = vt
+			noteDescription = new NoteDescription (TimerScript.timePass + x / Runner.speed, random, 1, 0);
+			noteDescription.NoteObject = note;
+			//Debug.Log ("after " + noteDescription);
+			allnotes [random].Add (noteDescription);
+		} else {
+			//for generating further notes, will be removed later.
+			float x = 20;
+			GameObject note = Instantiate (Resources.Load ("Note")) as GameObject;
+			int random = Random.Range (0, 4);
+			note.transform.localScale = new Vector3 (note.transform.localScale.x, note.transform.localScale.y, 4.1f);
+			note.transform.position = new Vector3 (lanePosition [random].position.x, 0.03f, lanePosition [random].position.z - 13f + x + 2.0f);
+			NoteDescription noteDescription = note.GetComponent<NoteDescription> ();
+			//Debug.Log ("before " + noteDescription.ToString());
+			// s = vt
+			noteDescription = new NoteDescription (TimerScript.timePass + x / Runner.speed, random, 1, 0);
+			noteDescription.NoteObject = note;
+			//Debug.Log ("after " + noteDescription);
+			allnotes [random].Add (noteDescription);
+		}
 	}
 
 
