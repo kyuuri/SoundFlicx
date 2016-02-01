@@ -11,6 +11,14 @@ public class PlaySound : MonoBehaviour {
 		mySource.PlayOneShot(x);
 	}
 
+	public void pause(){
+		mySource.Pause ();
+	}
+
+	public void continueMusic(){
+		mySource.UnPause ();
+	}
+
 //	void Awake() {
 //		
 //		DontDestroyOnLoad(transform.gameObject);

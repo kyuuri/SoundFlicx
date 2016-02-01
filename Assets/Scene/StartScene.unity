@@ -212,7 +212,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Start
 --- !u!222 &444224756
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3478,7 +3478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a517fcb3a02f4362a104aed7f8a5f5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mySource: {fileID: 0}
+  mySource: {fileID: 1108012746}
 --- !u!82 &1108012746
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3715,7 +3715,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1137667263}
+      - m_Target: {fileID: 1108012743}
         m_MethodName: ChangeScence
         m_Mode: 1
         m_Arguments:
