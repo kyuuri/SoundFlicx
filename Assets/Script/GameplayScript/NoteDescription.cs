@@ -5,12 +5,12 @@ public class NoteDescription : MonoBehaviour {
 
 	private GameObject noteObject;
 	public static int noteIDRunner = 1;
-	private int noteID {get; set;}
-	private float hitTime {get; set;}
-	private int lane {get; set;} // 0 leftmost
-	private int combo {get; set;} // default = 1
-	private float length {get; set;} // 0, normal note
-	private int noteState {get; set;} //0 ready, 1 passed, 2 missed
+	private int noteID;
+	private float hitTime;
+	private int lane; // 0 leftmost
+	private int combo; // default = 1
+	private float length; // 0, normal note
+	private int noteState; //0 ready, 1 passed, 2 missed
 
 	public NoteDescription(float time, int ln, int com, float len){
 		noteID = noteIDRunner++;

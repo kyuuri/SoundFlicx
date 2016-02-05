@@ -7,7 +7,7 @@ public class Runner : MonoBehaviour {
 	public static float speed = 5*2*1.5f;
 
 	void Awake(){
-		Application.targetFrameRate = 30;
+		Application.targetFrameRate = 60;
 	}
 
 	// Use this for initialization
