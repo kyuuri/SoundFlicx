@@ -15,6 +15,7 @@ public class Test : MonoBehaviour {
 
 	public List <Mtemplate> Mtems = new List<Mtemplate> ();
 	public string Root_Path;
+	public GameObject sampleButton;
 
 	public void Awake ()
 	{
