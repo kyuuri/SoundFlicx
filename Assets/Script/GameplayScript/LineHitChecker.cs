@@ -104,54 +104,22 @@ public class LineHitChecker : MonoBehaviour {
 
 				if (note.NoteState != NoteDescription.NoteHitState.MISSED) {
 					if (HoldInRange (note)) {
-						if (tickTime >= ticker) {
-							hitParticle.Play ();
-							ApplyScore (score);
-							JudgeScript.Instance.ApplyJudge (judge);
-							tickTime = 0;
-						}
-						if (judge != JudgeScript.Judge.MISS) {
-							tickTime += Time.deltaTime;
+
+						for (int j = 0 ; j < note.EachComboTime.Length; j++) {
+							if (!note.EachComboAdded [j]){
+								if (TimerScript.timePass >= note.EachComboTime [j]) {
+									hitParticle.Play ();
+									ApplyScore (score);
+									ApplyJudge (judge);
+									ApplyCombo (note);
+									note.EachComboAdded [j] = true;
+								}
+							}
 						}
 					}
 				}
 			}
 		}
-
-
-		/*
-		if (laneState == LaneHitState.NONE || laneState == LaneHitState.HOLD) {
-			float hitTime = TimerScript.timePass;
-			laneNotes = NoteRenderer.allnotes [laneNumber];
-
-			for (int i = 0; i < laneNotes.Count; i++) {
-				NoteDescription note = laneNotes [i];
-				float hitDeltaTime = GetHitDeltaTime (hitTime, note.HitTime);
-
-				if(laneState == LaneHitState.HOLD && HoldInRange(note)){
-					hitParticle.Play ();
-					ApplyScore (score);
-				}
-				else if (InRange (hitDeltaTime)) {
-					if (note.NoteState == NoteDescription.NoteHitState.READY) {
-						score = CalculatePercentage (hitDeltaTime, note);
-						if (note.Length == 0) {
-							DestroyNote (note);
-						}
-						hitParticle.Play ();
-						ApplyScore (score);
-						break;
-					}
-				} 
-				else {
-					break;
-				}
-			}
-			laneState = LaneHitState.HIT;
-		} else if (laneState == LaneHitState.HIT) {
-			laneState = LaneHitState.HOLD;
-		}
-		*/
 	}
 
 	public void Release(){
@@ -187,5 +155,13 @@ public class LineHitChecker : MonoBehaviour {
 		if (score != 0) {
 			ScoreScript.Instance.addScore(score);
 		}
+	}
+
+	private void ApplyJudge (JudgeScript.Judge judge){
+		JudgeScript.Instance.ApplyJudge (judge);
+	}
+
+	private void ApplyCombo (NoteDescription note){
+		ComboScript.Instance.ApplyCombo (1);
 	}
 }

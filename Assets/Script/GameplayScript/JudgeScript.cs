@@ -44,9 +44,7 @@ public class JudgeScript : MonoBehaviour {
 		else if(judge == Judge.MISS){
 			judgeText.color = Color.white;
 		}
-		if (judge != Judge.MISS) {
-			ComboScript.Instance.ApplyCombo (1);
-		} else {
+		if (judge == Judge.MISS) {
 			ComboScript.Instance.MissCombo ();
 		}
 		count = 0;

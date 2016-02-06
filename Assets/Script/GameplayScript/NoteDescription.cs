@@ -14,6 +14,9 @@ public class NoteDescription : MonoBehaviour {
 	private float length; // 0, normal note
 	private NoteHitState noteState; //0 ready, 1 passed, 2 missed
 
+	private int addedCombo; // default = 0 (combo that has been added)
+	private float[] eachComboTime;
+	private bool[] eachComboAdded;
 	public static float ticker = 0.08f;
 
 	public NoteDescription(float time, int ln, int com, float len){
@@ -30,6 +33,16 @@ public class NoteDescription : MonoBehaviour {
 			length = 0;
 		}
 		noteState = NoteHitState.READY;
+		eachComboTime = new float[combo];
+		eachComboAdded = new bool[combo];
+		InitEachComboTime();
+		//Debug.Log (this.ToString());
+	}
+
+	void InitEachComboTime(){
+		for (int i = 0; i < combo; i++) {
+			eachComboTime [i] = hitTime + ticker*i;
+		}
 	}
 
 	public void DestroySelf(){
@@ -64,6 +77,14 @@ public class NoteDescription : MonoBehaviour {
 	public float Length{
 		get { return length;}
 		set { length = value;}
+	}
+
+	public float[] EachComboTime{
+		get { return eachComboTime;}
+	}
+
+	public bool[] EachComboAdded{
+		get { return eachComboAdded;}
 	}
 
 	public NoteHitState NoteState{
