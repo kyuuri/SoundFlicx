@@ -15,13 +15,6 @@ public class LineHitChecker : MonoBehaviour {
 	private float score;
 	private List<NoteDescription> laneNotes;
 
-	public static float ticker = 0.08f;
-	private float tickTime = ticker;
-
-	//public static float longNoteHandicap = 0.05f;
-	//private float handicapTime = 0;
-	//private bool justRelease = false;
-
 	public LaneHitState laneState = LaneHitState.NONE;
 
 	void Start () {
@@ -86,8 +79,7 @@ public class LineHitChecker : MonoBehaviour {
 						if (note.Length == 0) {
 							DestroyNote (note);
 						}
-						hitParticle.Play ();
-						ApplyScore (score);
+						ApplyHit ();
 						break;
 					}
 				} else {
@@ -108,10 +100,7 @@ public class LineHitChecker : MonoBehaviour {
 						for (int j = 0 ; j < note.EachComboTime.Length; j++) {
 							if (!note.EachComboAdded [j]){
 								if (TimerScript.timePass >= note.EachComboTime [j]) {
-									hitParticle.Play ();
-									ApplyScore (score);
-									ApplyJudge (judge);
-									ApplyCombo (note);
+									ApplyHit ();
 									note.EachComboAdded [j] = true;
 								}
 							}
@@ -161,7 +150,14 @@ public class LineHitChecker : MonoBehaviour {
 		JudgeScript.Instance.ApplyJudge (judge);
 	}
 
-	private void ApplyCombo (NoteDescription note){
+	private void ApplyCombo (){
 		ComboScript.Instance.ApplyCombo (1);
+	}
+
+	private void ApplyHit(){
+		hitParticle.Play ();
+		ApplyScore (score);
+		ApplyJudge (judge);
+		ApplyCombo ();
 	}
 }

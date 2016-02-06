@@ -38,7 +38,7 @@ public class NoteDestroyer : MonoBehaviour {
 		}
 	}
 	private bool CheckReleaseLongNoteEndPoint(NoteDescription note){
-		return (note.HitTime + note.Length - TimerScript.timePass) <= 0.2f;
+		return (note.HitTime + note.Length - TimerScript.timePass) <= 0.175f;
 	}
 
 	private float GetDeltaTime(float noteTime){

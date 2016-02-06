@@ -17,7 +17,7 @@ public class NoteDescription : MonoBehaviour {
 	private int addedCombo; // default = 0 (combo that has been added)
 	private float[] eachComboTime;
 	private bool[] eachComboAdded;
-	public static float ticker = 0.08f;
+	public static float ticker = 0.07f;
 
 	public NoteDescription(float time, int ln, int com, float len){
 		noteID = noteIDRunner++;
@@ -33,6 +33,7 @@ public class NoteDescription : MonoBehaviour {
 			length = 0;
 		}
 		noteState = NoteHitState.READY;
+
 		eachComboTime = new float[combo];
 		eachComboAdded = new bool[combo];
 		InitEachComboTime();
