@@ -23,10 +23,10 @@ public class NoteRenderer : MonoBehaviour {
 	}
 
 	void GenerateNoteFromMidi(string midiPath){
-		MidiFile midi = new MidiFile ("Assets/Tracks/Test/midi.bytes");
+		MidiFile midi = new MidiFile ("Assets/Tracks/Myotosis/midi.bytes");
 		MidiNoteData noteData = MidiFileReader.ParseNote (midi);
 
-		List<NoteMidiEvent> events = noteData.midiEvents [Difficulty.NORMAL];
+		List<NoteMidiEvent> events = noteData.midiEvents [Difficulty.HARD];
 
 		for (int i = 0; i < events.Count ; i++) {
 			NoteDescription noteDescription = ToNoteDescription(events [i]);

@@ -27773,7 +27773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   source: {fileID: 0}
-  offset: -0.17
+  offset: 0
 --- !u!82 &1604016395
 AudioSource:
   m_ObjectHideFlags: 0
@@ -27783,7 +27783,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8dc52127bff9ca94f9fa6e802485c340, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ecee6e0a34a3c584081ac8c68cdc4012, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
