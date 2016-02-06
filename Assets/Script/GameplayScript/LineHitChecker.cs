@@ -61,9 +61,9 @@ public class LineHitChecker : MonoBehaviour {
 			if (hitDeltaTime < 60) { // Fantastic
 				judge = JudgeScript.Judge.FANTASTIC;
 			} else if (hitDeltaTime < 100) { // Good
-				judge = JudgeScript.Judge.GOOD;
+				judge = JudgeScript.Judge.GREAT;
 			} else { // Bad
-				judge = JudgeScript.Judge.BAD;
+				judge = JudgeScript.Judge.GOOD;
 			}
 			JudgeScript.Instance.ApplyJudge (judge);
 			note.NoteState = NoteDescription.NoteHitState.HIT;
