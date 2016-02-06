@@ -44,6 +44,7 @@ public class JudgeScript : MonoBehaviour {
 		else if(judge == Judge.MISS){
 			judgeText.color = Color.white;
 		}
+		ComboScript.Instance.ApplyCombo (1);
 		isJumping = true;
 	}
 

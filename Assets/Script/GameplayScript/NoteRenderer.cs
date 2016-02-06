@@ -13,7 +13,6 @@ public class NoteRenderer : MonoBehaviour {
 	// Use this for initialization
 	void Start() {
 
-		//temp 1000
 		allnotes[0] = new List<NoteDescription>();
 		allnotes[1] = new List<NoteDescription>();
 		allnotes[2] = new List<NoteDescription>();
@@ -33,24 +32,30 @@ public class NoteRenderer : MonoBehaviour {
 			NoteDescription noteDescription = ToNoteDescription(events [i]);
 			int lane = noteDescription.Lane;
 
-			//for generating further notes, will be removed later.
-
 			GameObject note = Instantiate (Resources.Load ("Note")) as GameObject;
-
-			// s = vt
-			note.transform.position = new Vector3 (lanePosition [lane].position.x, 0.03f, lanePosition [lane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));
-			//noteDescription = new NoteDescription (TimerScript.timePass + x / Runner.speed, random, 1, 0);
 			noteDescription.NoteObject = note;
-			//Debug.Log ("after " + noteDescription);
+
+			//normal note
+			if (noteDescription.Length == 0) {
+				// s = vt
+				note.transform.position = new Vector3 (lanePosition [lane].position.x, 0.02f, lanePosition [lane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));
+			} 
+			else { // long note
+				// s = vt
+				float length = noteDescription.Length * Runner.speed;
+				note.transform.localScale = new Vector3 (note.transform.localScale.x, note.transform.localScale.y, length);
+				note.transform.position = new Vector3 (lanePosition [lane].position.x, 0.02f, lanePosition [lane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay) + length/2);
+			}
 			allnotes [lane].Add (noteDescription);
 		}
 	}
 
 	private NoteDescription ToNoteDescription (NoteMidiEvent midiNote){
-		NoteDescription tmp = new NoteDescription (midiNote.hitTime, midiNote.lane, 0 ,midiNote.length);
+		NoteDescription tmp = new NoteDescription (midiNote.hitTime, midiNote.lane, 0 ,midiNote.length - 0.02f);
 		return tmp;
 	}
 
+	/*
 	void GenTestNote(){
 
 		int ranNote = 5;//Random.Range (0, 10);
@@ -84,6 +89,7 @@ public class NoteRenderer : MonoBehaviour {
 			allnotes [random].Add (noteDescription);
 		}
 	}
+	*/
 
 
 }

@@ -4,8 +4,10 @@ using System.Collections.Generic;
 
 public class NoteDestroyer : MonoBehaviour {
 
+	public LineHitChecker[] lineCheckers = new LineHitChecker[4];
 	public List<NoteDescription>[] allnotes;
 	private List<NoteDescription> laneNotes;
+
 
 	void Update () {
 		allnotes = NoteRenderer.allnotes;
@@ -17,22 +19,46 @@ public class NoteDestroyer : MonoBehaviour {
 				float deltaTime = GetDeltaTime (note.HitTime);
 
 				if (OutRange (deltaTime)) {
-					JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
-					note.DestroySelf ();
-					laneNotes.Remove (note);
+					if (note.NoteState == NoteDescription.NoteHitState.READY) {
+						note.NoteState = NoteDescription.NoteHitState.MISSED;
+						JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
+					}
+					if (note.Length > 0 && note.NoteState != NoteDescription.NoteHitState.MISSED) {
+						if(CheckReleaseLongNoteEndPoint(note)){
+							//nothing yet
+						}
+						else if(lineCheckers[i].laneState != LineHitChecker.LaneHitState.HOLD ){
+							note.NoteState = NoteDescription.NoteHitState.MISSED;
+							JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
+						}
+					}
+					DestroyNote (note);
 				}
 			}
 		}
 	}
+	private bool CheckReleaseLongNoteEndPoint(NoteDescription note){
+		return (note.HitTime + note.Length - TimerScript.timePass) <= 0.2f;
+	}
 
 	private float GetDeltaTime(float noteTime){
-		float hitDeltaTime = noteTime - TimerScript.timePass;
-		hitDeltaTime *= 1000;
-		return hitDeltaTime;
+		float deltaTime = noteTime - TimerScript.timePass;
+		deltaTime *= 1000;
+		return deltaTime;
 	}
 
 	private bool OutRange(float deltaTime){
 		return deltaTime < -120;
+	}
+
+	private void DestroyNote(NoteDescription note){
+		float deltaTime = GetDeltaTime (note.HitTime + note.Length);
+
+		if (OutRange (deltaTime)) {
+			note.DestroySelf ();
+			laneNotes.Remove (note);
+		}
+
 	}
 
 

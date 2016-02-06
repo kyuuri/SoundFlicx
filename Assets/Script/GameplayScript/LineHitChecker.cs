@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class LineHitChecker : MonoBehaviour {
 
-	enum LaneState {none, hit, hold} //0, 1, 2
+	public enum LaneHitState {NONE, HIT, HOLD} //0, 1, 2
 
 	public Transform lineChecker;
 	public ParticleSystem hitParticle;
@@ -12,9 +12,17 @@ public class LineHitChecker : MonoBehaviour {
 	public string key = "q";
 	private Vector3 firstPosition;
 	private JudgeScript.Judge judge;
+	private float score;
 	private List<NoteDescription> laneNotes;
 
-	private LaneState laneState = LaneState.none;
+	public static float ticker = 0.08f;
+	private float tickTime = ticker;
+
+	//public static float longNoteHandicap = 0.05f;
+	//private float handicapTime = 0;
+	//private bool justRelease = false;
+
+	public LaneHitState laneState = LaneHitState.NONE;
 
 	void Start () {
 		Vector3 pos = lineChecker.transform.localPosition;
@@ -26,23 +34,30 @@ public class LineHitChecker : MonoBehaviour {
 	void Update () {
 
 		Vector3 pos = lineChecker.transform.position;
-
-		if (Input.GetKeyDown (key)) {
+		if (Input.GetKeyDown(key)) {
 			//Debug.Log (key);
 			Vector3 hidePosition = new Vector3 (firstPosition.x, firstPosition.y + 2.7f, 0);
 			lineChecker.transform.localPosition = hidePosition;
-			Press ();
+
+			laneState = LaneHitState.HIT;
 		}
 		else if(Input.GetKeyUp (key)){
 			Vector3 hidePosition = new Vector3 (firstPosition.x, firstPosition.y - 2.7f, 0);
 			lineChecker.transform.localPosition = hidePosition;
+			laneState = LaneHitState.NONE;
+		}
+			
+		CheckPress ();
+
+		if (Input.GetKey(key)) {
+			laneState = LaneHitState.HOLD;
 		}
 	}
 
 	private float CalculatePercentage (float hitDeltaTime, NoteDescription note){
 		//120 max
 		judge = JudgeScript.Judge.MISS;
-		if (note.NoteState == 0) {
+		if (note.NoteState == NoteDescription.NoteHitState.READY) {
 			if (hitDeltaTime < 60) { // Fantastic
 				judge = JudgeScript.Judge.FANTASTIC;
 			} else if (hitDeltaTime < 100) { // Good
@@ -51,36 +66,105 @@ public class LineHitChecker : MonoBehaviour {
 				judge = JudgeScript.Judge.BAD;
 			}
 			JudgeScript.Instance.ApplyJudge (judge);
-			note.NoteState = 1;
+			note.NoteState = NoteDescription.NoteHitState.HIT;
 		}
 		return (int)judge;
 	}
 
-	public void Press(){
-		if (laneState == LaneState.none) {
+	public void CheckPress(){
+		if (laneState == LaneHitState.HIT) {
 			float hitTime = TimerScript.timePass;
-			laneNotes = NoteRenderer.allnotes[laneNumber];
+			laneNotes = NoteRenderer.allnotes [laneNumber];
 
-			for (int i = 0; i < laneNotes.Count ; i++) {
+			for (int i = 0; i < laneNotes.Count; i++) {
 				NoteDescription note = laneNotes [i];
 				float hitDeltaTime = GetHitDeltaTime (hitTime, note.HitTime);
+			
 				if (InRange (hitDeltaTime)) {
-					if (note.NoteState == 0) {
-						float score = CalculatePercentage (hitDeltaTime, note);
-						DestroyNote (note);
-						hitParticle.Play();
+					if (note.NoteState == NoteDescription.NoteHitState.READY) {
+						score = CalculatePercentage (hitDeltaTime, note);
+						if (note.Length == 0) {
+							DestroyNote (note);
+						}
+						hitParticle.Play ();
 						ApplyScore (score);
 						break;
 					}
 				} else {
 					break;
 				}
+				note.NoteState = NoteDescription.NoteHitState.HIT;
+			}
+		} else if (laneState == LaneHitState.HOLD) {
+			
+			laneNotes = NoteRenderer.allnotes [laneNumber];
+
+			for (int i = 0; i < laneNotes.Count; i++) {
+				NoteDescription note = laneNotes [i];
+
+				if (note.NoteState != NoteDescription.NoteHitState.MISSED) {
+					if (HoldInRange (note)) {
+						if (tickTime >= ticker) {
+							hitParticle.Play ();
+							ApplyScore (score);
+							JudgeScript.Instance.ApplyJudge (judge);
+							tickTime = 0;
+						}
+						if (judge != JudgeScript.Judge.MISS) {
+							tickTime += Time.deltaTime;
+						}
+					}
+				}
 			}
 		}
+
+
+		/*
+		if (laneState == LaneHitState.NONE || laneState == LaneHitState.HOLD) {
+			float hitTime = TimerScript.timePass;
+			laneNotes = NoteRenderer.allnotes [laneNumber];
+
+			for (int i = 0; i < laneNotes.Count; i++) {
+				NoteDescription note = laneNotes [i];
+				float hitDeltaTime = GetHitDeltaTime (hitTime, note.HitTime);
+
+				if(laneState == LaneHitState.HOLD && HoldInRange(note)){
+					hitParticle.Play ();
+					ApplyScore (score);
+				}
+				else if (InRange (hitDeltaTime)) {
+					if (note.NoteState == NoteDescription.NoteHitState.READY) {
+						score = CalculatePercentage (hitDeltaTime, note);
+						if (note.Length == 0) {
+							DestroyNote (note);
+						}
+						hitParticle.Play ();
+						ApplyScore (score);
+						break;
+					}
+				} 
+				else {
+					break;
+				}
+			}
+			laneState = LaneHitState.HIT;
+		} else if (laneState == LaneHitState.HIT) {
+			laneState = LaneHitState.HOLD;
+		}
+		*/
+	}
+
+	public void Release(){
+		laneState = LaneHitState.NONE;
+		score = 0;
 	}
 
 	private bool InRange(float hitDeltaTime){
 		return hitDeltaTime <= 120;
+	}
+
+	private bool HoldInRange(NoteDescription note){
+		return note.NoteState == NoteDescription.NoteHitState.HIT && note.HitTime < TimerScript.timePass && TimerScript.timePass < note.HitTime + note.Length;
 	}
 
 	private float GetHitDeltaTime(float hitTime, float noteTime){
