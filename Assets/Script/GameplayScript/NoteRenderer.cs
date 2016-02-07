@@ -39,13 +39,13 @@ public class NoteRenderer : MonoBehaviour {
 			//normal note
 			if (noteDescription.Length == 0) {
 				// s = vt
-				note.transform.position = new Vector3 (lanePosition [lane].position.x, 0.02f, lanePosition [lane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));
+				note.transform.position = new Vector3 (lanePosition [lane].position.x, 0.01f, lanePosition [lane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));
 			} 
 			else { // long note
 				// s = vt
 				float length = noteDescription.Length * Runner.speed;
 				note.transform.localScale = new Vector3 (note.transform.localScale.x, note.transform.localScale.y, length);
-				note.transform.position = new Vector3 (lanePosition [lane].position.x, 0.02f, lanePosition [lane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay) + length/2);
+				note.transform.position = new Vector3 (lanePosition [lane].position.x, 0.01f, lanePosition [lane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay) + length/2);
 			}
 			allnotes [lane].Add (noteDescription);
 		}
