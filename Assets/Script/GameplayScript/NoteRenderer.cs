@@ -49,6 +49,7 @@ public class NoteRenderer : MonoBehaviour {
 			}
 			allnotes [lane].Add (noteDescription);
 		}
+
 	}
 
 	private NoteDescription ToNoteDescription (NoteMidiEvent midiNote){

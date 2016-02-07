@@ -25,7 +25,7 @@ public class NoteDestroyer : MonoBehaviour {
 					}
 					if (note.Length > 0 && note.NoteState != NoteDescription.NoteHitState.MISSED) {
 						if(CheckReleaseLongNoteEndPoint(note)){
-							//nothing yet
+							//nothing
 						}
 						else if(lineCheckers[i].laneState != LineHitChecker.LaneHitState.HOLD ){
 							note.NoteState = NoteDescription.NoteHitState.MISSED;
