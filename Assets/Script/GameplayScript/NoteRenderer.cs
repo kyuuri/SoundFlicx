@@ -8,11 +8,7 @@ public class NoteRenderer : MonoBehaviour {
 	public Transform[] lanePosition = new Transform[4];
 	public static List<NoteDescription>[] allnotes = new List<NoteDescription>[4];
 
-
-
-	// Use this for initialization
-	void Start() {
-
+	void Awake(){
 		allnotes[0] = new List<NoteDescription>();
 		allnotes[1] = new List<NoteDescription>();
 		allnotes[2] = new List<NoteDescription>();
@@ -20,6 +16,11 @@ public class NoteRenderer : MonoBehaviour {
 
 		//InvokeRepeating("GenTestNote", 0.3f, 0.46875f);
 		GenerateNoteFromMidi("");
+	}
+
+	// Use this for initialization
+	void Start() {
+		
 	}
 
 	void GenerateNoteFromMidi(string midiPath){
@@ -30,7 +31,7 @@ public class NoteRenderer : MonoBehaviour {
 
 		for (int i = 0; i < events.Count ; i++) {
 			NoteDescription noteDescription = ToNoteDescription(events [i]);
-			int lane = noteDescription.Lane;
+			int lane = -noteDescription.Lane + 3;
 
 			GameObject note = Instantiate (Resources.Load ("Note")) as GameObject;
 			noteDescription.NoteObject = note;
