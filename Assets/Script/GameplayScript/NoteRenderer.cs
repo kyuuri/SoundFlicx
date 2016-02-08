@@ -24,10 +24,22 @@ public class NoteRenderer : MonoBehaviour {
 	}
 
 	void GenerateNoteFromMidi(string midiPath){
-		MidiFile midi = new MidiFile ("Assets/Tracks/Test/midi.bytes");
+		string songName = GlobalData.SelectedSong;
+		MidiFile midi;
+		if (songName == null) {
+			songName = "Test";
+		}
+		midi = new MidiFile ("Assets/Resources/Tracks/" + songName + "/midi.bytes");
+
 		MidiNoteData noteData = MidiFileReader.ParseNote (midi);
 
-		List<NoteMidiEvent> events = noteData.midiEvents [Difficulty.NORMAL];
+		//test, wil be removed later
+		List<NoteMidiEvent> events;
+		if (songName == "Test") {
+			events = noteData.midiEvents [Difficulty.NORMAL];
+		} else {
+			events = noteData.midiEvents [Difficulty.HARD];
+		}
 
 		for (int i = 0; i < events.Count ; i++) {
 			NoteDescription noteDescription = ToNoteDescription(events [i]);
