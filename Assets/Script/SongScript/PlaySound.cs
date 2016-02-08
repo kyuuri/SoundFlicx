@@ -4,19 +4,29 @@ using System.Collections;
 [RequireComponent(typeof(AudioSource))]
 public class PlaySound : MonoBehaviour {
 
-	public AudioSource mySource;
+	public AudioSource source;
+	public float offset = -0.17f;
 	 
-	public void playAudio(AudioClip x){
-		mySource = GetComponent<AudioSource> ();
-		mySource.PlayOneShot(x);
+	public void playAudio(AudioClip track){
+		source.PlayOneShot(track);
 	}
 
+	void Start(){
+		source = GetComponent<AudioSource> ();
+	}
+
+	void Update () {
+
+		if (!source.isPlaying && TimerScript.timePass >= (0 + offset)) {
+			playAudio (source.clip);
+		}
+	}
 	public void pause(){
-		mySource.Pause ();
+		source.Pause ();
 	}
 
 	public void continueMusic(){
-		mySource.UnPause ();
+		source.UnPause ();
 	}
 
 //	void Awake() {
@@ -24,5 +34,6 @@ public class PlaySound : MonoBehaviour {
 //		DontDestroyOnLoad(transform.gameObject);
 //	
 //	}
+
 
 }

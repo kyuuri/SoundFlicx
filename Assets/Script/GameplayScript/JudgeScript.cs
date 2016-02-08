@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class JudgeScript : MonoBehaviour {
 
-	public enum Judge {FANTASTIC = 100, GOOD = 50, BAD = 10, MISS = 0}
+	public enum Judge {FANTASTIC = 100, GREAT = 50, GOOD = 10, MISS = 0}
 
 	public Text judgeText;
 	public static JudgeScript Instance { get; private set;}
@@ -35,15 +35,19 @@ public class JudgeScript : MonoBehaviour {
 		if (judge == Judge.FANTASTIC) {
 			judgeText.color = Color.Lerp(Color.white, Color.yellow, 0.4f);
 		}
+		else if(judge == Judge.GREAT){
+			judgeText.color = Color.Lerp(Color.white, Color.green, 0.4f);
+		}
 		else if(judge == Judge.GOOD){
 			judgeText.color = Color.Lerp(Color.white, Color.blue, 0.5f);
-		}
-		else if(judge == Judge.BAD){
-			judgeText.color = Color.red;
 		}
 		else if(judge == Judge.MISS){
 			judgeText.color = Color.white;
 		}
+		if (judge == Judge.MISS) {
+			ComboScript.Instance.MissCombo ();
+		}
+		count = 0;
 		isJumping = true;
 	}
 

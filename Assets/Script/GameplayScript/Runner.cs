@@ -4,7 +4,11 @@ using System.Collections;
 public class Runner : MonoBehaviour {
 
 	public Transform camera;
-	public static float speed = 5*2*1.5f;
+	public static float speed = 5*2*2.5f;
+
+	void Awake(){
+		Application.targetFrameRate = 60;
+	}
 
 	// Use this for initialization
 	void Start () {

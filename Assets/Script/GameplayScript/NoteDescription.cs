@@ -3,14 +3,21 @@ using System.Collections;
 
 public class NoteDescription : MonoBehaviour {
 
+	public enum NoteHitState {READY, HIT, MISSED} //0, 1, 2
+
 	private GameObject noteObject;
 	public static int noteIDRunner = 1;
-	private int noteID {get; set;}
-	private float hitTime {get; set;}
-	private int lane {get; set;} // 0 leftmost
-	private int combo {get; set;} // default = 1
-	private float length {get; set;} // 0, normal note
-	private int noteState {get; set;} //0 ready, 1 passed, 2 missed
+	private int noteID;
+	private float hitTime;
+	private int lane; // 0 leftmost
+	private int combo; // default = 1
+	private float length; // 0, normal note
+	private NoteHitState noteState; //0 ready, 1 passed, 2 missed
+
+	private int addedCombo; // default = 0 (combo that has been added)
+	private float[] eachComboTime;
+	private bool[] eachComboAdded;
+	public static float ticker = 0.07f;
 
 	public NoteDescription(float time, int ln, int com, float len){
 		noteID = noteIDRunner++;
@@ -18,12 +25,25 @@ public class NoteDescription : MonoBehaviour {
 		lane = ln;
 		if (len > 0) {
 			length = len;
-			combo = 2;
+			combo = (int)(len / ticker);
+			if (combo < 1)
+				combo = 1;
 		} else {
 			combo = 1;
 			length = 0;
 		}
-		noteState = 0;
+		noteState = NoteHitState.READY;
+
+		eachComboTime = new float[combo];
+		eachComboAdded = new bool[combo];
+		InitEachComboTime();
+		//Debug.Log (this.ToString());
+	}
+
+	void InitEachComboTime(){
+		for (int i = 0; i < combo; i++) {
+			eachComboTime [i] = hitTime + ticker*i;
+		}
 	}
 
 	public void DestroySelf(){
@@ -60,7 +80,15 @@ public class NoteDescription : MonoBehaviour {
 		set { length = value;}
 	}
 
-	public int NoteState{
+	public float[] EachComboTime{
+		get { return eachComboTime;}
+	}
+
+	public bool[] EachComboAdded{
+		get { return eachComboAdded;}
+	}
+
+	public NoteHitState NoteState{
 		get { return noteState;}
 		set { noteState = value;}
 	}
