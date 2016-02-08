@@ -82,7 +82,7 @@ public class LoadFile : MonoBehaviour {
 	}
 
 	public void ChangeSceen(string songName){
-		GlobalData.SongSelect = songName;
+		GlobalData.SelectedSong = songName;
 	//	Debug.Log (songName);
 		Application.LoadLevel("Gameplay");
 	}

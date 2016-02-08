@@ -3,7 +3,7 @@ using System.Collections;
 
 public static class GlobalData {
 
-	public static string SongSelect;
+	public static string SelectedSong;
 
 
 }
