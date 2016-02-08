@@ -30,7 +30,7 @@ public class CreateScrollList : MonoBehaviour {
 			GameObject newButton = Instantiate (sampleButton) as GameObject;
 			SampleButton button = newButton.GetComponent <SampleButton> ();
 			button.nameLabel.text = item.name;
-			button.icon.sprite = item.icon;
+//			button.icon.sprite = item.icon;
 //			button.typeLabel.text = item.type;
 //			button.rarityLabel.text = item.rarity;
 //			button.championIcon.SetActive (item.isChampion);
@@ -39,13 +39,13 @@ public class CreateScrollList : MonoBehaviour {
 		}
 	}
 
-	public void SomethingToDo () {
-		Debug.Log ("I done did something!");
-	}
-
-	public void SomethingElseToDo (GameObject item) {
-		Debug.Log (item.name);
-	}
+//	public void SomethingToDo () {
+//		Debug.Log ("I done did something!");
+//	}
+//
+//	public void SomethingElseToDo (GameObject item) {
+//		Debug.Log (item.name);
+//	}
 
 	public void ChangeSceen(){
 		Application.LoadLevel("Gameplay");

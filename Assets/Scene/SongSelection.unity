@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 201681}
   - 114: {fileID: 201680}
+  - 114: {fileID: 201682}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -107,7 +108,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 201679}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b709f546859f740d19301b72b777bb5e, type: 3}
   m_Name: 
@@ -195,6 +196,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!114 &201682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 201679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd3fd3548e3f240c1b56d6cd842e45f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Mtems: []
+  Root_Path: Tracks
+  sampleButton: {fileID: 163074, guid: 8d9f44a98f40e49d0ae3b70f9e92fe4c, type: 2}
+  contentPanel: {fileID: 1557999559}
 --- !u!1 &761512804
 GameObject:
   m_ObjectHideFlags: 0

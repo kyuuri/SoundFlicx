@@ -227,7 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 11473632}
   nameLabel: {fileID: 11466454}
-  icon: {fileID: 11405604}
+  icon: {fileID: 0}
 --- !u!222 &22230230
 CanvasRenderer:
   m_ObjectHideFlags: 1
