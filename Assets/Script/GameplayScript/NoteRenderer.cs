@@ -24,10 +24,10 @@ public class NoteRenderer : MonoBehaviour {
 	}
 
 	void GenerateNoteFromMidi(string midiPath){
-		MidiFile midi = new MidiFile ("Assets/Tracks/Myotosis/midi.bytes");
+		MidiFile midi = new MidiFile ("Assets/Tracks/Test/midi.bytes");
 		MidiNoteData noteData = MidiFileReader.ParseNote (midi);
 
-		List<NoteMidiEvent> events = noteData.midiEvents [Difficulty.HARD];
+		List<NoteMidiEvent> events = noteData.midiEvents [Difficulty.NORMAL];
 
 		for (int i = 0; i < events.Count ; i++) {
 			NoteDescription noteDescription = ToNoteDescription(events [i]);
@@ -39,7 +39,7 @@ public class NoteRenderer : MonoBehaviour {
 			//normal note
 			if (noteDescription.Length == 0) {
 				// s = vt
-				note.transform.position = new Vector3 (lanePosition [lane].position.x, 0.01f, lanePosition [lane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));
+				note.transform.position = new Vector3 (lanePosition [lane].position.x, 0.04f, lanePosition [lane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));
 			} 
 			else { // long note
 				// s = vt
