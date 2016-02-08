@@ -30,7 +30,6 @@ public class NoteRenderer : MonoBehaviour {
 			songName = "Test";
 		}
 		midi = new MidiFile ("Assets/Resources/Tracks/" + songName + "/midi.bytes");
-
 		MidiNoteData noteData = MidiFileReader.ParseNote (midi);
 
 		//test, wil be removed later
