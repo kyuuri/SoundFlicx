@@ -28,15 +28,13 @@ public class LoadFile : MonoBehaviour {
 
 	private void GetFiles ()
 	{
-		FileInfo[] Files = new DirectoryInfo (Application.dataPath + "/" + Root_Path).GetFiles ();
+		FileInfo[] Files = new DirectoryInfo (Application.dataPath + "/Resources/" + Root_Path).GetFiles ();
 
 		foreach (FileInfo File in Files) {
 
-			Debug.Log (Path.GetExtension (File.FullName));
-
 			if (Path.GetExtension (File.FullName) == ".meta") {
 				string FileName = (Path.GetFileNameWithoutExtension (File.Name));
-				string Dir = Application.dataPath + "/" + Root_Path + "/" + FileName;
+				string Dir = Application.dataPath + "/Resources/" + Root_Path + "/" + FileName;
 
 				Mtemplate temp = AddIt(new DirectoryInfo (Dir).GetFiles (), Root_Path + "/" + FileName, FileName);
 
@@ -57,11 +55,11 @@ public class LoadFile : MonoBehaviour {
 
 			if (Path.GetExtension (Item.FullName) == ".mp3") {
 
-				New_Tem.M_Music = (AudioClip) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/" + Root_Path + "/" + Item.Name, typeof(AudioClip));
+				New_Tem.M_Music = (AudioClip) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/Resources/" + Root_Path + "/" + Item.Name, typeof(AudioClip));
 
 			} else if (Path.GetExtension (Item.FullName) == ".png") {
 
-				New_Tem.M_Texture = (Texture2D) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/" + Root_Path + "/" + Item.Name, typeof(Texture2D));
+				New_Tem.M_Texture = (Texture2D) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/Resources/" + Root_Path + "/" + Item.Name, typeof(Texture2D));
 			} 
 		}
 
