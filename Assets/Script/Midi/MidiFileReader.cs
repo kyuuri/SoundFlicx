@@ -93,40 +93,17 @@ public static class MidiFileReader{
 							{
 								noteHoldTime = (t_note.NoteLength * period * speed);
 							}
-							/*
-							bool isInBuild = false;
 
-							float noteBeat;
-							float buildStartBeat;
-							float buildEndBeat;
-
-							foreach (var item in buildPhases)
-							{
-								noteBeat = (int)Mathf.Ceil(t_note.AbsoluteTime / midi.DeltaTicksPerQuarterNote * 2) / 2;
-
-								buildStartBeat = (int)Mathf.Ceil(item.Key / midi.DeltaTicksPerQuarterNote * 2) / 2;
-								buildEndBeat = (int)Mathf.Ceil(item.Value / midi.DeltaTicksPerQuarterNote * 2) / 2;
-
-								if (noteBeat >= buildStartBeat && noteBeat < buildEndBeat)
-								{
-									isInBuild = true;
-
-									//Sinoze.Engine.Logger.Log("S " + buildStartBeat + " E "+ buildEndBeat + " noteBeat " + noteBeat + " t_note.NoteLength "+ t_note.NoteLength);
-								}
+							tmpMidiEvent.id = noteCount;
+							tmpMidiEvent.hitTime = noteTime;
+							tmpMidiEvent.length = noteHoldTime;
+							tmpMidiEvent.lane = lane;
+							if (t_note.Velocity > 100) {
+								tmpMidiEvent.isFlick = true;
 							}
-							*/
-							if (true)//(!isInBuild)
-							{
-								tmpMidiEvent.id = noteCount;
-								tmpMidiEvent.hitTime = noteTime;
-								tmpMidiEvent.length = noteHoldTime;
-								tmpMidiEvent.lane = lane;
 
-								midiEventList[midiSlot].Add(tmpMidiEvent);
-								noteCount++;
-
-								//Sinoze.Engine.Logger.Log("--- noteTime " + noteTime);
-							}
+							midiEventList[midiSlot].Add(tmpMidiEvent);
+							noteCount++;
 						}
 						else
 						{
