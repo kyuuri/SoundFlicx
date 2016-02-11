@@ -54,6 +54,12 @@ public class AutoPlayScript : MonoBehaviour {
 		else if (i == 3) {
 			InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_R);
 		}
+		else if (i == 4) {
+			InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_X);
+		}
+		else if (i == 5) {
+			InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_Z);
+		}
 	}
 
 	void KeyUp(int i){
@@ -68,6 +74,12 @@ public class AutoPlayScript : MonoBehaviour {
 		}
 		else if (i == 3) {
 			InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_R);
+		}
+		else if (i == 4) {
+			InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_X);
+		}
+		else if (i == 5) {
+			InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_Z);
 		}
 	}
 }

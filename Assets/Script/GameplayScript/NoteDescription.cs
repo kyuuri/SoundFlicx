@@ -13,6 +13,7 @@ public class NoteDescription : MonoBehaviour {
 	private int combo; // default = 1
 	private float length; // 0, normal note
 	private NoteHitState noteState; //0 ready, 1 passed, 2 missed
+	private bool isFlick;
 
 	private int addedCombo; // default = 0 (combo that has been added)
 	private float[] eachComboTime;
@@ -78,6 +79,11 @@ public class NoteDescription : MonoBehaviour {
 	public float Length{
 		get { return length;}
 		set { length = value;}
+	}
+
+	public bool IsFlick{
+		get { return isFlick;}
+		set { isFlick = value;}
 	}
 
 	public float[] EachComboTime{
