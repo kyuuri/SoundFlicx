@@ -74,6 +74,7 @@ public class LineFlickChecker : MonoBehaviour {
 							DestroyNote (note);
 						}
 						ApplyHit ();
+						JudgeScript.Instance.StoreJudge (judge);
 						break;
 					}
 				} else {

@@ -80,6 +80,7 @@ public class LineHitChecker : MonoBehaviour {
 							DestroyNote (note);
 						}
 						ApplyHit ();
+						JudgeScript.Instance.StoreJudge (judge);
 						break;
 					}
 				} else {

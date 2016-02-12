@@ -40,6 +40,9 @@ public class ComboScript : MonoBehaviour {
 		comboText.text = combo + "";
 		isShrinking = true;
 		count = 0;
+		if (combo > GlobalData.result.maxCombo) {
+			GlobalData.result.maxCombo = combo;
+		}
 	}
 
 	private void Shrink(){

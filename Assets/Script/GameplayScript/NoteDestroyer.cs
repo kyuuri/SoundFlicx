@@ -22,6 +22,7 @@ public class NoteDestroyer : MonoBehaviour {
 					if (note.NoteState == NoteDescription.NoteHitState.READY) {
 						note.NoteState = NoteDescription.NoteHitState.MISSED;
 						JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
+						JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
 					}
 					if (note.Length > 0 && note.NoteState != NoteDescription.NoteHitState.MISSED) {
 						if(CheckReleaseLongNoteEndPoint(note)){
@@ -30,6 +31,7 @@ public class NoteDestroyer : MonoBehaviour {
 						else if(lineCheckers[i].laneState != LineHitChecker.LaneHitState.HOLD ){
 							note.NoteState = NoteDescription.NoteHitState.MISSED;
 							JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
+							JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
 						}
 					}
 					DestroyNote (note);

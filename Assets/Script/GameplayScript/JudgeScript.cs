@@ -51,6 +51,21 @@ public class JudgeScript : MonoBehaviour {
 		isJumping = true;
 	}
 
+	public void StoreJudge (Judge judge){
+		if (judge == Judge.FANTASTIC) {
+			GlobalData.result.fantastic += 1;
+		}
+		else if (judge == Judge.GREAT) {
+			GlobalData.result.great += 1;
+		}
+		else if (judge == Judge.GOOD) {
+			GlobalData.result.good += 1;
+		}
+		else if (judge == Judge.MISS) {
+			GlobalData.result.miss += 1;
+		}
+	}
+
 	private void Jump(){
 		if (count < limit) {
 			judgeText.transform.position = judgeText.transform.position + Vector3.up;
