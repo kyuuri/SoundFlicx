@@ -29,9 +29,9 @@ public class SoundPlayer : MonoBehaviour {
 			isPlayed = true;
 		}
 
-		if (!source.isPlaying && isPlayed) { // song ends
-			Application.LoadLevel("Final Score");
-		}
+		if(TimerScript.timePass > 10f){
+		//if (!source.isPlaying && isPlayed) { // song ends
+			Application.LoadLevel("ResultScene");}
 	}
 
 
