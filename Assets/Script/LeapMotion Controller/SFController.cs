@@ -12,6 +12,14 @@ public class SFController : MonoBehaviour {
 	private Finger[] fingers;
 	private Finger[] previousFingers;
 
+	private bool isRflicking = false;
+	private bool isLflicking = false;
+
+	private float flickDelay = 0.3f;
+
+	private float RDelay = 0;
+	private float LDelay = 0;
+
 	public float offset;
 
 	// Use this for initialization
@@ -43,54 +51,27 @@ public class SFController : MonoBehaviour {
 			InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_R);
 		}
 
-		CheckPressing (hands, previousHands);
-		CheckFlick (hands);
-		//		Debug.Log ((GetPressingDistance(previousRightHand, previousFingers[2]) - GetPressingDistance (rightHand, fingers [2]))*distanceOffset);
-		//		if (rightHandYaw > 2 && rightHand.PalmVelocity.x > 150) {
-		//			Debug.Log ("right swipe");
-		////			Debug.Log(rightHandYaw);
-		//			InputSimulator.SimulateKeyPress(VirtualKeyCode.VK_X);
-		//		}
-		//		if (leftHandYaw > 2  && leftHand.PalmVelocity.x < 150) {
-		//			Debug.Log ("left swipe");
-		////			Debug.Log(leftHandYaw);
-		//			InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_Z);
-		//		}
-		//		Vector3 vecterTemp = new Vector3(200,400,200);
-		//		//if(Mathf.Abs(rightHand.PalmVelocity.y) < 200 && Mathf.Abs(leftHand.PalmVelocity.y) < 200 ){
-		//		if(LessThanEqual(rightHand.PalmVelocity,vecterTemp)){
-		//			if (CheckPress (fingers[0].TipVelocity.y) && fingers[0].Hand.IsLeft) {
-		//				InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_Q);
-		//			}
-		//			if (CheckPress (fingers[1].TipVelocity.y) && fingers[1].Hand.IsLeft) {
-		//				InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_W);
-		//			}
-		//
-		//			if (CheckPress (fingers[2].TipVelocity.y) && fingers[2].Hand.IsRight) {
-		//				//Debug.Log (rightIndexFinger.TipVelocity.y);
-		//			InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_E);
-		//			}
-		//
-		//			if (CheckPress (fingers[3].TipVelocity.y) && fingers[3].Hand.IsRight) {
-		//				InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_R);
-		//			}
-		//
-		//			if (CheckRelease (fingers[0].TipVelocity.y) && fingers[0].Hand.IsLeft) {
-		//				InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_Q);
-		//			}
-		//
-		//			if (CheckRelease (fingers[1].TipVelocity.y) && fingers[1].Hand.IsLeft) {
-		//				InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_W);
-		//			}
-		//
-		//			if (CheckRelease (fingers[2].TipVelocity.y) && fingers[2].Hand.IsRight) {
-		//				InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_E);
-		//			}
-		//			if (CheckRelease (fingers[3].TipVelocity.y) && fingers[3].Hand.IsRight) {
-		//				InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_R);
-		//			}
-		//		}
+		if (TimerScript.timePass > -1) {
+			CheckFlick (hands);
 
+			if (isLflicking) {
+				LDelay += Time.deltaTime;
+			}
+			if (isRflicking) {
+				RDelay += Time.deltaTime;
+			}
+
+			if(LDelay >= flickDelay){
+				LDelay = 0;
+				isLflicking = false;
+			}
+			if(RDelay >= flickDelay){
+				RDelay = 0;
+				isRflicking = false;
+			}
+
+			CheckPressing (hands, previousHands);
+		}
 	}
 
 
@@ -111,22 +92,27 @@ public class SFController : MonoBehaviour {
 		//		previousFingers[2] = previousRightHand.Fingers.FingerType (Leap.Finger.FingerType.TYPE_INDEX)[0];
 		//		previousFingers[3] = previousRightHand.Fingers.FingerType (Leap.Finger.FingerType.TYPE_MIDDLE)[0];
 
-		if (CheckPressingDistance (leftHand, previousLeftHand, 0, 0) && leftHand.IsLeft) {
-			//			Debug.Log ("Press Q");
-			InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_Q);
+		if (!isLflicking) {
+			if (CheckPressingDistance (leftHand, previousLeftHand, 0, 0) && leftHand.IsLeft) {
+				//			Debug.Log ("Press Q");
+				InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_Q);
+			}
+			if (CheckPressingDistance (leftHand, previousLeftHand, 1, 0) && leftHand.IsLeft) {
+				//			Debug.Log ("Press W");
+				InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_W);
+			}
 		}
-		if (CheckPressingDistance (leftHand, previousLeftHand, 1, 0) && leftHand.IsLeft) {
-			//			Debug.Log ("Press W");
-			InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_W);
+		if (!isRflicking) {
+			if (CheckPressingDistance (rightHand, previousRightHand, 2, 0) && rightHand.IsRight) {
+				//			Debug.Log ("Press E");
+				InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_E);
+			}
+			if (CheckPressingDistance (rightHand, previousRightHand, 3, 0) && rightHand.IsRight) {
+				//			Debug.Log ("Press R");
+				InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_R);
+			}
 		}
-		if (CheckPressingDistance (rightHand, previousRightHand, 2, 0) && rightHand.IsRight) {
-			//			Debug.Log ("Press E");
-			InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_E);
-		}
-		if (CheckPressingDistance (rightHand, previousRightHand, 3, 0) && rightHand.IsRight) {
-			//			Debug.Log ("Press R");
-			InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_R);
-		}
+
 		if (CheckPressingDistance (leftHand, previousLeftHand, 0, 1) && leftHand.IsLeft) {
 			//			Debug.Log ("Release  Q");
 			InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_Q);
@@ -161,7 +147,7 @@ public class SFController : MonoBehaviour {
 		Finger previousFinger;
 		float distanceOffset = 1;
 		float distance = 1.2f;
-		float speed = 200;
+		float speed = 150;
 
 		if (index == 0 && hand.IsLeft) {
 			finger = hand.Fingers.FingerType (Leap.Finger.FingerType.TYPE_MIDDLE) [0];
@@ -179,19 +165,32 @@ public class SFController : MonoBehaviour {
 			return false;
 		}
 
+//		if(index == 2){
+//			Debug.Log (calculateAngle(finger));
+			//Debug.Log(finger.Bone(Bone.BoneType.TYPE_PROXIMAL).Basis.zBasis.y);
+//			Debug.Log(finger.Bone(Bone.BoneType.TYPE_PROXIMAL).Basis.zBasis.y > 0.60f);
+//		}
+//		if (fingerState == 0)
+//			return calculateAngle (finger) <= 130;
+//		else
+//			return calculateAngle (finger) > 140;
+
 		float previousDistance = GetPressingDistance (previousHand.PalmPosition, previousFinger.TipPosition);
 		float currentDistance = GetPressingDistance (hand.PalmPosition, finger.TipPosition);
 		float deltaDistance = previousDistance - currentDistance;
+
 		if (fingerState == 0) {
 			//			return deltaDistance * distanceOffset > distance || finger.TipVelocity.y < -speed;
 			return deltaDistance * distanceOffset > distance || finger.TipVelocity.y < -speed;
 		} else if (fingerState == 1) {
 			//			return deltaDistance * distanceOffset < -(distance/3) || finger.TipVelocity.y > speed/2; 
-			return deltaDistance * distanceOffset < -(distance / 4) || finger.TipVelocity.y > speed/2; 
+			return deltaDistance * distanceOffset < -(distance/3) || finger.TipVelocity.y > speed/2; 
 		} else
 			return false;
 
 	}
+
+
 
 	private void CheckFlick(HandList hands){
 		Hand rightHand = hands.Rightmost;
@@ -200,18 +199,26 @@ public class SFController : MonoBehaviour {
 		float rightHandYaw = rightHand.Direction.Yaw * offset;
 		float leftHandYaw = leftHand.Direction.Yaw * offset * -1;
 
-		float speed = 30;
+		float speed = 200;
+
+		InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_X);
+		InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_Z);
+
 		//		if (rightHandYaw > 1.5 && rightHand.PalmVelocity.x > speed) {
-		if (rightHandYaw > 1 && rightHand.PalmVelocity.x > speed) {
-			Debug.Log ("right swipe");
+		if (rightHandYaw > 1 && rightHand.PalmVelocity.x > speed && rightHand.IsRight) {
+			//Debug.Log ("right swipe");
 			//			Debug.Log(rightHandYaw);
-			InputSimulator.SimulateKeyPress(VirtualKeyCode.VK_X);
+			InputSimulator.SimulateKeyDown(VirtualKeyCode.VK_X);
+			isRflicking = true;
+			LDelay = 0;
 		}
 		//		if (leftHandYaw > 1.5  && leftHand.PalmVelocity.x < -speed) {
-		if (leftHandYaw > 1  && leftHand.PalmVelocity.x < -speed) {
-			Debug.Log ("left swipe");
+		if (leftHandYaw > 1  && leftHand.PalmVelocity.x < -speed && leftHand.IsLeft) {
+			//Debug.Log ("left swipe");
 			//			Debug.Log(leftHandYaw);
 			InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_Z);
+			isLflicking = true;
+			RDelay = 0;
 		}
 	}
 	private bool CheckPress(float velocity){
@@ -230,5 +237,22 @@ public class SFController : MonoBehaviour {
 		float distance = Mathf.Sqrt((Mathf.Pow(tipPosition.x - palmPosition.x,2) 
 			+ Mathf.Pow(tipPosition.y - palmPosition.y,2) + Mathf.Pow(tipPosition.z - palmPosition.z,2)));
 		return distance ;
+	}
+
+	private float calculateAngle(Finger finger){
+		Vector v1 = finger.Bone (Bone.BoneType.TYPE_METACARPAL).NextJoint; // vertex
+		Vector v2 = finger.Bone (Bone.BoneType.TYPE_METACARPAL).PrevJoint;
+		Vector v3 = finger.Bone (Bone.BoneType.TYPE_PROXIMAL).NextJoint;
+
+		Vector3 vec1 = new Vector3 (v1.x, v1.y, v1.z);
+		Vector3 vec2 = new Vector3 (v2.x, v2.y, v2.z);
+		Vector3 vec3 = new Vector3 (v3.x, v3.y, v3.z);
+
+		float d12 = Vector3.Distance(vec1, vec2);
+		float d13 = Vector3.Distance(vec1, vec3);
+		float d23 = Vector3.Distance(vec2, vec3);
+		float angle = Mathf.Acos ((d12*d12 + d13*d13 - d23*d23)/(2*d12*d13));
+
+		return angle * 180 / Mathf.PI;
 	}
 }
