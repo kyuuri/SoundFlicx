@@ -15,7 +15,7 @@ public class SFController : MonoBehaviour {
 	private bool isRflicking = false;
 	private bool isLflicking = false;
 
-	private float flickDelay = 0.3f;
+	private float flickDelay = 0.15f;
 
 	private float RDelay = 0;
 	private float LDelay = 0;
@@ -147,7 +147,7 @@ public class SFController : MonoBehaviour {
 		Finger previousFinger;
 		float distanceOffset = 1;
 		float distance = 1.2f;
-		float speed = 150;
+		float speed = 250;
 
 		if (index == 0 && hand.IsLeft) {
 			finger = hand.Fingers.FingerType (Leap.Finger.FingerType.TYPE_MIDDLE) [0];
