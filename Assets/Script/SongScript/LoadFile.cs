@@ -57,7 +57,6 @@ public class LoadFile : MonoBehaviour {
 
 		foreach (FileInfo Item in Files) {
 			New_Tem.M_Name = fileName;
-			Debug.Log ("File name " + New_Tem.M_Name);
 
 			if (Path.GetExtension (Item.FullName) == ".mp3") {
 
@@ -91,7 +90,7 @@ public class LoadFile : MonoBehaviour {
 	}
 
 	public void ChangeSceen(string songName){
-		GlobalData.SelectedSong = songName;
+		GlobalData.selectedTrack.songName = songName;
 //		Debug.Log (songName);
 		Application.LoadLevel("Gameplay");
 	}

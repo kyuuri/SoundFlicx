@@ -15,7 +15,7 @@ public class SoundPlayer : MonoBehaviour {
 	void Start(){
 		source = GetComponent<AudioSource> ();
 
-		string songName = GlobalData.SelectedSong;
+		string songName = GlobalData.selectedTrack.songName;
 		if (songName == null) {
 			songName = "Test";
 		}
@@ -27,6 +27,10 @@ public class SoundPlayer : MonoBehaviour {
 		if (!isPlayed && TimerScript.timePass >= (0 + offset)) {
 			playAudio (source.clip);
 			isPlayed = true;
+		}
+
+		if (!source.isPlaying && isPlayed) { // song ends
+			Application.LoadLevel("Final Score");
 		}
 	}
 
