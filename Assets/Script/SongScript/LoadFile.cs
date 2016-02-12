@@ -21,9 +21,13 @@ public class LoadFile : MonoBehaviour {
 	public GameObject sampleButton;
 	public Transform contentPanel;
 
-	public void Start ()
+	public void Awake ()
 	{
 		GetFiles ();
+	}
+
+	public void Start(){
+		CreateButton ();
 	}
 
 	private void GetFiles ()
@@ -38,9 +42,8 @@ public class LoadFile : MonoBehaviour {
 
 				Mtemplate temp = AddIt(new DirectoryInfo (Dir).GetFiles (), Root_Path + "/" + FileName, FileName);
 
-
-//				Mtems.Add (temp);
-				CreateButton (temp);
+				Mtems.Add (temp);
+//				CreateButton (temp);
 			}
 
 		}
@@ -67,16 +70,19 @@ public class LoadFile : MonoBehaviour {
 	}
 		
 
-	private void CreateButton(Mtemplate temp){
-		GameObject newButton = Instantiate (sampleButton) as GameObject;
-		SampleButton button = newButton.GetComponent <SampleButton> ();
-		button.nameLabel.text = temp.M_Name;
-		button.icon = temp.M_Texture;
+	private void CreateButton(){
 
-		button.button.onClick.AddListener (delegate {
-			ChangeSceen (temp.M_Name);
-		});
-		newButton.transform.SetParent (contentPanel);
+		foreach (Mtemplate temp in Mtems) {
+			GameObject newButton = Instantiate (sampleButton) as GameObject;
+			SampleButton button = newButton.GetComponent <SampleButton> ();
+			button.nameLabel.text = temp.M_Name;
+			button.icon = temp.M_Texture;
+
+			button.button.onClick.AddListener (delegate {
+				ChangeSceen (temp.M_Name);
+			});
+			newButton.transform.SetParent (contentPanel);
+		}
 	}
 
 	public void ChangeSceen(string songName){
