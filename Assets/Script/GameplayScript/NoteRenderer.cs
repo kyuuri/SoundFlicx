@@ -26,7 +26,7 @@ public class NoteRenderer : MonoBehaviour {
 	}
 
 	void GenerateNoteFromMidi(string midiPath){
-		string songName = GlobalData.SelectedSong;
+		string songName = GlobalData.selectedTrack.songName;
 		MidiFile midi;
 		if (songName == null) {
 			songName = "Test";

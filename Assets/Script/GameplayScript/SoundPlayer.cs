@@ -15,7 +15,7 @@ public class SoundPlayer : MonoBehaviour {
 	void Start(){
 		source = GetComponent<AudioSource> ();
 
-		string songName = GlobalData.SelectedSong;
+		string songName = GlobalData.selectedTrack.songName;
 		if (songName == null) {
 			songName = "Test";
 		}

@@ -10,5 +10,6 @@ public class ResultScore{
 	public int great;
 	public int good;
 	public int miss;
-	public int combo;
+
+	public int maxCombo;
 }
