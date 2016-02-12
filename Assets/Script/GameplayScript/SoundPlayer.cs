@@ -28,6 +28,10 @@ public class SoundPlayer : MonoBehaviour {
 			playAudio (source.clip);
 			isPlayed = true;
 		}
+
+		if (!source.isPlaying && isPlayed) { // song ends
+			Application.LoadLevel("Final Score");
+		}
 	}
 
 

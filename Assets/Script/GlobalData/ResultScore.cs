@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ResultScore{
 
-	public int score;
+	public float score;
 	public string rank;
 
 	public int fantastic;
