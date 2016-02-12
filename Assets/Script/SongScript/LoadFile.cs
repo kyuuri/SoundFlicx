@@ -16,10 +16,12 @@ public class LoadFile : MonoBehaviour {
 	}
 
 	public List <Mtemplate> Mtems = new List<Mtemplate> ();
+	private List <GameObject> buttonList = new List<GameObject> ();
 	public string Root_Path;
 
 	public GameObject sampleButton;
 	public Transform contentPanel;
+	private int indexColorChange = 0;
 
 	public void Awake ()
 	{
@@ -28,7 +30,35 @@ public class LoadFile : MonoBehaviour {
 
 	public void Start(){
 		foreach (Mtemplate temp in Mtems) {
-			CreateButton (temp);
+			buttonList.Add(CreateButton (temp));
+		}
+
+//		GameObject _temp = Instantiate (Bullets, this.transform.position, Quaternion.identity) as GameObject;
+//		//_temp.GetComponent<Renderer> ().material.color = new Color32 ((byte)Random.Range (0, 255), (byte)Random.Range (0, 255),(byte)Random.Range (0, 255), (byte)Random.Range (0, 255));
+//		_temp.GetComponent<Renderer> ().material.color = new Color(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f),1f);
+
+		if (buttonList.Count >= 1) {
+			buttonList [indexColorChange].GetComponent<Image> ().color = new Color (103, 172, 255);
+			if (indexColorChange != 0) {
+				buttonList [indexColorChange - 1].GetComponent<Image> ().color = new Color (255, 255, 255);
+			}
+		}
+
+	}
+
+	public void selectedListDown(){
+		if (buttonList.Count >= 1) {
+			++indexColorChange;
+			buttonList [indexColorChange].GetComponent<Image> ().color = new Color (103, 172, 255);
+			buttonList [indexColorChange - 1].GetComponent<Image> ().color = new Color (255, 255, 255);
+		}
+	}
+
+	public void selectedListUp(){
+		if (buttonList.Count >= 1) {
+			--indexColorChange;
+			buttonList [indexColorChange].GetComponent<Image> ().color = new Color (103, 172, 255);
+			buttonList [indexColorChange + 1].GetComponent<Image> ().color = new Color (255, 255, 255);
 		}
 	}
 
@@ -72,12 +102,13 @@ public class LoadFile : MonoBehaviour {
 	}
 		
 
-	private void CreateButton(Mtemplate temp){
+	private GameObject CreateButton(Mtemplate temp){
 
 //		foreach (Mtemplate temp in Mtems) {
 			GameObject newButton = Instantiate (sampleButton) as GameObject;
 			SampleButton button = newButton.GetComponent <SampleButton> ();
 			button.nameLabel.text = temp.M_Name;
+
 //			Debug.Log ("///// " + temp.M_Name);
 			button.icon = temp.M_Texture;
 
@@ -87,6 +118,7 @@ public class LoadFile : MonoBehaviour {
 			});
 			newButton.transform.SetParent (contentPanel);
 //		}
+		return newButton;
 	}
 
 	public void ChangeSceen(string songName){
