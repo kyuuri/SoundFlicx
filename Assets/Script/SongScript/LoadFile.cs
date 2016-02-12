@@ -27,7 +27,9 @@ public class LoadFile : MonoBehaviour {
 	}
 
 	public void Start(){
-		CreateButton ();
+		foreach (Mtemplate temp in Mtems) {
+			CreateButton (temp);
+		}
 	}
 
 	private void GetFiles ()
@@ -55,6 +57,7 @@ public class LoadFile : MonoBehaviour {
 
 		foreach (FileInfo Item in Files) {
 			New_Tem.M_Name = fileName;
+			Debug.Log ("File name " + New_Tem.M_Name);
 
 			if (Path.GetExtension (Item.FullName) == ".mp3") {
 
@@ -70,24 +73,26 @@ public class LoadFile : MonoBehaviour {
 	}
 		
 
-	private void CreateButton(){
+	private void CreateButton(Mtemplate temp){
 
-		foreach (Mtemplate temp in Mtems) {
+//		foreach (Mtemplate temp in Mtems) {
 			GameObject newButton = Instantiate (sampleButton) as GameObject;
 			SampleButton button = newButton.GetComponent <SampleButton> ();
 			button.nameLabel.text = temp.M_Name;
+//			Debug.Log ("///// " + temp.M_Name);
 			button.icon = temp.M_Texture;
 
 			button.button.onClick.AddListener (delegate {
+//				Debug.Log(temp.M_Name);
 				ChangeSceen (temp.M_Name);
 			});
 			newButton.transform.SetParent (contentPanel);
-		}
+//		}
 	}
 
 	public void ChangeSceen(string songName){
 		GlobalData.SelectedSong = songName;
-	//	Debug.Log (songName);
+//		Debug.Log (songName);
 		Application.LoadLevel("Gameplay");
 	}
 }
