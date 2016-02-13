@@ -13,6 +13,7 @@ public class LoadFile : MonoBehaviour {
 		public string M_Name;
 		public AudioClip M_Music;
 		public Texture2D M_Texture;
+		public Text M_Text;
 	}
 
 	public List <Mtemplate> Mtems = new List<Mtemplate> ();
@@ -117,6 +118,9 @@ public class LoadFile : MonoBehaviour {
 			} else if (Path.GetExtension (Item.FullName) == ".png") {
 
 				New_Tem.M_Texture = (Texture2D) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/Resources/" + Root_Path + "/" + Item.Name, typeof(Texture2D));
+			} else if (Path.GetExtension (Item.FullName) == ".txt") {
+
+				New_Tem.M_Text = (Text) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/Resources/" + Root_Path + "/" + Item.Name, typeof(Text));
 			} 
 		}
 
