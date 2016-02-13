@@ -5,7 +5,7 @@ using System.Collections;
 public class SoundPlayer : MonoBehaviour {
 
 	public AudioSource source;
-	public float offset = -0.17f;
+	public float offset;
 	private bool isPlayed = false;
 	 
 	public void playAudio(AudioClip track){
@@ -14,6 +14,7 @@ public class SoundPlayer : MonoBehaviour {
 
 	void Start(){
 		source = GetComponent<AudioSource> ();
+		offset = GlobalData.selectedTrack.offset;
 
 		string songName = GlobalData.selectedTrack.songName;
 		if (songName == null) {

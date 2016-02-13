@@ -8,6 +8,7 @@ public class Track : MonoBehaviour {
 	public Difficulty difficulty;
 	public int level;
 	public float bpm;
+	public float offset;
 
 	public Track(string songName, string composer,Difficulty dificulty, int level, float bpm){
 		this.songName = songName;
@@ -16,5 +17,7 @@ public class Track : MonoBehaviour {
 		this.level = level;
 		this.bpm = bpm;
 	}
+
+	public Track(){}
 
 }
