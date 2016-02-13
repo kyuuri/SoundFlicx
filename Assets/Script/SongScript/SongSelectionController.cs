@@ -98,6 +98,9 @@ public class SongSelectionController : MonoBehaviour {
 			level = int.Parse (eachLine [5]);
 		}
 		Track track = new Track(eachLine[0],eachLine[1], difficult,level, float.Parse(eachLine[2]));
+		GlobalData.selectedTrack = track;
+
+		UnityEngine.Application.LoadLevel("Gameplay");
 	}
 
 
