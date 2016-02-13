@@ -41,13 +41,13 @@ public class LineFlickChecker : MonoBehaviour {
 	}
 
 	private float CalculateFlickPercentage (float hitDeltaTime, NoteDescription note){
-		//200 max
+		//250 max
 		judge = JudgeScript.Judge.MISS;
 
 		if (note.NoteState == NoteDescription.NoteHitState.READY) {
-			if (hitDeltaTime < 120) { // Fantastic
+			if (hitDeltaTime < 170) { // Fantastic
 				judge = JudgeScript.Judge.FANTASTIC;
-			} else if (hitDeltaTime < 170) { // Good
+			} else if (hitDeltaTime < 210) { // Good
 				judge = JudgeScript.Judge.GREAT;
 			} else { // Bad
 				judge = JudgeScript.Judge.GOOD;

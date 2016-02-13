@@ -15,7 +15,7 @@ public class SFController : MonoBehaviour {
 	private bool isRflicking = false;
 	private bool isLflicking = false;
 
-	private float flickDelay = 0.15f;
+	private float flickDelay = 0.1f;
 
 	private float RDelay = 0;
 	private float LDelay = 0;
@@ -164,7 +164,7 @@ public class SFController : MonoBehaviour {
 		Finger previousFinger;
 		float distanceOffset = 1;
 		float distance = 1.2f;
-		float speed = 200;
+		float speed = 155;
 
 		if (index == 0 && hand.IsLeft) {
 			finger = hand.Fingers.FingerType (Leap.Finger.FingerType.TYPE_MIDDLE) [0];
@@ -224,7 +224,7 @@ public class SFController : MonoBehaviour {
 		InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_Z);
 
 		//		if (rightHandYaw > 1.5 && rightHand.PalmVelocity.x > speed) {
-		if (rightHandYaw > 1.5f && rightHand.PalmVelocity.x > speed && rightHand.IsRight) {
+		if (rightHandYaw > 1.2f && rightHand.PalmVelocity.x > speed && rightHand.IsRight) {
 			//Debug.Log ("right swipe");
 			//			Debug.Log(rightHandYaw);
 			InputSimulator.SimulateKeyDown(VirtualKeyCode.VK_X);
@@ -232,7 +232,7 @@ public class SFController : MonoBehaviour {
 			LDelay = 0;
 		}
 		//		if (leftHandYaw > 1.5  && leftHand.PalmVelocity.x < -speed) {
-		if (leftHandYaw > 1.5f  && leftHand.PalmVelocity.x < -speed && leftHand.IsLeft) {
+		if (leftHandYaw > 1.2f  && leftHand.PalmVelocity.x < -speed && leftHand.IsLeft) {
 			//Debug.Log ("left swipe");
 			//			Debug.Log(leftHandYaw);
 			InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_Z);

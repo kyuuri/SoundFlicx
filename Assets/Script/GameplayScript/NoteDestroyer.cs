@@ -50,7 +50,7 @@ public class NoteDestroyer : MonoBehaviour {
 	}
 
 	private bool OutRange(float deltaTime){
-		return deltaTime < -120;
+		return deltaTime < -140;
 	}
 
 	private void DestroyNote(NoteDescription note){
