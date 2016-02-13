@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Leap;
 
 public class StartScript : MonoBehaviour {
+
+	public AudioSource source;
 
 	public Text startText;
 	private static float delay = 0.5f;
 	private float timer = 0;
 	private bool blinkUp = false;
 	private float opac = 1.0f;
+	private float opacRate = 0.08f;
 
 	private bool goingNext = false;
 	private float sceneTimer = 0;
@@ -17,6 +21,7 @@ public class StartScript : MonoBehaviour {
 	Leap.Controller controller;
 	// Use this for initialization
 	void Start () {
+		Application.runInBackground = true;
 		controller = new Leap.Controller ();
 		controller.EnableGesture (Gesture.GestureType.TYPESWIPE);
 	}
@@ -30,8 +35,12 @@ public class StartScript : MonoBehaviour {
 
 		for (int i = 0; i < gestures.Count; i++) {
 			if (gestures [i].Type == Gesture.GestureType.TYPE_SWIPE) {
+				if(!source.isPlaying && ! goingNext){
 				goingNext = true;
-				delay = 0.05f;
+					source.Play ();
+				}
+				delay = 0.1f;
+				opacRate = 0.65f;
 			}
 		}
 
@@ -39,7 +48,7 @@ public class StartScript : MonoBehaviour {
 			sceneTimer += Time.deltaTime;
 		}
 
-		if (sceneTimer > 1.6f) {
+		if (sceneTimer > 1.7f) {
 			ChangeScene ();
 		}
 	}
@@ -47,9 +56,9 @@ public class StartScript : MonoBehaviour {
 	void Blink(){
 		//startText.enabled = blinkUp;
 		if (blinkUp) {
-			opac += 0.05f;
+			opac += opacRate;
 		} else {
-			opac -= 0.05f;
+			opac -= opacRate;
 		}
 		startText.color = new Color (startText.color.r, startText.color.g, startText.color.b, opac);
 		timer += Time.deltaTime;
@@ -61,7 +70,7 @@ public class StartScript : MonoBehaviour {
 	}
 
 	public void ChangeScene(){
-		Application.LoadLevel("SongSelection");
+		SceneManager.LoadSceneAsync("SongSelection");
 	}
 
 	float PercentWidth(float width){
@@ -71,4 +80,6 @@ public class StartScript : MonoBehaviour {
 	float PercentHeight(float height){
 		return (height / 100) * UnityEngine.Screen.height;
 	}
+
+
 }
