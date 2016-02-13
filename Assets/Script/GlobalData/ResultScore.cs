@@ -18,7 +18,7 @@ public class ResultScore{
 		return acc;
 	}
 
-	private string getRank(){
+	public string getRank(){
 		float acc = getAccuracy ();
 		if (acc < 50.0) {
 			return "F";
