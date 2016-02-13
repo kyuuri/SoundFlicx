@@ -120,8 +120,6 @@ public static class MidiFileReader{
 		var tmp = new MidiNoteData();
 		tmp.bpm = bpm;
 
-		Debug.Log (bpm);
-
 		midiEventLists.Add(Difficulty.EASY, midiEventList[0]);
 		midiEventLists.Add(Difficulty.NORMAL, midiEventList[1]);
 		midiEventLists.Add(Difficulty.HARD, midiEventList[2]);
