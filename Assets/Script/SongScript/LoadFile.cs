@@ -13,7 +13,7 @@ public class LoadFile : MonoBehaviour {
 		public string M_Name;
 		public AudioClip M_Music;
 		public Texture2D M_Texture;
-		public Text M_Text;
+		public TextAsset M_Text;
 	}
 
 	public List <Mtemplate> Mtems = new List<Mtemplate> ();
@@ -120,7 +120,8 @@ public class LoadFile : MonoBehaviour {
 				New_Tem.M_Texture = (Texture2D) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/Resources/" + Root_Path + "/" + Item.Name, typeof(Texture2D));
 			} else if (Path.GetExtension (Item.FullName) == ".txt") {
 
-				New_Tem.M_Text = (Text) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/Resources/" + Root_Path + "/" + Item.Name, typeof(Text));
+				New_Tem.M_Text = (TextAsset) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/Resources/" + Root_Path + "/" + Item.Name, typeof(TextAsset));
+//				Debug.Log ("Read TXT = " + New_Tem.M_Text.text);
 			} 
 		}
 
@@ -133,7 +134,18 @@ public class LoadFile : MonoBehaviour {
 //		foreach (Mtemplate temp in Mtems) {
 			GameObject newButton = Instantiate (sampleButton) as GameObject;
 			SampleButton button = newButton.GetComponent <SampleButton> ();
-			button.nameLabel.text = temp.M_Name;
+
+		if(temp.M_Text != null){
+		string theWholeFileAsOneLongString = temp.M_Text.text;
+
+		List<string> eachLine = new List<string>();
+		eachLine.AddRange(
+			theWholeFileAsOneLongString.Split("\n"[0]) );
+		Debug.Log (eachLine.Count);
+		button.nameLabel.text = temp.M_Name;
+		button.composer.text = eachLine [1];
+		button.bpm.text = "BPM "+eachLine [2];
+		}
 
 //			Debug.Log ("///// " + temp.M_Name);
 

@@ -170,8 +170,8 @@ MonoBehaviour:
   nameLabel: {fileID: 11442604}
   composer: {fileID: 11442238}
   icon: {fileID: 11453024}
-  bpm: 0
-  level: 0
+  bpm: {fileID: 11421698}
+  level: {fileID: 0}
 --- !u!114 &11442238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -231,7 +231,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -394,8 +394,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -28.130844, y: -9.3467}
-  m_SizeDelta: {x: 0, y: 30}
+  m_AnchoredPosition: {x: -24.3, y: -14.705}
+  m_SizeDelta: {x: -99.7, y: 22.217}
   m_Pivot: {x: 0.35934576, y: 0.6884415}
 --- !u!224 &22472452
 RectTransform:
@@ -475,6 +475,10 @@ Prefab:
       propertyPath: icon
       value: 
       objectReference: {fileID: 11453024}
+    - target: {fileID: 0}
+      propertyPath: bpm
+      value: 
+      objectReference: {fileID: 11421698}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 165872}
