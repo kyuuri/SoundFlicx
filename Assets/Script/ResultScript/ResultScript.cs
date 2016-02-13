@@ -11,13 +11,15 @@ public class ResultScript : MonoBehaviour {
 	public Text miss;
 	public Text maxCombo;
 	public Text songName;
+	public Text rank;
+	public Text accuracy;
 	public Texture2D image;
 	private ResultScore resultScore;
 	private Track track;
 
 	// Use this for initialization
 	void Start () {
-		
+
 		resultScore = GlobalData.result;
 		track = GlobalData.selectedTrack;
 
@@ -30,6 +32,8 @@ public class ResultScript : MonoBehaviour {
 		miss.text = "MISS        " + resultScore.miss;
 		maxCombo.text =  "MAX COMBO   " + resultScore.maxCombo;
 		songName.text = track.songName;
+		rank.text = "Rank   " + resultScore.getRank ();
+		accuracy.text = "Accuracy " + resultScore.getAccuracy ();
 	
 	}
 	
