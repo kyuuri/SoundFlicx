@@ -38,27 +38,40 @@ public class LoadFile : MonoBehaviour {
 //		_temp.GetComponent<Renderer> ().material.color = new Color(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f),1f);
 
 		if (buttonList.Count >= 1) {
-			buttonList [indexColorChange].GetComponent<Image> ().color = new Color (103, 172, 255);
-			if (indexColorChange != 0) {
-				buttonList [indexColorChange - 1].GetComponent<Image> ().color = new Color (255, 255, 255);
-			}
+			Debug.Log (buttonList.Count+" = "+indexColorChange);
+			buttonList [indexColorChange].GetComponent<Image> ().color = new Color (103/255f, (172/255f), 1f,1f);
+//			buttonList [indexColorChange].GetComponent<Image> ().color = Color.blue;
+//			if (indexColorChange != 0) {
+//				buttonList [indexColorChange - 1].GetComponent<Image> ().color = new Color (255, 255, 255);
+//			}
 		}
 
 	}
 
 	public void selectedListDown(){
+		Debug.Log ("Click Down");
 		if (buttonList.Count >= 1) {
 			++indexColorChange;
-			buttonList [indexColorChange].GetComponent<Image> ().color = new Color (103, 172, 255);
-			buttonList [indexColorChange - 1].GetComponent<Image> ().color = new Color (255, 255, 255);
+			if (indexColorChange < buttonList.Count) {
+				buttonList [indexColorChange].GetComponent<Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
+				buttonList [indexColorChange - 1].GetComponent<Image> ().color = new Color (1, 1, 1, 1);
+			} else {
+				--indexColorChange;
+			}
+		
+
 		}
 	}
 
 	public void selectedListUp(){
 		if (buttonList.Count >= 1) {
 			--indexColorChange;
-			buttonList [indexColorChange].GetComponent<Image> ().color = new Color (103, 172, 255);
-			buttonList [indexColorChange + 1].GetComponent<Image> ().color = new Color (255, 255, 255);
+			if (indexColorChange >= 0) {
+				buttonList [indexColorChange].GetComponent<Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
+				buttonList [indexColorChange + 1].GetComponent<Image> ().color = new Color (1, 1, 1, 1);
+			} else {
+				++indexColorChange;
+			}
 		}
 	}
 
