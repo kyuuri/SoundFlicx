@@ -13,7 +13,7 @@ public class StartScript : MonoBehaviour {
 	private float timer = 0;
 	private bool blinkUp = false;
 	private float opac = 1.0f;
-	private float opacRate = 0.08f;
+	private float opacRate = 0.06f;
 
 	private bool goingNext = false;
 	private float sceneTimer = 0;
