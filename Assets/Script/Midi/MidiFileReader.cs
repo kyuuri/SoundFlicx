@@ -73,7 +73,7 @@ public static class MidiFileReader{
 							tempDiff = Difficulty.EASY;
 							midiSlot = 0;
 						}
-						if (split[1] == "medium")
+						if (split[1] == "normal")
 						{
 							tempDiff = Difficulty.NORMAL;
 							midiSlot = 1;

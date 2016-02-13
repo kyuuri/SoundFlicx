@@ -29,19 +29,19 @@ public class NoteRenderer : MonoBehaviour {
 		string songName = GlobalData.selectedTrack.songName;
 		MidiFile midi;
 		if (songName == null) {
-			songName = "Test";
-			GlobalData.selectedTrack.offset = -0.17f;
+			//songName = "Test";
+			//GlobalData.selectedTrack.offset = -0.17f;
+
+			songName = "The_Clear_Blue_Sky";
+			GlobalData.selectedTrack.offset = -0.0f;
 		}
 		midi = new MidiFile ("Assets/Resources/Tracks/" + songName + "/midi.bytes");
 		MidiNoteData noteData = MidiFileReader.ParseNote (midi);
 
 		//test, wil be removed later
 		List<NoteMidiEvent> events;
-		if (songName == "Test") {
-			events = noteData.midiEvents [Difficulty.NORMAL];
-		} else {
-			events = noteData.midiEvents [GlobalData.selectedTrack.difficulty];
-		}
+		events = noteData.midiEvents [GlobalData.selectedTrack.difficulty];
+
 
 		for (int i = 0; i < events.Count ; i++) {
 			NoteDescription noteDescription = ToNoteDescription(events [i]);

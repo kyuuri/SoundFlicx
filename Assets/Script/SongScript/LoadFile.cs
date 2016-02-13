@@ -35,6 +35,7 @@ public class LoadFile : MonoBehaviour {
 	private List <GameObject> buttonList = new List<GameObject> ();
 	private List <SampleButton> sampleButonList = new List<SampleButton> ();
 	private List <string> descriptionList = new List<string> ();
+	private List <string> nameList = new List<string> ();
 	public string Root_Path;
 
 	public GameObject sampleButton;
@@ -82,7 +83,8 @@ public class LoadFile : MonoBehaviour {
 		foreach (Mtemplate temp in Mtems) {
 			buttonList.Add(CreateButton (temp));
 		}
-		GlobalData.descriptionList = descriptionList;
+
+		//GlobalData.descriptionList = descriptionList;
 
 
 //		GameObject _temp = Instantiate (Bullets, this.transform.position, Quaternion.identity) as GameObject;
@@ -90,7 +92,7 @@ public class LoadFile : MonoBehaviour {
 //		_temp.GetComponent<Renderer> ().material.color = new Color(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f),1f);
 
 		if (buttonList.Count >= 1) {
-			Debug.Log (buttonList.Count+" = "+indexColorChange);
+//			Debug.Log (buttonList.Count+" = "+indexColorChange);
 			buttonList [indexColorChange].GetComponent<UnityEngine.UI.Image> ().color = new Color (103/255f, (172/255f), 1f,1f);
 //			buttonList [indexColorChange].GetComponent<Image> ().color = Color.blue;
 //			if (indexColorChange != 0) {
@@ -121,7 +123,6 @@ public class LoadFile : MonoBehaviour {
 
 	}
 	public void selectedListDown(){
-		Debug.Log (sampleButonList.Count);
 		if (buttonList.Count >= 1) {
 			++indexColorChange;
 			if (indexColorChange < buttonList.Count) {
@@ -209,8 +210,8 @@ public class LoadFile : MonoBehaviour {
 		List<string> eachLine = new List<string>();
 		eachLine.AddRange(
 			theWholeFileAsOneLongString.Split("\n"[0]) );
-		Debug.Log (eachLine.Count);
 		button.nameLabel.text = temp.M_Name;
+			nameList.Add (temp.M_Name);
 		button.composer.text = eachLine [1];
 		button.bpm.text = "BPM "+eachLine [2];
 		}
@@ -329,6 +330,7 @@ public class LoadFile : MonoBehaviour {
 			} else if (layerState == Layers.SPEED_LAYER) {
 				showDifficulty ();
 			} else {
+				changeScene ();
 			}
 
 		} else if (hand.GrabStrength > 0.7) {
@@ -415,14 +417,14 @@ public class LoadFile : MonoBehaviour {
 	}
 
 	public void changeScene(){
-		List <string> descriptionList = new List<string> ();
+		//List <string> descriptionList = new List<string> ();
 		int index = GlobalData.songIndex;
-		descriptionList = GlobalData.descriptionList;
+		//descriptionList = GlobalData.descriptionList;
+		Debug.Log ("dd : " + descriptionList.Count);
 		string temp = descriptionList [index];
 		List<string> eachLine = new List<string>();
 		Difficulty difficult;
-		eachLine.AddRange(
-			temp.Split("\n"[0]) );
+		eachLine.AddRange(temp.Split("\n"[0]) );
 		if (level == 1) {
 			difficult = Difficulty.EASY;
 			level = int.Parse (eachLine [3]);
@@ -433,7 +435,8 @@ public class LoadFile : MonoBehaviour {
 			difficult = Difficulty.HARD;
 			level = int.Parse (eachLine [5]);
 		}
-		Track track = new Track(eachLine[0],eachLine[1], difficult,level, float.Parse(eachLine[2]));
+
+		Track track = new Track(nameList[index],eachLine[1], difficult,level, float.Parse(eachLine[2]));
 		GlobalData.selectedTrack = track;
 
 		GlobalData.speed = speed;

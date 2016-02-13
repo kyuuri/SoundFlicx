@@ -18,7 +18,8 @@ public class SoundPlayer : MonoBehaviour {
 
 		string songName = GlobalData.selectedTrack.songName;
 		if (songName == null) {
-			songName = "Test";
+			//songName = "Test";
+			songName = "The_Clear_Blue_Sky";
 		}
 		source.clip = Resources.Load ("Tracks/" + songName + "/audio.mp3") as AudioClip;
 	}
