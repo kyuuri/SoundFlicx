@@ -24,11 +24,11 @@ public class ResultScript : MonoBehaviour {
 		Debug.Log (resultScore.score);
 
 		finalScore.text = "FINAL SCORE "+resultScore.score;
-		fantastic.text = "FANTASTIC " + resultScore.fantastic;
-		great.text = "GREAT " + resultScore.great;
-		good.text = "GOOD " + resultScore.good;
-		miss.text = "MISS " + resultScore.miss;
-		maxCombo.text = "MAX COMBO " + resultScore.maxCombo;
+		fantastic.text =  "FANTASTIC   " + resultScore.fantastic;
+		great.text = "GREAT       " + resultScore.great;
+		good.text = "GOOD        " + resultScore.good;
+		miss.text = "MISS        " + resultScore.miss;
+		maxCombo.text =  "MAX COMBO   " + resultScore.maxCombo;
 		songName.text = track.songName;
 	
 	}
