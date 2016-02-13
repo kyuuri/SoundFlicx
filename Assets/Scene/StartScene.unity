@@ -9847,8 +9847,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 138396, guid: 65209a47e4d596d4d9a3879388d665de, type: 2}
-  numberOfObjects: 20
-  radius: 10
+  numberOfObjects: 100
+  radius: 5
   cube: []
 --- !u!1 &1130558769
 GameObject:
