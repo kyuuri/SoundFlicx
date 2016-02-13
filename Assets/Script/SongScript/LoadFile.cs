@@ -17,12 +17,19 @@ public class LoadFile : MonoBehaviour {
 		public TextAsset M_Text;
 	}
 
+	public enum Layers
+	{
+		NORMAL_LAYER = 0,
+		SPEED_LAYER = 1,
+		DIFFICULTY_LAYER = 2
+	};
+
 
 	private Leap.Controller controller;
 	public float offset;
 	private float timeDelay;
 	private bool isFlicking;
-	private float flickDelay = 0.5f;
+	private float flickDelay = 0.4f;
 
 	public List <Mtemplate> Mtems = new List<Mtemplate> ();
 	private List <GameObject> buttonList = new List<GameObject> ();
@@ -34,12 +41,44 @@ public class LoadFile : MonoBehaviour {
 	public Transform contentPanel;
 	private int indexColorChange = 0;
 
+	public Transform LoadingBar;
+	public Transform TextLevel;
+	public Transform Easy_TextLevel;
+	public Transform Normal_TextLevel;
+	public Transform Hard_TextLevel;
+	public Transform Easy_LoadingBar;
+	public Transform Normal_LoadingBar;
+	public Transform Hard_LoadingBar;
+	[SerializeField] private float currentAmount;
+	[SerializeField] private float progressBarSpeed;
+
+
+	public RectTransform panel;
+	public RectTransform speedPanel;
+	public RectTransform difficultyPanel;
+
+
+	public Text speedNumber;
+	private float speed = 2.0f;
+
+	public Transform buttonLeft;
+	public Transform buttonRight;
+	private Vector3 destination = new Vector3(1000,1000,1000);
+	private Vector3 speedPanelPosition;
+	private Vector3 difficultyPanelPosition;
+
+	// 1 easy 2 normal 3 hard
+	private int level = 2;
+
+	private Layers layerState;
+
 	public void Awake ()
 	{
 		GetFiles ();
 	}
 
 	public void Start(){
+		layerState = Layers.NORMAL_LAYER;
 		foreach (Mtemplate temp in Mtems) {
 			buttonList.Add(CreateButton (temp));
 		}
@@ -67,22 +106,19 @@ public class LoadFile : MonoBehaviour {
 		timeDelay = 0;
 		offset = 5;
 
-
+		//song selection controller
+		speedPanelPosition = speedPanel.position;
+		speedPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
+		difficultyPanelPosition = difficultyPanel.position;
+		difficultyPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
 	}
 
 	void Update(){
 		Frame frame = controller.Frame ();
 		HandList hands = frame.Hands;
 
-		if (!isFlicking) {
-			CheckFlick (hands);
-		} else if (isFlicking) {
-			timeDelay += Time.deltaTime;
-		}
-		if (timeDelay >= flickDelay) {
-			timeDelay = 0;
-			isFlicking = false;
-		}
+		MapGesture (hands);
+
 	}
 	public void selectedListDown(){
 		Debug.Log (sampleButonList.Count);
@@ -209,6 +245,28 @@ public class LoadFile : MonoBehaviour {
 		UnityEngine.Application.LoadLevel("Gameplay");
 	}
 
+	private void MapGesture(HandList hands){
+
+		Hand rightHand = hands.Rightmost;
+		if (!isFlicking) {
+			CheckFlick (hands);
+		} else if (isFlicking) {
+			timeDelay += Time.deltaTime;
+		}
+		if (timeDelay >= flickDelay) {
+			timeDelay = 0;
+			isFlicking = false;
+		}
+		if (layerState == Layers.NORMAL_LAYER) {
+			FillProgressBar (rightHand);
+		} else if (layerState == Layers.SPEED_LAYER) {
+			FillProgressBar (rightHand);
+		} else {
+			FillProgressBar (rightHand);
+		}
+
+
+	}
 	private void CheckFlick(HandList hands){
 		Hand rightHand = hands.Rightmost;
 		Hand leftHand = hands.Leftmost;
@@ -218,18 +276,166 @@ public class LoadFile : MonoBehaviour {
 
 		float speed = 120;
 
-		//		if (rightHandYaw > 1.5 && rightHand.PalmVelocity.x > speed) {
-		if (rightHandYaw > 1.2f && rightHand.PalmVelocity.x > speed && rightHand.IsRight) {
-			//			Debug.Log ("right swipe");
-			isFlicking = true;
-			this.selectedListDown();
+		if (layerState == Layers.NORMAL_LAYER) {
+			if (rightHandYaw > 1.2f && rightHand.PalmVelocity.x > speed && rightHand.IsRight) {
+				isFlicking = true;
+				this.selectedListDown ();
+			}
+			if (leftHandYaw > 1.2f && leftHand.PalmVelocity.x < -speed && leftHand.IsLeft) {
+				isFlicking = true;
+				this.selectedListUp ();
+			}
+		} else if (layerState == Layers.SPEED_LAYER) {
 
+			if (rightHandYaw > 1.2f && rightHand.PalmVelocity.x > speed && rightHand.IsRight) {
+				isFlicking = true;
+				this.speedUp ();
+			}
+			if (leftHandYaw > 1.2f && leftHand.PalmVelocity.x < -speed && leftHand.IsLeft) {
+				isFlicking = true;
+				this.speedDown ();
+			}
+		} else {
+
+			if (rightHandYaw > 1.2f && rightHand.PalmVelocity.x > speed && rightHand.IsRight) {
+				isFlicking = true;
+				this.increaseLevel ();
+			}
+			if (leftHandYaw > 1.2f && leftHand.PalmVelocity.x < -speed && leftHand.IsLeft) {
+				isFlicking = true;
+				this.decreaseLevel ();
+			}
+			if (level == 1) {
+				Easy_LoadingBar.gameObject.SetActive (true);
+				Normal_LoadingBar.gameObject.SetActive (false);
+				Hard_LoadingBar.gameObject.SetActive (false);
+			} else if (level == 2) {
+				Easy_LoadingBar.gameObject.SetActive (false);
+				Normal_LoadingBar.gameObject.SetActive (true);
+				Hard_LoadingBar.gameObject.SetActive (false);
+			} else {
+				Easy_LoadingBar.gameObject.SetActive (false);
+				Normal_LoadingBar.gameObject.SetActive (false);
+				Hard_LoadingBar.gameObject.SetActive (true);
+			}
 		}
-		//		if (leftHandYaw > 1.5  && leftHand.PalmVelocity.x < -speed) {
-		if (leftHandYaw > 1.2f  && leftHand.PalmVelocity.x < -speed && leftHand.IsLeft) {
-			//			Debug.Log ("left swipe");
-			isFlicking = true;
-			this.selectedListUp();
+	}
+
+	private void FillProgressBar(Hand hand){
+		if (currentAmount >= 100) {
+			TextLevel.GetComponent<Text> ().text = "Done!";
+			if (layerState == Layers.NORMAL_LAYER) {
+				showSpeed (); 
+			} else if (layerState == Layers.SPEED_LAYER) {
+				showDifficulty ();
+			} else {
+			}
+
+		} else if (hand.GrabStrength > 0.7) {
+			
+			currentAmount += progressBarSpeed * Time.deltaTime;
+			if (layerState == Layers.DIFFICULTY_LAYER) {
+				if (level == 1) {
+					Easy_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString() + "%";
+				} else if (level == 2) {
+					Normal_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString() + "%";
+				} else {
+					Hard_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString() + "%";
+				}
+			} else {
+				TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
+			}
+		} else {
+			if (currentAmount > 0) {
+				TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
+				currentAmount -= progressBarSpeed * Time.deltaTime;
+			}
 		}
+
+		if (layerState == Layers.DIFFICULTY_LAYER) {
+			Easy_LoadingBar.GetComponent<UnityEngine.UI.Image>().fillAmount = currentAmount / 100;
+			Normal_LoadingBar.GetComponent<UnityEngine.UI.Image>().fillAmount = currentAmount / 100;
+			Hard_LoadingBar.GetComponent<UnityEngine.UI.Image>().fillAmount = currentAmount / 100;
+		} else {
+			LoadingBar.GetComponent<UnityEngine.UI.Image> ().fillAmount = currentAmount / 100;
+		}
+	}
+
+	public void showSpeed (){
+		layerState = Layers.SPEED_LAYER;
+		currentAmount = 0;
+		TextLevel.GetComponent<Text>().text = "kuy";
+		selectedSong ();
+		speedPanel.position = Vector3.Slerp(destination, speedPanelPosition, 5);
+	}
+
+	public void speedUp(){
+		if (speed <= 3.5) {
+			speed += 0.5f;
+			speedNumber.text = string.Format("{0:0.0}", speed);
+		}
+	}
+
+	public void speedDown(){
+		if (speed >= 1) {
+			speed -= 0.5f;
+
+			speedNumber.text = string.Format("{0:0.0}", speed);
+		}
+	}
+
+	public void backFromSpeed(){
+		speedPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
+	}
+
+	public void showDifficulty(){
+		layerState = Layers.DIFFICULTY_LAYER;
+		currentAmount = 0;
+		speedPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
+		difficultyPanel.position = Vector3.Slerp(destination, difficultyPanelPosition, 5);
+	}
+
+	public void backFromDifficulty(){
+		difficultyPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
+	}
+
+	public int getLevel(){
+		return level;
+	}
+
+	public void increaseLevel(){
+		if (level < 3)
+			++level;	
+	}
+
+	public void decreaseLevel(){
+		if (level > 1) {
+			--level;
+		}
+	}
+
+	public void changeScene(){
+		List <string> descriptionList = new List<string> ();
+		int index = GlobalData.songIndex;
+		descriptionList = GlobalData.descriptionList;
+		string temp = descriptionList [index];
+		List<string> eachLine = new List<string>();
+		Difficulty difficult;
+		eachLine.AddRange(
+			temp.Split("\n"[0]) );
+		if (level == 1) {
+			difficult = Difficulty.EASY;
+			level = int.Parse (eachLine [3]);
+		} else if (level == 2) {
+			difficult = Difficulty.NORMAL;
+			level = int.Parse (eachLine [4]);
+		} else {
+			difficult = Difficulty.HARD;
+			level = int.Parse (eachLine [5]);
+		}
+		Track track = new Track(eachLine[0],eachLine[1], difficult,level, float.Parse(eachLine[2]));
+		GlobalData.selectedTrack = track;
+
+		UnityEngine.Application.LoadLevel("Gameplay");
 	}
 }

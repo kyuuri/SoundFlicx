@@ -108,7 +108,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 201679}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6d679365b90e4af684fcd4674083d73, type: 3}
   m_Name: 
@@ -147,6 +147,22 @@ MonoBehaviour:
   Root_Path: Tracks
   sampleButton: {fileID: 165872, guid: 8d9f44a98f40e49d0ae3b70f9e92fe4c, type: 2}
   contentPanel: {fileID: 1557999559}
+  LoadingBar: {fileID: 1181476748}
+  TextLevel: {fileID: 941969342}
+  Easy_TextLevel: {fileID: 181001244}
+  Normal_TextLevel: {fileID: 580040875}
+  Hard_TextLevel: {fileID: 601614151}
+  Easy_LoadingBar: {fileID: 131302310}
+  Normal_LoadingBar: {fileID: 1833374847}
+  Hard_LoadingBar: {fileID: 1896988974}
+  currentAmount: 0
+  progressBarSpeed: 30
+  panel: {fileID: 1728113899}
+  speedPanel: {fileID: 1623757549}
+  difficultyPanel: {fileID: 695550558}
+  speedNumber: {fileID: 1819252812}
+  buttonLeft: {fileID: 383863801}
+  buttonRight: {fileID: 1911748357}
 --- !u!1 &10260728
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,7 +418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.66896534, b: 1, a: 1}
+  m_Color: {r: 0.07586217, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -410,7 +426,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 73b14156b94e8f44ab25e424716369ad, type: 3}
-  m_Type: 3
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -489,7 +505,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 30
-  m_Text: Level
+  m_Text: EASY
 --- !u!222 &181001246
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -509,7 +525,7 @@ GameObject:
   - 114: {fileID: 185032879}
   - 114: {fileID: 185032878}
   m_Layer: 5
-  m_Name: RadialProcessBar (3)
+  m_Name: HardProcessBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -540,15 +556,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 185032876}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bbadb9de57b07a4299a25e39ffbe603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadingBar: {fileID: 1896988974}
-  TextLevel: {fileID: 601614151}
-  currentAmount: 0
-  speed: 30
 --- !u!114 &185032879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -575,7 +587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5808823, g: 0.5808823, b: 0.5808823, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1110,7 +1122,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 30
-  m_Text: Level
+  m_Text: NORMAL
 --- !u!222 &580040877
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1192,7 +1204,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 201680}
+      - m_Target: {fileID: 201682}
         m_MethodName: showSpeed
         m_Mode: 1
         m_Arguments:
@@ -1304,7 +1316,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 30
-  m_Text: Level
+  m_Text: HARD
 --- !u!222 &601614153
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2201,7 +2213,7 @@ GameObject:
   - 114: {fileID: 1220675127}
   - 114: {fileID: 1220675126}
   m_Layer: 5
-  m_Name: RadialProcessBar (2)
+  m_Name: NormalProcessBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2232,15 +2244,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1220675124}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bbadb9de57b07a4299a25e39ffbe603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadingBar: {fileID: 1833374847}
-  TextLevel: {fileID: 580040875}
-  currentAmount: 0
-  speed: 30
 --- !u!114 &1220675127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2267,7 +2275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5808823, g: 0.5808823, b: 0.5808823, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2440,15 +2448,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1361815451}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bbadb9de57b07a4299a25e39ffbe603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadingBar: {fileID: 1181476748}
-  TextLevel: {fileID: 941969342}
-  currentAmount: 0
-  speed: 30
 --- !u!1 &1425805518
 GameObject:
   m_ObjectHideFlags: 0
@@ -3238,7 +3242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.66896534, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.9724138, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3246,7 +3250,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 73b14156b94e8f44ab25e424716369ad, type: 3}
-  m_Type: 3
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3333,7 +3337,7 @@ GameObject:
   - 114: {fileID: 1838707444}
   - 114: {fileID: 1838707443}
   m_Layer: 5
-  m_Name: RadialProcessBar (1)
+  m_Name: EasyProcessBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3369,17 +3373,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bbadb9de57b07a4299a25e39ffbe603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadingBar: {fileID: 131302310}
-  TextLevel: {fileID: 181001244}
-  currentAmount: 0
-  speed: 30
 --- !u!114 &1838707444
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1838707441}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 1573420865, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
@@ -3399,7 +3399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5808823, g: 0.5808823, b: 0.5808823, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3481,7 +3481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.66896534, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3489,7 +3489,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 73b14156b94e8f44ab25e424716369ad, type: 3}
-  m_Type: 3
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3513,7 +3513,6 @@ GameObject:
   - 222: {fileID: 1911748360}
   - 114: {fileID: 1911748359}
   - 114: {fileID: 1911748358}
-  - 114: {fileID: 1911748361}
   m_Layer: 5
   m_Name: Right
   m_TagString: Untagged
@@ -3624,21 +3623,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1911748356}
---- !u!114 &1911748361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1911748356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bbadb9de57b07a4299a25e39ffbe603, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LoadingBar: {fileID: 0}
-  TextLevel: {fileID: 0}
-  currentAmount: 0
-  speed: 0
 --- !u!1 &1946610967
 GameObject:
   m_ObjectHideFlags: 0
