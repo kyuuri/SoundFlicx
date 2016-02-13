@@ -86,7 +86,7 @@ public class LineFlickChecker : MonoBehaviour {
 	}
 
 	private bool InRange(float hitDeltaTime){
-		return hitDeltaTime <= 120;
+		return hitDeltaTime <= 250;
 	}
 
 	private float GetHitDeltaTime(float hitTime, float noteTime){

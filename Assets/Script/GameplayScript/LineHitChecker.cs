@@ -118,7 +118,7 @@ public class LineHitChecker : MonoBehaviour {
 	}
 
 	private bool InRange(float hitDeltaTime){
-		return hitDeltaTime <= 120;
+		return hitDeltaTime <= 160;
 	}
 
 	private bool HoldInRange(NoteDescription note){
