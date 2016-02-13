@@ -54,8 +54,10 @@ public static class MidiFileReader{
 					else if (metaEventNote.MetaEventType == MetaEventType.SetTempo)
 					{
 						string[] splitTempo = metaEventNote.ToString().Split(' ');
-						period = 60f / float.Parse(splitTempo[2].Substring(0, splitTempo[2].Length - 3));
-						bpm = int.Parse(splitTempo[2].Substring(0, splitTempo[2].Length - 3));
+						float tick = float.Parse (splitTempo [3].Replace ("(", "").Replace (")", ""));
+						tick = float.Parse ("0." + tick);
+						bpm = (int)Mathf.Round (60f / tick);
+						period = tick;
 					}
 				}
 				else if (midi.Events[i][j].CommandCode == MidiCommandCode.NoteOn)
@@ -117,6 +119,8 @@ public static class MidiFileReader{
 
 		var tmp = new MidiNoteData();
 		tmp.bpm = bpm;
+
+		Debug.Log (bpm);
 
 		midiEventLists.Add(Difficulty.EASY, midiEventList[0]);
 		midiEventLists.Add(Difficulty.NORMAL, midiEventList[1]);
