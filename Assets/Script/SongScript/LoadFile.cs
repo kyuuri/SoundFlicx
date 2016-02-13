@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Leap;
 
 public class LoadFile : MonoBehaviour {
 
@@ -15,6 +16,13 @@ public class LoadFile : MonoBehaviour {
 		public Texture2D M_Texture;
 		public TextAsset M_Text;
 	}
+
+
+	private Leap.Controller controller;
+	public float offset;
+	private float timeDelay;
+	private bool isFlicking;
+	private float flickDelay = 0.5f;
 
 	public List <Mtemplate> Mtems = new List<Mtemplate> ();
 	private List <GameObject> buttonList = new List<GameObject> ();
@@ -41,7 +49,7 @@ public class LoadFile : MonoBehaviour {
 
 		if (buttonList.Count >= 1) {
 			Debug.Log (buttonList.Count+" = "+indexColorChange);
-			buttonList [indexColorChange].GetComponent<Image> ().color = new Color (103/255f, (172/255f), 1f,1f);
+			buttonList [indexColorChange].GetComponent<UnityEngine.UI.Image> ().color = new Color (103/255f, (172/255f), 1f,1f);
 //			buttonList [indexColorChange].GetComponent<Image> ().color = Color.blue;
 //			if (indexColorChange != 0) {
 //				buttonList [indexColorChange - 1].GetComponent<Image> ().color = new Color (255, 255, 255);
@@ -50,15 +58,36 @@ public class LoadFile : MonoBehaviour {
 
 		contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x + 200, contentPanel.localPosition.y);
 
+		//leap motion
+		controller = new Leap.Controller ();
+		isFlicking = false;
+		timeDelay = 0;
+		offset = 5;
+
+
 	}
 
+	void Update(){
+		Frame frame = controller.Frame ();
+		HandList hands = frame.Hands;
+
+		if (!isFlicking) {
+			CheckFlick (hands);
+		} else if (isFlicking) {
+			timeDelay += Time.deltaTime;
+		}
+		if (timeDelay >= flickDelay) {
+			timeDelay = 0;
+			isFlicking = false;
+		}
+	}
 	public void selectedListDown(){
 		Debug.Log (sampleButonList.Count);
 		if (buttonList.Count >= 1) {
 			++indexColorChange;
 			if (indexColorChange < buttonList.Count) {
-				buttonList [indexColorChange].GetComponent<Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
-				buttonList [indexColorChange - 1].GetComponent<Image> ().color = new Color (1, 1, 1, 1);
+				buttonList [indexColorChange].GetComponent<UnityEngine.UI.Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
+				buttonList [indexColorChange - 1].GetComponent<UnityEngine.UI.Image> ().color = new Color (1, 1, 1, 1);
 
 				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x - 200, contentPanel.localPosition.y);
 //				buttonList.RemoveAt (indexColorChange - 1);
@@ -76,8 +105,8 @@ public class LoadFile : MonoBehaviour {
 		if (buttonList.Count >= 1) {
 			--indexColorChange;
 			if (indexColorChange >= 0) {
-				buttonList [indexColorChange].GetComponent<Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
-				buttonList [indexColorChange + 1].GetComponent<Image> ().color = new Color (1, 1, 1, 1);
+				buttonList [indexColorChange].GetComponent<UnityEngine.UI.Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
+				buttonList [indexColorChange + 1].GetComponent<UnityEngine.UI.Image> ().color = new Color (1, 1, 1, 1);
 				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x + 200, contentPanel.localPosition.y);
 			} else {
 				++indexColorChange;
@@ -150,7 +179,7 @@ public class LoadFile : MonoBehaviour {
 //			Debug.Log ("///// " + temp.M_Name);
 
 
-		button.icon.GetComponent<Image>().sprite = Sprite.Create(temp.M_Texture,new Rect(0, 0, 256,256), new Vector2(0, 0),100.0f);
+		button.icon.GetComponent<UnityEngine.UI.Image>().sprite = Sprite.Create(temp.M_Texture,new Rect(0, 0, 256,256), new Vector2(0, 0),100.0f);
 
 			button.button.onClick.AddListener (delegate {
 //				Debug.Log(temp.M_Name);
@@ -170,6 +199,30 @@ public class LoadFile : MonoBehaviour {
 	public void ChangeSceen(string songName){
 		GlobalData.selectedTrack.songName = songName;
 //		Debug.Log (songName);
-		Application.LoadLevel("Gameplay");
+		UnityEngine.Application.LoadLevel("Gameplay");
+	}
+
+	private void CheckFlick(HandList hands){
+		Hand rightHand = hands.Rightmost;
+		Hand leftHand = hands.Leftmost;
+
+		float rightHandYaw = rightHand.Direction.Yaw * offset;
+		float leftHandYaw = leftHand.Direction.Yaw * offset * -1;
+
+		float speed = 120;
+
+		//		if (rightHandYaw > 1.5 && rightHand.PalmVelocity.x > speed) {
+		if (rightHandYaw > 1.2f && rightHand.PalmVelocity.x > speed && rightHand.IsRight) {
+			//			Debug.Log ("right swipe");
+			isFlicking = true;
+			this.selectedListDown();
+
+		}
+		//		if (leftHandYaw > 1.5  && leftHand.PalmVelocity.x < -speed) {
+		if (leftHandYaw > 1.2f  && leftHand.PalmVelocity.x < -speed && leftHand.IsLeft) {
+			//			Debug.Log ("left swipe");
+			isFlicking = true;
+			this.selectedListUp();
+		}
 	}
 }
