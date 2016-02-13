@@ -30,6 +30,7 @@ public class NoteRenderer : MonoBehaviour {
 		MidiFile midi;
 		if (songName == null) {
 			songName = "Test";
+			GlobalData.selectedTrack.offset = -0.17f;
 		}
 		midi = new MidiFile ("Assets/Resources/Tracks/" + songName + "/midi.bytes");
 		MidiNoteData noteData = MidiFileReader.ParseNote (midi);
