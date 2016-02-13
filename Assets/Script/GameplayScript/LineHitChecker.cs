@@ -48,12 +48,12 @@ public class LineHitChecker : MonoBehaviour {
 	}
 
 	private float CalculatePercentage (float hitDeltaTime, NoteDescription note){
-		//120 max
+		//160 max
 		judge = JudgeScript.Judge.MISS;
 		if (note.NoteState == NoteDescription.NoteHitState.READY) {
-			if (hitDeltaTime < 60) { // Fantastic
+			if (hitDeltaTime < 80) { // Fantastic
 				judge = JudgeScript.Judge.FANTASTIC;
-			} else if (hitDeltaTime < 100) { // Good
+			} else if (hitDeltaTime < 130) { // Good
 				judge = JudgeScript.Judge.GREAT;
 			} else { // Bad
 				judge = JudgeScript.Judge.GOOD;
@@ -118,7 +118,7 @@ public class LineHitChecker : MonoBehaviour {
 	}
 
 	private bool InRange(float hitDeltaTime){
-		return hitDeltaTime <= 120;
+		return hitDeltaTime <= 160;
 	}
 
 	private bool HoldInRange(NoteDescription note){

@@ -26,6 +26,9 @@ public class ScoreScript : MonoBehaviour {
 	public void setScore(float sc){
 		score = sc;
 		scoreText.text = score + "";
+		if (score > GlobalData.result.score) {
+			GlobalData.result.score = score;
+		}
 	}
 
 	public void addScore(float sc){

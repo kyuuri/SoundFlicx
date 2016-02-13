@@ -47,7 +47,7 @@ public class ComboScript : MonoBehaviour {
 
 	private void Shrink(){
 		if (count < limit) {
-			comboText.transform.localScale *= 0.91f;
+			comboText.transform.localScale *= 0.90f;
 			++count;
 		} else if (count == limit) {
 			isShrinking = false;
