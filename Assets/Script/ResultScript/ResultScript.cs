@@ -32,8 +32,8 @@ public class ResultScript : MonoBehaviour {
 		miss.text = "MISS        " + resultScore.miss;
 		maxCombo.text =  "MAX COMBO   " + resultScore.maxCombo;
 		songName.text = track.songName;
-		rank.text = "Rank   " + resultScore.getRank ();
 		accuracy.text = "Accuracy " + resultScore.getAccuracy ();
+		rank.text = "Rank   " + resultScore.getRank ();
 	
 	}
 	
