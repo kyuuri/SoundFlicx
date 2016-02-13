@@ -17,6 +17,7 @@ public class LoadFile : MonoBehaviour {
 
 	public List <Mtemplate> Mtems = new List<Mtemplate> ();
 	private List <GameObject> buttonList = new List<GameObject> ();
+	private List <SampleButton> sampleButonList = new List<SampleButton> ();
 	public string Root_Path;
 
 	public GameObject sampleButton;
@@ -46,15 +47,22 @@ public class LoadFile : MonoBehaviour {
 //			}
 		}
 
+		contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x + 200, contentPanel.localPosition.y);
+
 	}
 
 	public void selectedListDown(){
-		Debug.Log ("Click Down");
+		Debug.Log (sampleButonList.Count);
 		if (buttonList.Count >= 1) {
 			++indexColorChange;
 			if (indexColorChange < buttonList.Count) {
 				buttonList [indexColorChange].GetComponent<Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
 				buttonList [indexColorChange - 1].GetComponent<Image> ().color = new Color (1, 1, 1, 1);
+
+				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x - 200, contentPanel.localPosition.y);
+//				buttonList.RemoveAt (indexColorChange - 1);
+//				sampleButonList.RemoveAt (indexColorChange - 1);
+//				contentPanel.
 			} else {
 				--indexColorChange;
 			}
@@ -69,6 +77,7 @@ public class LoadFile : MonoBehaviour {
 			if (indexColorChange >= 0) {
 				buttonList [indexColorChange].GetComponent<Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
 				buttonList [indexColorChange + 1].GetComponent<Image> ().color = new Color (1, 1, 1, 1);
+				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x + 200, contentPanel.localPosition.y);
 			} else {
 				++indexColorChange;
 			}
@@ -123,14 +132,22 @@ public class LoadFile : MonoBehaviour {
 			button.nameLabel.text = temp.M_Name;
 
 //			Debug.Log ("///// " + temp.M_Name);
-			button.icon = temp.M_Texture;
+
+
+		button.icon.GetComponent<Image>().sprite = Sprite.Create(temp.M_Texture,new Rect(0, 0, 256,256), new Vector2(0, 0),100.0f);
 
 			button.button.onClick.AddListener (delegate {
 //				Debug.Log(temp.M_Name);
 				ChangeSceen (temp.M_Name);
 			});
-			newButton.transform.SetParent (contentPanel);
+//		sampleButonList.Add (button);
+		newButton.transform.SetParent (contentPanel);
+		RectTransform rect = newButton.GetComponent<RectTransform> ();
+		rect.localScale = new Vector3 (1, 1, 1);
+		rect.localPosition = new Vector3 (rect.position.x, rect.position.y, 0);
+
 //		}
+
 		return newButton;
 	}
 
