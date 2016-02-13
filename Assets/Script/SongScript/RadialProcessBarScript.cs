@@ -11,6 +11,7 @@ public class RadialProcessBarScript : MonoBehaviour {
 	[SerializeField] private float currentAmount;
 	[SerializeField] private float speed;
 
+
 	// Use this for initialization
 	void Start () {
 		controller = new Leap.Controller ();
@@ -34,4 +35,6 @@ public class RadialProcessBarScript : MonoBehaviour {
 
 		LoadingBar.GetComponent<UnityEngine.UI.Image> ().fillAmount = currentAmount / 100;
 	}
+
+
 }

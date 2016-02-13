@@ -27,6 +27,7 @@ public class LoadFile : MonoBehaviour {
 	public List <Mtemplate> Mtems = new List<Mtemplate> ();
 	private List <GameObject> buttonList = new List<GameObject> ();
 	private List <SampleButton> sampleButonList = new List<SampleButton> ();
+	private List <string> descriptionList = new List<string> ();
 	public string Root_Path;
 
 	public GameObject sampleButton;
@@ -42,6 +43,8 @@ public class LoadFile : MonoBehaviour {
 		foreach (Mtemplate temp in Mtems) {
 			buttonList.Add(CreateButton (temp));
 		}
+		GlobalData.descriptionList = descriptionList;
+
 
 //		GameObject _temp = Instantiate (Bullets, this.transform.position, Quaternion.identity) as GameObject;
 //		//_temp.GetComponent<Renderer> ().material.color = new Color32 ((byte)Random.Range (0, 255), (byte)Random.Range (0, 255),(byte)Random.Range (0, 255), (byte)Random.Range (0, 255));
@@ -166,7 +169,7 @@ public class LoadFile : MonoBehaviour {
 
 		if(temp.M_Text != null){
 		string theWholeFileAsOneLongString = temp.M_Text.text;
-
+		descriptionList.Add (theWholeFileAsOneLongString);
 		List<string> eachLine = new List<string>();
 		eachLine.AddRange(
 			theWholeFileAsOneLongString.Split("\n"[0]) );
@@ -194,6 +197,10 @@ public class LoadFile : MonoBehaviour {
 //		}
 
 		return newButton;
+	}
+
+	public void selectedSong(){
+		GlobalData.songIndex = indexColorChange;
 	}
 
 	public void ChangeSceen(string songName){
