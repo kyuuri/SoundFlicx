@@ -220,10 +220,10 @@ public class LoadFile : MonoBehaviour {
 
 		button.icon.GetComponent<UnityEngine.UI.Image>().sprite = Sprite.Create(temp.M_Texture,new Rect(0, 0, 256,256), new Vector2(0, 0),100.0f);
 
-			button.button.onClick.AddListener (delegate {
-//				Debug.Log(temp.M_Name);
-				ChangeSceen (temp.M_Name);
-			});
+//			button.button.onClick.AddListener (delegate {
+////				Debug.Log(temp.M_Name);
+//				ChangeSceen (temp.M_Name);
+//			});
 //		sampleButonList.Add (button);
 		newButton.transform.SetParent (contentPanel);
 		RectTransform rect = newButton.GetComponent<RectTransform> ();
@@ -239,12 +239,12 @@ public class LoadFile : MonoBehaviour {
 		GlobalData.songIndex = indexColorChange;
 	}
 
-	public void ChangeSceen(string songName){
-		GlobalData.selectedTrack.songName = songName;
-//		Debug.Log (songName);
-		UnityEngine.Application.LoadLevel("Gameplay");
-	}
-
+//	public void ChangeSceen(string songName){
+//		GlobalData.selectedTrack.songName = songName;
+////		Debug.Log (songName);
+//		UnityEngine.Application.LoadLevel("Gameplay");
+//	}
+//
 	private void MapGesture(HandList hands){
 
 		Hand rightHand = hands.Rightmost;
@@ -435,6 +435,8 @@ public class LoadFile : MonoBehaviour {
 		}
 		Track track = new Track(eachLine[0],eachLine[1], difficult,level, float.Parse(eachLine[2]));
 		GlobalData.selectedTrack = track;
+
+		GlobalData.speed = speed;
 
 		UnityEngine.Application.LoadLevel("Gameplay");
 	}
