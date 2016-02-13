@@ -34,6 +34,7 @@ public class ScoreScript : MonoBehaviour {
 
 		if (score > GlobalData.result.score) {
 			GlobalData.result.score = score;
+			Debug.Log (22222);
 		}
 	}
 
