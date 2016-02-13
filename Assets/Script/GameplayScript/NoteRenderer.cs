@@ -40,7 +40,7 @@ public class NoteRenderer : MonoBehaviour {
 		if (songName == "Test") {
 			events = noteData.midiEvents [Difficulty.NORMAL];
 		} else {
-			events = noteData.midiEvents [Difficulty.HARD];
+			events = noteData.midiEvents [GlobalData.selectedTrack.difficulty];
 		}
 
 		for (int i = 0; i < events.Count ; i++) {
