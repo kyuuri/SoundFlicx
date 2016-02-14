@@ -47,6 +47,9 @@ public class LoadFile : MonoBehaviour {
 	public Transform contentPanel;
 	private int indexColorChange = 0;
 
+	public ParticleSystem[] parBox = new ParticleSystem[4];
+
+
 	public Transform LoadingBar;
 	public Transform TextLevel;
 	public Transform Easy_TextLevel;
@@ -90,6 +93,10 @@ public class LoadFile : MonoBehaviour {
 		layerState = Layers.NORMAL_LAYER;
 		foreach (Mtemplate temp in Mtems) {
 			buttonList.Add(CreateButton (temp));
+		}
+
+		for (int i = 0; i < 4; i++) {
+			parBox [i].startColor = new Color (236/255.0f,213/255.0f,92/255.0f);
 		}
 
 		//GlobalData.descriptionList = descriptionList;
@@ -140,7 +147,7 @@ public class LoadFile : MonoBehaviour {
 				buttonList [indexColorChange].GetComponent<UnityEngine.UI.Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
 				buttonList [indexColorChange - 1].GetComponent<UnityEngine.UI.Image> ().color = new Color (1, 1, 1, 1);
 
-				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x - 200, contentPanel.localPosition.y);
+				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x - 215, contentPanel.localPosition.y);
 //				buttonList.RemoveAt (indexColorChange - 1);
 //				sampleButonList.RemoveAt (indexColorChange - 1);
 //				contentPanel.
@@ -158,7 +165,7 @@ public class LoadFile : MonoBehaviour {
 			if (indexColorChange >= 0) {
 				buttonList [indexColorChange].GetComponent<UnityEngine.UI.Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
 				buttonList [indexColorChange + 1].GetComponent<UnityEngine.UI.Image> ().color = new Color (1, 1, 1, 1);
-				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x + 200, contentPanel.localPosition.y);
+				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x + 215, contentPanel.localPosition.y);
 			} else {
 				++indexColorChange;
 			}
@@ -221,10 +228,10 @@ public class LoadFile : MonoBehaviour {
 		List<string> eachLine = new List<string>();
 		eachLine.AddRange(
 			theWholeFileAsOneLongString.Split("\n"[0]) );
-		button.nameLabel.text = temp.M_Name;
+			button.nameLabel.text = temp.M_Name.Replace("_"," ");
 			nameList.Add (temp.M_Name);
 		button.composer.text = eachLine [1];
-		button.bpm.text = "BPM "+eachLine [2];
+		button.bpm.text = "BPM : "+eachLine [2];
 		}
 
 //			Debug.Log ("///// " + temp.M_Name);
@@ -328,14 +335,23 @@ public class LoadFile : MonoBehaviour {
 				Easy_LoadingBar.gameObject.SetActive (true);
 				Normal_LoadingBar.gameObject.SetActive (false);
 				Hard_LoadingBar.gameObject.SetActive (false);
+				for (int i = 0; i < 4; i++) {
+					parBox [i].startColor = Color.green;
+				}
 			} else if (level == 2) {
 				Easy_LoadingBar.gameObject.SetActive (false);
 				Normal_LoadingBar.gameObject.SetActive (true);
 				Hard_LoadingBar.gameObject.SetActive (false);
+				for (int i = 0; i < 4; i++) {
+					parBox [i].startColor = Color.yellow;
+				}
 			} else {
 				Easy_LoadingBar.gameObject.SetActive (false);
 				Normal_LoadingBar.gameObject.SetActive (false);
 				Hard_LoadingBar.gameObject.SetActive (true);
+				for (int i = 0; i < 4; i++) {
+					parBox [i].startColor = Color.red;
+				}
 			}
 
 		}
@@ -345,7 +361,31 @@ public class LoadFile : MonoBehaviour {
 		if (currentAmount >= 100) {
 			TextLevel.GetComponent<Text> ().text = "Done!";
 			if (layerState == Layers.NORMAL_LAYER) {
+
+				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x - 260 + indexColorChange * 214.8f, contentPanel.localPosition.y);
+				for (int i = 0; i < buttonList.Count; i++) {
+					if (i == indexColorChange) {
+						continue;
+					}
+					GameObject obj = buttonList [i];
+					obj.active = false;
+				}
+
+				for (int i = 0; i < 4; i++) {
+					Vector3 pos = parBox [i].transform.position;
+					parBox [i].transform.position = new Vector3 (pos.x - 12.2f, pos.y, pos.z);
+				}
+
+
 				showDifficulty ();
+
+				Easy_LoadingBar.gameObject.SetActive (false);
+				Normal_LoadingBar.gameObject.SetActive (true);
+				Hard_LoadingBar.gameObject.SetActive (false);
+				for (int i = 0; i < 4; i++) {
+					parBox [i].startColor = Color.yellow;
+				}
+
 				string temp = descriptionList [indexColorChange];
 				List<string> eachLine = new List<string>();
 				eachLine.AddRange(
@@ -393,6 +433,8 @@ public class LoadFile : MonoBehaviour {
 						Normal_TextLevel.GetComponent<Text> ().text = "NORMAL";
 						Hard_TextLevel.GetComponent<Text> ().text = "HARD";
 					}
+				} else {
+					TextLevel.GetComponent<Text> ().text = "Grab !";
 				}
 				
 			} else if (currentAmount > 0) {
@@ -411,7 +453,6 @@ public class LoadFile : MonoBehaviour {
 			}
 		}
 
-
 		LoadingBar.GetComponent<UnityEngine.UI.Image> ().fillAmount = currentAmount / 100;
 
 	}
@@ -422,6 +463,22 @@ public class LoadFile : MonoBehaviour {
 			if (layerState == Layers.DIFFICULTY_LAYER) {
 				backFromDifficulty ();
 				layerState = Layers.NORMAL_LAYER;
+
+				for (int i = 0; i < buttonList.Count; i++) {
+					if (i == indexColorChange) {
+						continue;
+					}
+					GameObject obj = buttonList [i];
+					obj.active = true;				
+				}
+				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x + 260 - indexColorChange * 214.8f, contentPanel.localPosition.y);
+
+				for (int i = 0; i < 4; i++) {
+					Vector3 pos = parBox [i].transform.position;
+					parBox [i].transform.position = new Vector3 (pos.x + 12.2f, pos.y, pos.z);
+					parBox [i].startColor = new Color (236/255.0f,213/255.0f,92/255.0f);
+				}
+
 			} else if (layerState == Layers.SPEED_LAYER) {
 				backFromSpeed ();
 				layerState = Layers.DIFFICULTY_LAYER;
