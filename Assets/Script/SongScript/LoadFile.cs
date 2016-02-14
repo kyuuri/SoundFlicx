@@ -30,6 +30,7 @@ public class LoadFile : MonoBehaviour {
 	private float timeDelay;
 	private bool isFlicking;
 	private float flickDelay = 0.4f;
+	private bool isGrab;
 
 	public List <Mtemplate> Mtems = new List<Mtemplate> ();
 	private List <GameObject> buttonList = new List<GameObject> ();
@@ -47,6 +48,9 @@ public class LoadFile : MonoBehaviour {
 	public Transform Easy_TextLevel;
 	public Transform Normal_TextLevel;
 	public Transform Hard_TextLevel;
+	public Transform Easy_NumLevel;
+	public Transform Normal_NumLevel;
+	public Transform Hard_NumLevel;
 	public Transform Easy_LoadingBar;
 	public Transform Normal_LoadingBar;
 	public Transform Hard_LoadingBar;
@@ -107,6 +111,7 @@ public class LoadFile : MonoBehaviour {
 		isFlicking = false;
 		timeDelay = 0;
 		offset = 5;
+		isGrab = false;
 
 		//song selection controller
 		speedPanelPosition = speedPanel.position;
@@ -249,24 +254,18 @@ public class LoadFile : MonoBehaviour {
 	private void MapGesture(HandList hands){
 
 		Hand rightHand = hands.Rightmost;
-		if (!isFlicking) {
-			CheckFlick (hands);
-		} else if (isFlicking) {
-			timeDelay += Time.deltaTime;
+		if (!isGrab) {
+			if (!isFlicking) {
+				CheckFlick (hands);
+			} else if (isFlicking) {
+				timeDelay += Time.deltaTime;
+			}
+			if (timeDelay >= flickDelay) {
+				timeDelay = 0;
+				isFlicking = false;
+			}
 		}
-		if (timeDelay >= flickDelay) {
-			timeDelay = 0;
-			isFlicking = false;
-		}
-		if (layerState == Layers.NORMAL_LAYER) {
-			FillProgressBar (rightHand);
-		} else if (layerState == Layers.SPEED_LAYER) {
-			FillProgressBar (rightHand);
-		} else {
-			FillProgressBar (rightHand);
-		}
-
-
+		FillProgressBar (rightHand);
 	}
 	private void CheckFlick(HandList hands){
 		Hand rightHand = hands.Rightmost;
@@ -301,10 +300,12 @@ public class LoadFile : MonoBehaviour {
 			if (rightHandYaw > 1.2f && rightHand.PalmVelocity.x > speed && rightHand.IsRight) {
 				isFlicking = true;
 				this.increaseLevel ();
+				currentAmount = 0;
 			}
 			if (leftHandYaw > 1.2f && leftHand.PalmVelocity.x < -speed && leftHand.IsLeft) {
 				isFlicking = true;
 				this.decreaseLevel ();
+				currentAmount = 0;
 			}
 			if (level == 1) {
 				Easy_LoadingBar.gameObject.SetActive (true);
@@ -326,15 +327,25 @@ public class LoadFile : MonoBehaviour {
 		if (currentAmount >= 100) {
 			TextLevel.GetComponent<Text> ().text = "Done!";
 			if (layerState == Layers.NORMAL_LAYER) {
-				showSpeed (); 
-			} else if (layerState == Layers.SPEED_LAYER) {
 				showDifficulty ();
+				string temp = descriptionList [indexColorChange];
+				List<string> eachLine = new List<string>();
+				eachLine.AddRange(
+					temp.Split("\n"[0]) );
+				Easy_NumLevel.GetComponent<Text>().text = "Lv. " + eachLine [3];
+				
+				Normal_NumLevel.GetComponent<Text>().text = "Lv. " + eachLine [4];
+				
+				Hard_NumLevel.GetComponent<Text>().text = "Lv. " + eachLine [5];
+			} else if (layerState == Layers.DIFFICULTY_LAYER) {
+				showSpeed (); 
+				
 			} else {
 				changeScene ();
 			}
 
-		} else if (hand.GrabStrength > 0.7) {
-			
+		} else if (hand.GrabStrength == 1) {
+			isGrab = true;
 			currentAmount += progressBarSpeed * Time.deltaTime;
 			if (layerState == Layers.DIFFICULTY_LAYER) {
 				if (level == 1) {
@@ -348,27 +359,51 @@ public class LoadFile : MonoBehaviour {
 				TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
 			}
 		} else {
-			if (currentAmount > 0) {
-				TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
-				currentAmount -= progressBarSpeed * Time.deltaTime;
+			isGrab = false;
+			if(currentAmount <= 0){
+				if (layerState == Layers.DIFFICULTY_LAYER) {
+					if (level == 1) {
+						Easy_TextLevel.GetComponent<Text> ().text = "EASY";
+						Normal_TextLevel.GetComponent<Text> ().text = "NORMAL";
+						Hard_TextLevel.GetComponent<Text> ().text = "HARD";
+					} else if (level == 2) {
+						Easy_TextLevel.GetComponent<Text> ().text = "EASY";
+						Normal_TextLevel.GetComponent<Text> ().text = "NORMAL";
+						Hard_TextLevel.GetComponent<Text> ().text = "HARD";
+					} else {
+						Easy_TextLevel.GetComponent<Text> ().text = "EASY";
+						Normal_TextLevel.GetComponent<Text> ().text = "NORMAL";
+						Hard_TextLevel.GetComponent<Text> ().text = "HARD";
+					}
+				}
+				
+			} else if (currentAmount > 0) {
+				if (layerState == Layers.DIFFICULTY_LAYER) {
+					if (level == 1) {
+						Easy_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
+					} else if (level == 2) {
+						Normal_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
+					} else {
+						Hard_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
+					}
+				} else {
+					TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
+				}
+				currentAmount -= progressBarSpeed * Time.deltaTime * 2;
 			}
 		}
 
-		if (layerState == Layers.DIFFICULTY_LAYER) {
-			Easy_LoadingBar.GetComponent<UnityEngine.UI.Image>().fillAmount = currentAmount / 100;
-			Normal_LoadingBar.GetComponent<UnityEngine.UI.Image>().fillAmount = currentAmount / 100;
-			Hard_LoadingBar.GetComponent<UnityEngine.UI.Image>().fillAmount = currentAmount / 100;
-		} else {
-			LoadingBar.GetComponent<UnityEngine.UI.Image> ().fillAmount = currentAmount / 100;
-		}
+
+		LoadingBar.GetComponent<UnityEngine.UI.Image> ().fillAmount = currentAmount / 100;
+
 	}
 
 	public void showSpeed (){
 		layerState = Layers.SPEED_LAYER;
 		currentAmount = 0;
-		TextLevel.GetComponent<Text>().text = "kuy";
 		selectedSong ();
 		speedPanel.position = Vector3.Slerp(destination, speedPanelPosition, 5);
+		difficultyPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
 	}
 
 	public void speedUp(){
