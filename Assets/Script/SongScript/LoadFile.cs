@@ -327,18 +327,18 @@ public class LoadFile : MonoBehaviour {
 		if (currentAmount >= 100) {
 			TextLevel.GetComponent<Text> ().text = "Done!";
 			if (layerState == Layers.NORMAL_LAYER) {
-				showSpeed (); 
-			} else if (layerState == Layers.SPEED_LAYER) {
 				showDifficulty ();
 				string temp = descriptionList [indexColorChange];
 				List<string> eachLine = new List<string>();
 				eachLine.AddRange(
 					temp.Split("\n"[0]) );
 				Easy_NumLevel.GetComponent<Text>().text = "Lv. " + eachLine [3];
-
+				
 				Normal_NumLevel.GetComponent<Text>().text = "Lv. " + eachLine [4];
-
+				
 				Hard_NumLevel.GetComponent<Text>().text = "Lv. " + eachLine [5];
+			} else if (layerState == Layers.DIFFICULTY_LAYER) {
+				showSpeed (); 
 				
 			} else {
 				changeScene ();
@@ -403,6 +403,7 @@ public class LoadFile : MonoBehaviour {
 		currentAmount = 0;
 		selectedSong ();
 		speedPanel.position = Vector3.Slerp(destination, speedPanelPosition, 5);
+		difficultyPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
 	}
 
 	public void speedUp(){
