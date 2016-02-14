@@ -30,6 +30,10 @@ public class LoadFile : MonoBehaviour {
 	private float timeDelay;
 	private bool isFlicking;
 	private float flickDelay = 0.4f;
+
+	private float cancel_timeDelay;
+	private bool cancel_isFlicking;
+	private float cancel_flickDelay = 0.4f;
 	private bool isGrab;
 
 	public List <Mtemplate> Mtems = new List<Mtemplate> ();
@@ -110,6 +114,8 @@ public class LoadFile : MonoBehaviour {
 		controller = new Leap.Controller ();
 		isFlicking = false;
 		timeDelay = 0;
+		cancel_isFlicking = false;
+		cancel_timeDelay = 0;
 		offset = 5;
 		isGrab = false;
 
@@ -254,6 +260,19 @@ public class LoadFile : MonoBehaviour {
 	private void MapGesture(HandList hands){
 
 		Hand rightHand = hands.Rightmost;
+		Hand leftHand = hands.Leftmost;
+
+		if (!cancel_isFlicking) {
+			ManageCancelMotion (rightHand, leftHand);
+		} else if (cancel_isFlicking) {
+			cancel_timeDelay += Time.deltaTime;
+		}
+		if (cancel_timeDelay >= cancel_flickDelay) {
+			cancel_timeDelay = 0;
+			cancel_isFlicking = false;
+		}
+
+
 		if (!isGrab) {
 			if (!isFlicking) {
 				CheckFlick (hands);
@@ -267,42 +286,40 @@ public class LoadFile : MonoBehaviour {
 		}
 		FillProgressBar (rightHand);
 	}
+
 	private void CheckFlick(HandList hands){
 		Hand rightHand = hands.Rightmost;
 		Hand leftHand = hands.Leftmost;
 
-		float rightHandYaw = rightHand.Direction.Yaw * offset;
-		float leftHandYaw = leftHand.Direction.Yaw * offset * -1;
-
-		float speed = 120;
 
 		if (layerState == Layers.NORMAL_LAYER) {
-			if (rightHandYaw > 1.2f && rightHand.PalmVelocity.x > speed && rightHand.IsRight) {
+			if (isSwipeRight(rightHand)) {
 				isFlicking = true;
 				this.selectedListDown ();
 			}
-			if (leftHandYaw > 1.2f && leftHand.PalmVelocity.x < -speed && leftHand.IsLeft) {
+			if (isSwipeLeft(leftHand)) {
 				isFlicking = true;
 				this.selectedListUp ();
 			}
 		} else if (layerState == Layers.SPEED_LAYER) {
-
-			if (rightHandYaw > 1.2f && rightHand.PalmVelocity.x > speed && rightHand.IsRight) {
+		
+			if (isSwipeRight (rightHand)) {
 				isFlicking = true;
 				this.speedUp ();
 			}
-			if (leftHandYaw > 1.2f && leftHand.PalmVelocity.x < -speed && leftHand.IsLeft) {
+			if (isSwipeLeft (leftHand)) {
 				isFlicking = true;
 				this.speedDown ();
 			}
+
 		} else {
 
-			if (rightHandYaw > 1.2f && rightHand.PalmVelocity.x > speed && rightHand.IsRight) {
-				isFlicking = true;
-				this.increaseLevel ();
-				currentAmount = 0;
+			if (isSwipeRight(rightHand)) {
+			isFlicking = true;
+			this.increaseLevel ();
+			currentAmount = 0;
 			}
-			if (leftHandYaw > 1.2f && leftHand.PalmVelocity.x < -speed && leftHand.IsLeft) {
+			if (isSwipeLeft(leftHand)) {
 				isFlicking = true;
 				this.decreaseLevel ();
 				currentAmount = 0;
@@ -320,6 +337,7 @@ public class LoadFile : MonoBehaviour {
 				Normal_LoadingBar.gameObject.SetActive (false);
 				Hard_LoadingBar.gameObject.SetActive (true);
 			}
+
 		}
 	}
 
@@ -398,6 +416,32 @@ public class LoadFile : MonoBehaviour {
 
 	}
 
+	private void ManageCancelMotion (Hand rightHand, Hand leftHand){
+		if (isSwipeRight (rightHand) && isSwipeLeft (leftHand)) {
+			cancel_isFlicking = true;
+			if (layerState == Layers.DIFFICULTY_LAYER) {
+				backFromDifficulty ();
+				layerState = Layers.NORMAL_LAYER;
+			} else if (layerState == Layers.SPEED_LAYER) {
+				backFromSpeed ();
+				layerState = Layers.DIFFICULTY_LAYER;
+			} else {
+				
+			}
+		}
+	}
+	private bool isSwipeRight(Hand hand){
+		float speed = 120;
+		float yaw = hand.Direction.Yaw * offset;
+		return yaw > 1.2f && hand.PalmVelocity.x > speed && hand.IsRight;
+	}
+
+	private bool isSwipeLeft(Hand hand){
+		float speed = 120;
+		float yaw = hand.Direction.Yaw * offset * -1;
+		return yaw > 1.2f && hand.PalmVelocity.x < -speed && hand.IsLeft;
+	}
+		
 	public void showSpeed (){
 		layerState = Layers.SPEED_LAYER;
 		currentAmount = 0;
@@ -423,6 +467,7 @@ public class LoadFile : MonoBehaviour {
 
 	public void backFromSpeed(){
 		speedPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
+		difficultyPanel.position = Vector3.Slerp(destination, difficultyPanelPosition, 5);
 	}
 
 	public void showDifficulty(){
@@ -433,7 +478,7 @@ public class LoadFile : MonoBehaviour {
 	}
 
 	public void backFromDifficulty(){
-		difficultyPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
+		difficultyPanel.position = Vector3.Slerp (difficultyPanel.position, destination,5);
 	}
 
 	public int getLevel(){
