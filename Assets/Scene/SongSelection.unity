@@ -156,7 +156,7 @@ MonoBehaviour:
   Normal_LoadingBar: {fileID: 1833374847}
   Hard_LoadingBar: {fileID: 1896988974}
   currentAmount: 0
-  progressBarSpeed: 30
+  progressBarSpeed: 50
   panel: {fileID: 1728113899}
   speedPanel: {fileID: 1623757549}
   difficultyPanel: {fileID: 695550558}
@@ -523,7 +523,6 @@ GameObject:
   - 222: {fileID: 185032881}
   - 114: {fileID: 185032880}
   - 114: {fileID: 185032879}
-  - 114: {fileID: 185032878}
   m_Layer: 5
   m_Name: HardProcessBar
   m_TagString: Untagged
@@ -550,21 +549,6 @@ RectTransform:
   m_AnchoredPosition: {x: -40, y: 40}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &185032878
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 185032876}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bbadb9de57b07a4299a25e39ffbe603, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LoadingBar: {fileID: 0}
-  TextLevel: {fileID: 0}
-  currentAmount: 0
-  speed: 0
 --- !u!114 &185032879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2066,7 +2050,6 @@ GameObject:
   - 222: {fileID: 1220675129}
   - 114: {fileID: 1220675128}
   - 114: {fileID: 1220675127}
-  - 114: {fileID: 1220675126}
   m_Layer: 5
   m_Name: NormalProcessBar
   m_TagString: Untagged
@@ -2093,21 +2076,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 40}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &1220675126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1220675124}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bbadb9de57b07a4299a25e39ffbe603, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LoadingBar: {fileID: 0}
-  TextLevel: {fileID: 0}
-  currentAmount: 0
-  speed: 0
 --- !u!114 &1220675127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3197,7 +3165,6 @@ GameObject:
   - 222: {fileID: 1838707446}
   - 114: {fileID: 1838707445}
   - 114: {fileID: 1838707444}
-  - 114: {fileID: 1838707443}
   m_Layer: 5
   m_Name: EasyProcessBar
   m_TagString: Untagged
@@ -3224,21 +3191,6 @@ RectTransform:
   m_AnchoredPosition: {x: 40, y: 40}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &1838707443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1838707441}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bbadb9de57b07a4299a25e39ffbe603, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LoadingBar: {fileID: 0}
-  TextLevel: {fileID: 0}
-  currentAmount: 0
-  speed: 0
 --- !u!114 &1838707444
 MonoBehaviour:
   m_ObjectHideFlags: 0
