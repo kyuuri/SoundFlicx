@@ -152,6 +152,9 @@ MonoBehaviour:
   Easy_TextLevel: {fileID: 181001244}
   Normal_TextLevel: {fileID: 580040875}
   Hard_TextLevel: {fileID: 601614151}
+  Easy_NumLevel: {fileID: 2141368431}
+  Normal_NumLevel: {fileID: 1998215006}
+  Hard_NumLevel: {fileID: 1148699489}
   Easy_LoadingBar: {fileID: 131302310}
   Normal_LoadingBar: {fileID: 1833374847}
   Hard_LoadingBar: {fileID: 1896988974}
