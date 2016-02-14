@@ -23,23 +23,22 @@ public class ResultScript : MonoBehaviour {
 
 		resultScore = GlobalData.result;
 		track = GlobalData.selectedTrack;
-		Debug.Log (track.songName);
+
 		if (track.songName == null) {
 			songName.text = "THE CLEAR BLUE SKY";
 			difficulty.text = "EASY";
 		} else {
-			songName.text = track.songName;
-			difficulty.text = track.difficulty+"";
+			songName.text = track.songName.Replace("_"," ") + " - " + track.composer;
+			difficulty.text = track.difficulty + " (" + track.level + ")";
 		}
-		if (difficulty.text == "EASY") {
+		if (difficulty.text.Contains("EASY")) {
 			difficulty.color = new Color (19 / 255f, (255 / 255f), 0f, 1f);
-		} else if (difficulty.text == "NORMAL") {
+		} else if (difficulty.text.Contains("NORMAL")) {
 			difficulty.color = new Color (255 / 255f, (247 / 255f), 0f, 1f);
-		} else if (difficulty.text == "HARD") {
+		} else if (difficulty.text.Contains("HARD")) {
 			difficulty.color = new Color (255 / 255f, (23 / 255f), 0f, 1f);
 		}
-
-		Debug.Log (resultScore.score);
+			
 
 		finalScore.text = resultScore.score+"";
 		fantastic.text =   resultScore.fantastic+"";
