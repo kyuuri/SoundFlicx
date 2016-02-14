@@ -11402,6 +11402,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1071181903}
+--- !u!1 &1086733218 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100004, guid: 70f9aeb18d2994647b89fbd439e57ad4, type: 2}
+  m_PrefabInternal: {fileID: 315027140}
+--- !u!114 &1086733224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1086733218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd8e812473cfce0478b5929354df611a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 138396, guid: 65209a47e4d596d4d9a3879388d665de, type: 2}
+  numberOfObjects: 300
+  add: {x: 0, y: 8.8, z: 0}
+  scale: 5
+  cube: []
 --- !u!1 &1119702142
 GameObject:
   m_ObjectHideFlags: 0
@@ -24339,12 +24359,12 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.4
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
-  Priority: 128
+  Priority: 192
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500

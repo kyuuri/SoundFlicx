@@ -4,7 +4,7 @@ using System.Collections;
 public class Runner : MonoBehaviour {
 
 	public Transform camera;
-	public static float speed = 5 * 2 * GlobalData.speed;
+	public static float speed = 5 * GlobalData.speed;
 
 	void Awake(){
 		Application.targetFrameRate = 60;
