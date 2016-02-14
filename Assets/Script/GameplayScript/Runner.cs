@@ -9,6 +9,7 @@ public class Runner : MonoBehaviour {
 	void Awake(){
 		Application.targetFrameRate = 60;
 		speed = 5 * 2 * GlobalData.speed;
+		camera.transform.position = new Vector3 (0,1,0);
 	}
 
 	// Use this for initialization

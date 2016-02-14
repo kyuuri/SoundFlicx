@@ -20,6 +20,7 @@ public class ComboScript : MonoBehaviour {
 
 	void Start () {
 		comboText.text = "";
+		isShrinking = false;
 		scale = comboText.transform.localScale;
 	}
 

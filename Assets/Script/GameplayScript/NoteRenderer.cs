@@ -18,6 +18,7 @@ public class NoteRenderer : MonoBehaviour {
 
 		//InvokeRepeating("GenTestNote", 0.3f, 0.46875f);
 		GenerateNoteFromMidi("");
+		GlobalData.result = new ResultScore ();
 	}
 
 	// Use this for initialization

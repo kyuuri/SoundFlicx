@@ -20,6 +20,7 @@ public class JudgeScript : MonoBehaviour {
 
 	void Start () {
 		judgeText.text = "";
+		isJumping = false;
 		pos = judgeText.transform.position;
 	}
 
