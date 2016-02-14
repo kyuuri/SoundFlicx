@@ -25,15 +25,15 @@ public class ResultScript : MonoBehaviour {
 
 		Debug.Log (resultScore.score);
 
-		finalScore.text = "FINAL SCORE "+resultScore.score;
-		fantastic.text =  "FANTASTIC   " + resultScore.fantastic;
-		great.text = "GREAT       " + resultScore.great;
-		good.text = "GOOD        " + resultScore.good;
-		miss.text = "MISS        " + resultScore.miss;
-		maxCombo.text =  "MAX COMBO   " + resultScore.maxCombo;
+		finalScore.text = resultScore.score+"";
+		fantastic.text =   resultScore.fantastic+"";
+		great.text =  resultScore.great+"";
+		good.text =  resultScore.good+"";
+		miss.text =  resultScore.miss+"";
+		maxCombo.text =  resultScore.maxCombo+"";
 		songName.text = track.songName;
-		rank.text = "Rank   " + resultScore.getRank ();
-		accuracy.text = "Accuracy " + resultScore.getAccuracy ();
+		rank.text =  resultScore.getRank ();
+		accuracy.text =  resultScore.getAccuracy ()+"";
 	
 	}
 	
