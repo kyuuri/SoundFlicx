@@ -5,7 +5,7 @@ public class Track : MonoBehaviour {
 
 	public string songName;
 	public string composer;
-	public Difficulty difficulty;
+	public Difficulty difficulty = Difficulty.EASY;
 	public int level;
 	public float bpm;
 	public float offset;

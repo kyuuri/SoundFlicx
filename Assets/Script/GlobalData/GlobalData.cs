@@ -8,6 +8,6 @@ public static class GlobalData {
 	public static ResultScore result = new ResultScore();
 	public static List <string> descriptionList = new List<string> ();
 	public static int songIndex;
-	public static float speed;
+	public static float speed = 2.0f;
 
 }

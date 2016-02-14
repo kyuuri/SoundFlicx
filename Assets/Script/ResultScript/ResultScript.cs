@@ -13,6 +13,7 @@ public class ResultScript : MonoBehaviour {
 	public Text songName;
 	public Text rank;
 	public Text accuracy;
+	public Text difficulty;
 	public Texture2D image;
 	private ResultScore resultScore;
 	private Track track;
@@ -22,7 +23,14 @@ public class ResultScript : MonoBehaviour {
 
 		resultScore = GlobalData.result;
 		track = GlobalData.selectedTrack;
-
+		Debug.Log (track.songName);
+		if (track.songName == null) {
+			songName.text = "THE CLEAR BLUE SKY";
+			difficulty.text = "EASY";
+		} else {
+			songName.text = track.songName;
+			difficulty.text = track.difficulty+"";
+		}
 		Debug.Log (resultScore.score);
 
 		finalScore.text = resultScore.score+"";
@@ -31,10 +39,10 @@ public class ResultScript : MonoBehaviour {
 		good.text =  resultScore.good+"";
 		miss.text =  resultScore.miss+"";
 		maxCombo.text =  resultScore.maxCombo+"";
-		songName.text = track.songName;
+		float accuractNumber = resultScore.getAccuracy ()*10; 
+		accuracy.text =  string.Format("{0:0.0}", Mathf.Round(accuractNumber)/10f);
 		rank.text =  resultScore.getRank ();
-		accuracy.text =  resultScore.getAccuracy ()+"";
-	
+
 	}
 	
 	// Update is called once per frame
