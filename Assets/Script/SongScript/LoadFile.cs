@@ -24,6 +24,13 @@ public class LoadFile : MonoBehaviour {
 		DIFFICULTY_LAYER = 2
 	};
 
+	public AudioSource selectSound;
+	public AudioSource currentSong;
+
+	private float delayTrack = 0.0f;
+
+	private float delayScene = 0.0f;
+	private bool goingNext = false;
 
 	private Leap.Controller controller;
 	public float offset;
@@ -90,6 +97,7 @@ public class LoadFile : MonoBehaviour {
 	}
 
 	public void Start(){
+		delayScene = 0.0f;
 		layerState = Layers.NORMAL_LAYER;
 		foreach (Mtemplate temp in Mtems) {
 			buttonList.Add(CreateButton (temp));
@@ -131,13 +139,34 @@ public class LoadFile : MonoBehaviour {
 		speedPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
 		difficultyPanelPosition = difficultyPanel.position;
 		difficultyPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
+
+		string songName = nameList [indexColorChange];
+		currentSong.clip = Resources.Load ("Tracks/" + songName + "/audio.mp3") as AudioClip;
+		delayTrack = 0.0f;
+		if (delayTrack >= 0.5f) {
+			currentSong.Play ();
+		}
 	}
 
 	void Update(){
+		delayTrack += Time.deltaTime;
+
 		Frame frame = controller.Frame ();
 		HandList hands = frame.Hands;
 
 		MapGesture (hands);
+
+		if (goingNext) {
+			delayScene += Time.deltaTime;
+		}
+
+		if (delayScene >= 0.8f) {
+			UnityEngine.Application.LoadLevel("Gameplay");
+		}
+
+		if (delayTrack >= 0.5f && !currentSong.isPlaying) {
+			currentSong.Play ();
+		}
 
 	}
 	public void selectedListDown(){
@@ -148,6 +177,11 @@ public class LoadFile : MonoBehaviour {
 				buttonList [indexColorChange - 1].GetComponent<UnityEngine.UI.Image> ().color = new Color (1, 1, 1, 1);
 
 				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x - 215, contentPanel.localPosition.y);
+
+				string songName = nameList [indexColorChange];
+				currentSong.clip = Resources.Load ("Tracks/" + songName + "/audio.mp3") as AudioClip;
+				delayTrack = 0.0f;
+
 //				buttonList.RemoveAt (indexColorChange - 1);
 //				sampleButonList.RemoveAt (indexColorChange - 1);
 //				contentPanel.
@@ -166,6 +200,10 @@ public class LoadFile : MonoBehaviour {
 				buttonList [indexColorChange].GetComponent<UnityEngine.UI.Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
 				buttonList [indexColorChange + 1].GetComponent<UnityEngine.UI.Image> ().color = new Color (1, 1, 1, 1);
 				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x + 215, contentPanel.localPosition.y);
+
+				string songName = nameList [indexColorChange];
+				currentSong.clip = Resources.Load ("Tracks/" + songName + "/audio.mp3") as AudioClip;
+				delayTrack = 0.0f;
 			} else {
 				++indexColorChange;
 			}
@@ -303,32 +341,38 @@ public class LoadFile : MonoBehaviour {
 			if (isSwipeRight(rightHand)) {
 				isFlicking = true;
 				this.selectedListDown ();
+				selectSound.Play ();
 			}
 			if (isSwipeLeft(leftHand)) {
 				isFlicking = true;
 				this.selectedListUp ();
+				selectSound.Play ();
 			}
 		} else if (layerState == Layers.SPEED_LAYER) {
 		
 			if (isSwipeRight (rightHand)) {
 				isFlicking = true;
 				this.speedUp ();
+				selectSound.Play ();
 			}
 			if (isSwipeLeft (leftHand)) {
 				isFlicking = true;
 				this.speedDown ();
+				selectSound.Play ();
 			}
 
 		} else {
 
 			if (isSwipeRight(rightHand)) {
-			isFlicking = true;
-			this.increaseLevel ();
-			currentAmount = 0;
+				isFlicking = true;
+				this.increaseLevel ();
+				selectSound.Play ();
+				currentAmount = 0;
 			}
 			if (isSwipeLeft(leftHand)) {
 				isFlicking = true;
 				this.decreaseLevel ();
+				selectSound.Play ();
 				currentAmount = 0;
 			}
 			if (level == 1) {
@@ -360,6 +404,9 @@ public class LoadFile : MonoBehaviour {
 	private void FillProgressBar(Hand hand){
 		if (currentAmount >= 100) {
 			TextLevel.GetComponent<Text> ().text = "Done!";
+			if (!GetComponent<AudioSource> ().isPlaying) {
+				GetComponent<AudioSource> ().Play ();
+			}
 			if (layerState == Layers.NORMAL_LAYER) {
 
 				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x - 260 + indexColorChange * 214.8f, contentPanel.localPosition.y);
@@ -578,6 +625,6 @@ public class LoadFile : MonoBehaviour {
 
 		GlobalData.speed = speed;
 
-		UnityEngine.Application.LoadLevel("Gameplay");
+		goingNext = true;
 	}
 }
