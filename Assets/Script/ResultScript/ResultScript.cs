@@ -31,18 +31,48 @@ public class ResultScript : MonoBehaviour {
 			songName.text = track.songName;
 			difficulty.text = track.difficulty+"";
 		}
+		if (difficulty.text == "EASY") {
+			difficulty.color = new Color (19 / 255f, (255 / 255f), 0f, 1f);
+		} else if (difficulty.text == "NORMAL") {
+			difficulty.color = new Color (255 / 255f, (247 / 255f), 0f, 1f);
+		} else if (difficulty.text == "HARD") {
+			difficulty.color = new Color (255 / 255f, (23 / 255f), 0f, 1f);
+		}
+
 		Debug.Log (resultScore.score);
 
 		finalScore.text = resultScore.score+"";
 		fantastic.text =   resultScore.fantastic+"";
+		fantastic.color = Color.Lerp(Color.white, Color.yellow, 0.4f);
 		great.text =  resultScore.great+"";
+		great.color = Color.Lerp(Color.white, Color.green, 0.4f);
 		good.text =  resultScore.good+"";
+		good.color = Color.Lerp(Color.white, Color.blue, 0.5f);
 		miss.text =  resultScore.miss+"";
 		maxCombo.text =  resultScore.maxCombo+"";
 		float accuractNumber = resultScore.getAccuracy ()*10; 
 		accuracy.text =  string.Format("{0:0.0}", Mathf.Round(accuractNumber)/10f);
-		rank.text =  resultScore.getRank ();
 
+		string ranking =  resultScore.getRank ();
+		rank.text = ranking;
+		if (ranking == "C") {
+			rank.color = Color.green;
+		} else if (ranking == "B") {
+			rank.color = Color.blue;
+		} else if (ranking == "A") {
+			rank.color = Color.yellow;
+		} else if (ranking == "S" || ranking == "SS" || ranking == "SSS") {
+			rank.color =  new Color (255/255f, (200/255f), 0f,1f);
+		}
+
+	}
+
+	public void retry(){
+		UnityEngine.Application.LoadLevel("Gameplay");
+	}
+
+	public void done(){
+		UnityEngine.Application.LoadLevel("SongSelection");
 	}
 	
 	// Update is called once per frame
