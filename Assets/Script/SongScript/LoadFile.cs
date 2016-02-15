@@ -32,6 +32,8 @@ public class LoadFile : MonoBehaviour {
 	private float delayScene = 0.0f;
 	private bool goingNext = false;
 
+	private bool okToChange;
+
 	private Leap.Controller controller;
 	public float offset;
 	private float timeDelay;
@@ -100,6 +102,7 @@ public class LoadFile : MonoBehaviour {
 	}
 
 	public void Start(){
+		okToChange = true;
 		delayScene = 0.0f;
 		layerState = Layers.NORMAL_LAYER;
 		for (int i = 0; i < GlobalData.textFile.Length; i++) {
@@ -475,7 +478,10 @@ public class LoadFile : MonoBehaviour {
 				showSpeed (); 
 				
 			} else {
-				changeScene ();
+				if(okToChange){
+					changeScene ();
+				}
+				okToChange = false;
 			}
 
 		} else if (hand.GrabStrength == 1) {
@@ -649,6 +655,7 @@ public class LoadFile : MonoBehaviour {
 			level = int.Parse (eachLine [5]);
 		}
 
+		Debug.Log (difficult);
 		Track track = new Track(nameList[index],eachLine[1], difficult,level, float.Parse(eachLine[2]));
 		GlobalData.selectedTrack = track;
 
