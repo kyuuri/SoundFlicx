@@ -21,7 +21,7 @@ public class SoundPlayer : MonoBehaviour {
 			//songName = "Test";
 			songName = "The_Clear_Blue_Sky";
 		}
-		source.clip = Resources.Load ("Tracks/" + songName + "/audio.mp3") as AudioClip;
+		source.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
 	}
 
 	void Update () {

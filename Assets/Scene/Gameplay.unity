@@ -6794,7 +6794,7 @@ RectTransform:
   m_RootOrder: 7
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -337.3, y: 103.2}
+  m_AnchoredPosition: {x: -345, y: 103.2}
   m_SizeDelta: {x: 1000, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &180219058
@@ -6864,7 +6864,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &187106988
 Transform:
   m_ObjectHideFlags: 0
@@ -16127,7 +16127,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fastParticle: {fileID: 1985742118}
-  farRing: {fileID: 2117390044}
   fastParticle2: {fileID: 1455998247}
 --- !u!1 &465225495
 GameObject:
@@ -19263,7 +19262,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 495487500}
   m_LocalRotation: {x: -0.000000115202326, y: 0.7071067, z: -0.7071068, w: -0.00000011520231}
-  m_LocalPosition: {x: 246, y: 125.7, z: 0}
+  m_LocalPosition: {x: 255, y: 125.7, z: 0}
   m_LocalScale: {x: 24, y: 0, z: 9}
   m_Children: []
   m_Father: {fileID: 1430229340}
@@ -30537,7 +30536,7 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 334, y: 148}
+  m_AnchoredPosition: {x: 343, y: 148}
   m_SizeDelta: {x: 1000, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &743253446
@@ -35324,7 +35323,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 805095878}
   m_LocalRotation: {x: -0.000000115202326, y: 0.7071067, z: -0.7071068, w: -0.00000011520231}
-  m_LocalPosition: {x: -246, y: 125.7, z: 0}
+  m_LocalPosition: {x: -254, y: 125.7, z: 0}
   m_LocalScale: {x: 24, y: 0, z: 9}
   m_Children: []
   m_Father: {fileID: 1430229340}
@@ -43102,7 +43101,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1169351117}
   m_LocalRotation: {x: 1, y: 0, z: 0, w: -0.00000016292324}
-  m_LocalPosition: {x: 0, y: 0, z: 0.5}
+  m_LocalPosition: {x: 0, y: -1, z: 0.42}
   m_LocalScale: {x: 0.4, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 1320733190}
@@ -46452,7 +46451,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1310095561}
   m_LocalRotation: {x: 0.99999994, y: 0, z: 0, w: 0.00043616956}
-  m_LocalPosition: {x: 0, y: 0.26179984, z: 0.49999988}
+  m_LocalPosition: {x: 0, y: -1, z: 0.42}
   m_LocalScale: {x: 0.4, y: 0.1, z: 1.0004559}
   m_Children: []
   m_Father: {fileID: 727322407}
@@ -52956,7 +52955,7 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1455998244}
   serializedVersion: 2
-  lengthInSec: 2
+  lengthInSec: 1
   startDelay:
     scalar: 0
     maxCurve:
@@ -52994,7 +52993,7 @@ ParticleSystem:
     minMaxState: 0
   speed: 1
   randomSeed: 0
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 0
   moveWithTransform: 1
@@ -57569,7 +57568,7 @@ RectTransform:
   m_RootOrder: 3
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 275, y: 109}
+  m_AnchoredPosition: {x: 284, y: 109}
   m_SizeDelta: {x: 1000, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1479414793
@@ -60915,7 +60914,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1566950634}
   m_LocalRotation: {x: 0.99999994, y: 0, z: 0, w: 0.00043616956}
-  m_LocalPosition: {x: 0, y: 0.26179984, z: 0.49999988}
+  m_LocalPosition: {x: 0, y: -1, z: 0.42}
   m_LocalScale: {x: 0.4, y: 0.1, z: 1.0004559}
   m_Children: []
   m_Father: {fileID: 1248486526}
@@ -64285,7 +64284,7 @@ RectTransform:
   m_RootOrder: 8
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -334, y: 148}
+  m_AnchoredPosition: {x: -342, y: 148}
   m_SizeDelta: {x: 1000, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1676020733
@@ -72159,7 +72158,7 @@ RectTransform:
   m_RootOrder: 6
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -328.8, y: 124.3}
+  m_AnchoredPosition: {x: -337, y: 124.3}
   m_SizeDelta: {x: 1000, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1917143217
@@ -73845,7 +73844,7 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1985742115}
   serializedVersion: 2
-  lengthInSec: 2
+  lengthInSec: 1
   startDelay:
     scalar: 0
     maxCurve:

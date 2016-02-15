@@ -4,7 +4,6 @@ using System.Collections;
 public class ParticleTimer : MonoBehaviour {
 
 	public ParticleSystem fastParticle;
-	public ParticleSystem farRing;
 	public ParticleSystem fastParticle2;
 
 	// Use this for initialization
@@ -19,12 +18,14 @@ public class ParticleTimer : MonoBehaviour {
 				fastParticle.Play ();
 			}
 		}
+		/*
 		if (TimerScript.timePass > 30.2) {
 			if (!farRing.isPlaying) {
 				farRing.Play ();
 			}
 		}
-		if (TimerScript.timePass > 45.0) {
+		*/
+		if (TimerScript.timePass > 30.2) {
 			if (!fastParticle2.isPlaying) {
 				fastParticle2.Play ();
 			}

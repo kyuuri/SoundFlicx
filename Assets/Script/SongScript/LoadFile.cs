@@ -93,15 +93,24 @@ public class LoadFile : MonoBehaviour {
 
 	public void Awake ()
 	{
-		GetFiles ();
+		//GetFiles ();
 	}
 
 	public void Start(){
 		delayScene = 0.0f;
 		layerState = Layers.NORMAL_LAYER;
-		foreach (Mtemplate temp in Mtems) {
-			buttonList.Add(CreateButton (temp));
+		for (int i = 0; i < GlobalData.textFile.Length; i++) {
+			string[] spt = GlobalData.textFile[i].Split(',');
+			Mtemplate mt = new Mtemplate ();
+			mt.M_Name = spt [0];
+			buttonList.Add (CreateButton(mt, GlobalData.textFile [i]));
 		}
+		//for (int i = 0; i < Mtems.Count; i++) {
+		//	buttonList.Add (CreateButton(Mtems [i], GlobalData.textFile [i]));
+		//}
+		//foreach (Mtemplate temp in Mtems) {
+		//	buttonList.Add(CreateButton (temp));
+		//}
 
 		for (int i = 0; i < 4; i++) {
 			parBox [i].startColor = new Color (236/255.0f,213/255.0f,92/255.0f);
@@ -141,7 +150,7 @@ public class LoadFile : MonoBehaviour {
 		difficultyPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
 
 		string songName = nameList [indexColorChange];
-		currentSong.clip = Resources.Load ("Tracks/" + songName + "/audio.mp3") as AudioClip;
+		currentSong.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
 		delayTrack = 0.0f;
 		if (delayTrack >= 0.5f) {
 			currentSong.Play ();
@@ -179,7 +188,7 @@ public class LoadFile : MonoBehaviour {
 				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x - 215, contentPanel.localPosition.y);
 
 				string songName = nameList [indexColorChange];
-				currentSong.clip = Resources.Load ("Tracks/" + songName + "/audio.mp3") as AudioClip;
+				currentSong.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
 				delayTrack = 0.0f;
 
 //				buttonList.RemoveAt (indexColorChange - 1);
@@ -202,7 +211,7 @@ public class LoadFile : MonoBehaviour {
 				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x + 215, contentPanel.localPosition.y);
 
 				string songName = nameList [indexColorChange];
-				currentSong.clip = Resources.Load ("Tracks/" + songName + "/audio.mp3") as AudioClip;
+				currentSong.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
 				delayTrack = 0.0f;
 			} else {
 				++indexColorChange;
@@ -212,14 +221,26 @@ public class LoadFile : MonoBehaviour {
 
 	private void GetFiles ()
 	{
+		//string filePath = System.IO.Path.Combine (Application.streamingAssetsPath, Root_Path);
+		//if (Application.platform == RuntimePlatform.WindowsPlayer) {
+		//}
 		FileInfo[] Files = new DirectoryInfo (Application.dataPath + "/Resources/" + Root_Path).GetFiles ();
+
+
+		//FileInfo[] Files = new DirectoryInfo (Application.streamingAssetsPath + "/Resources/" + Root_Path).GetFiles ();
+		//Debug.Log (filePath);
+		//FileInfo[] Files = new DirectoryInfo (filePath).GetFiles ();
+
+		//Debug.Log (Application.streamingAssetsPath + "/Resources/" + Root_Path);
+		//FileInfo[] Files =(FileInfo)Resources.LoadAll("Tracks");
 
 		foreach (FileInfo File in Files) {
 
 			if (Path.GetExtension (File.FullName) == ".meta") {
 				string FileName = (Path.GetFileNameWithoutExtension (File.Name));
 				string Dir = Application.dataPath + "/Resources/" + Root_Path + "/" + FileName;
-
+				//string Dir = Application.streamingAssetsPath + "/Resources/" + Root_Path + "/" + FileName;
+				//string Dir = filePath+"/"+FileName;
 				Mtemplate temp = AddIt(new DirectoryInfo (Dir).GetFiles (), Root_Path + "/" + FileName, FileName);
 
 				Mtems.Add (temp);
@@ -227,6 +248,9 @@ public class LoadFile : MonoBehaviour {
 			}
 
 		}
+
+
+
 	}
 
 	Mtemplate AddIt (FileInfo [] Files, string Root_Path, string fileName)
@@ -239,7 +263,7 @@ public class LoadFile : MonoBehaviour {
 			if (Path.GetExtension (Item.FullName) == ".mp3") {
 
 				//New_Tem.M_Music = (AudioClip) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/Resources/" + Root_Path + "/" + Item.Name, typeof(AudioClip));
-				New_Tem.M_Music = (AudioClip) Resources.Load ( Root_Path + "/" + "audio.mp3", typeof(AudioClip));
+				New_Tem.M_Music = (AudioClip) Resources.Load (Root_Path + "/" + "audio.mp3", typeof(AudioClip));
 			} else if (Path.GetExtension (Item.FullName) == ".png") {
 
 				//New_Tem.M_Texture = (Texture2D) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/Resources/" + Root_Path + "/" + Item.Name, typeof(Texture2D));
@@ -248,7 +272,7 @@ public class LoadFile : MonoBehaviour {
 			} else if (Path.GetExtension (Item.FullName) == ".txt") {
 
 				//New_Tem.M_Text = (TextAsset) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/Resources/" + Root_Path + "/" + Item.Name, typeof(TextAsset));
-				New_Tem.M_Text = (TextAsset) Resources.Load (Root_Path + "/" + "data", typeof(TextAsset));
+				//New_Tem.M_Text = (TextAsset) Resources.Load (Root_Path + "/" + "data", typeof(TextAsset));
 				//				Debug.Log ("Read TXT = " + New_Tem.M_Text.text);
 			} 
 		}
@@ -257,29 +281,28 @@ public class LoadFile : MonoBehaviour {
 	}
 		
 
-	private GameObject CreateButton(Mtemplate temp){
-
+	private GameObject CreateButton(Mtemplate temp, string text){
 //		foreach (Mtemplate temp in Mtems) {
-			GameObject newButton = Instantiate (sampleButton) as GameObject;
-			SampleButton button = newButton.GetComponent <SampleButton> ();
+		GameObject newButton = Instantiate (sampleButton) as GameObject;
+		SampleButton button = newButton.GetComponent <SampleButton> ();
 
-		if(temp.M_Text != null){
-		string theWholeFileAsOneLongString = temp.M_Text.text;
-		descriptionList.Add (theWholeFileAsOneLongString);
+		//if(temp.M_Text != null){
+		//string theWholeFileAsOneLongString = temp.M_Text.text;
+
+		descriptionList.Add (text);
 		List<string> eachLine = new List<string>();
-		eachLine.AddRange(
-			theWholeFileAsOneLongString.Split(","[0]) );
+
+		eachLine.AddRange(text.Split(","[0]) );
 			button.nameLabel.text = temp.M_Name.Replace("_"," ");
 			nameList.Add (eachLine [0]);
 		button.composer.text = eachLine [1];
 		button.bpm.text = "BPM : "+eachLine [2];
-		}
+		//}
 
 //			Debug.Log ("///// " + temp.M_Name);
 
 
-		button.icon.GetComponent<UnityEngine.UI.Image>().sprite = Sprite.Create(temp.M_Texture,new Rect(0, 0, 256,256), new Vector2(0, 0),100.0f);
-
+		button.icon.GetComponent<UnityEngine.UI.Image> ().sprite = Sprite.Create(Resources.Load (eachLine [0] + "Image") as Texture2D,new Rect(0, 0, 256,256), new Vector2(0, 0),100.0f);
 //			button.button.onClick.AddListener (delegate {
 ////				Debug.Log(temp.M_Name);
 //				ChangeSceen (temp.M_Name);

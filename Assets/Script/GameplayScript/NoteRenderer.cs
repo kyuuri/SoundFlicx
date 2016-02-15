@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NAudio.Midi;
 using NAudio.Utils;
+using System.IO;
 
 public class NoteRenderer : MonoBehaviour {
 
@@ -36,7 +37,12 @@ public class NoteRenderer : MonoBehaviour {
 			songName = "The_Clear_Blue_Sky";
 			GlobalData.selectedTrack.offset = -0.0f;
 		}
-		midi = new MidiFile ("Assets/Resources/Tracks/" + songName + "/midi.bytes");
+		TextAsset asset = Resources.Load (songName + "Midi") as TextAsset;
+		Stream strm = new MemoryStream (asset.bytes);
+		BinaryReader br = new BinaryReader (strm);
+		//midi = new MidiFile ("Assets/Resources/" + songName + "Midi.bytes");
+		midi = new MidiFile(br, false);
+
 		MidiNoteData noteData = MidiFileReader.ParseNote (midi);
 
 		//test, wil be removed later
