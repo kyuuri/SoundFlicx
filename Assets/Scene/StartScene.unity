@@ -8253,7 +8253,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1117068896
 Transform:
   m_ObjectHideFlags: 0
@@ -8507,7 +8507,7 @@ ParticleSystem:
         rgba: 4287898928
       minMaxState: 0
     startSize:
-      scalar: 100
+      scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -9848,7 +9848,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 138396, guid: 65209a47e4d596d4d9a3879388d665de, type: 2}
   numberOfObjects: 100
-  radius: 5
+  add: {x: 0, y: 0, z: 0}
+  scale: 1
   cube: []
 --- !u!1 &1130558769
 GameObject:
