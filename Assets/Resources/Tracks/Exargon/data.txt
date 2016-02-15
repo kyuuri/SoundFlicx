@@ -1,7 +1,1 @@
-Exargon
-5argon & encX
-170
-2
-6
-9
-0.0
+Exargon,5argon & encX,170,2,6,9,0.0

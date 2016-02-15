@@ -238,15 +238,18 @@ public class LoadFile : MonoBehaviour {
 
 			if (Path.GetExtension (Item.FullName) == ".mp3") {
 
-				New_Tem.M_Music = (AudioClip) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/Resources/" + Root_Path + "/" + Item.Name, typeof(AudioClip));
-
+				//New_Tem.M_Music = (AudioClip) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/Resources/" + Root_Path + "/" + Item.Name, typeof(AudioClip));
+				New_Tem.M_Music = (AudioClip) Resources.Load ( Root_Path + "/" + "audio.mp3", typeof(AudioClip));
 			} else if (Path.GetExtension (Item.FullName) == ".png") {
 
-				New_Tem.M_Texture = (Texture2D) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/Resources/" + Root_Path + "/" + Item.Name, typeof(Texture2D));
+				//New_Tem.M_Texture = (Texture2D) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/Resources/" + Root_Path + "/" + Item.Name, typeof(Texture2D));
+				New_Tem.M_Texture = (Texture2D) Resources.Load (Root_Path + "/" + "image", typeof(Texture2D));
+
 			} else if (Path.GetExtension (Item.FullName) == ".txt") {
 
-				New_Tem.M_Text = (TextAsset) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/Resources/" + Root_Path + "/" + Item.Name, typeof(TextAsset));
-//				Debug.Log ("Read TXT = " + New_Tem.M_Text.text);
+				//New_Tem.M_Text = (TextAsset) UnityEditor.AssetDatabase.LoadAssetAtPath ("Assets/Resources/" + Root_Path + "/" + Item.Name, typeof(TextAsset));
+				New_Tem.M_Text = (TextAsset) Resources.Load (Root_Path + "/" + "data", typeof(TextAsset));
+				//				Debug.Log ("Read TXT = " + New_Tem.M_Text.text);
 			} 
 		}
 
@@ -265,9 +268,9 @@ public class LoadFile : MonoBehaviour {
 		descriptionList.Add (theWholeFileAsOneLongString);
 		List<string> eachLine = new List<string>();
 		eachLine.AddRange(
-			theWholeFileAsOneLongString.Split("\n"[0]) );
+			theWholeFileAsOneLongString.Split(","[0]) );
 			button.nameLabel.text = temp.M_Name.Replace("_"," ");
-			nameList.Add (temp.M_Name);
+			nameList.Add (eachLine [0]);
 		button.composer.text = eachLine [1];
 		button.bpm.text = "BPM : "+eachLine [2];
 		}
@@ -436,7 +439,7 @@ public class LoadFile : MonoBehaviour {
 				string temp = descriptionList [indexColorChange];
 				List<string> eachLine = new List<string>();
 				eachLine.AddRange(
-					temp.Split("\n"[0]) );
+					temp.Split(","[0]) );
 				Easy_NumLevel.GetComponent<Text>().text = "Lv. " + eachLine [3];
 				
 				Normal_NumLevel.GetComponent<Text>().text = "Lv. " + eachLine [4];
@@ -604,11 +607,11 @@ public class LoadFile : MonoBehaviour {
 		//List <string> descriptionList = new List<string> ();
 		int index = GlobalData.songIndex;
 		//descriptionList = GlobalData.descriptionList;
-		Debug.Log ("dd : " + descriptionList.Count);
+		//Debug.Log ("dd : " + descriptionList.Count);
 		string temp = descriptionList [index];
 		List<string> eachLine = new List<string>();
 		Difficulty difficult;
-		eachLine.AddRange(temp.Split("\n"[0]) );
+		eachLine.AddRange(temp.Split(","[0]) );
 		if (level == 1) {
 			difficult = Difficulty.EASY;
 			level = int.Parse (eachLine [3]);
