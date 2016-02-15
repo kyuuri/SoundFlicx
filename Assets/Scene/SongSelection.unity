@@ -11418,7 +11418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 138396, guid: 65209a47e4d596d4d9a3879388d665de, type: 2}
-  numberOfObjects: 300
+  numberOfObjects: 244
   add: {x: 0, y: 8.8, z: 0}
   scale: 5
   cube: []
