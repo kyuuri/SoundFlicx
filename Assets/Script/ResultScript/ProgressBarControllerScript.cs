@@ -5,6 +5,12 @@ using Leap;
 
 public class ProgressBarControllerScript : MonoBehaviour {
 
+	public AudioSource confirm;
+	public AudioSource selectB;
+	private bool next = false;
+	private float delay = 0;
+	private string str = "SongSelection";
+
 	private Leap.Controller controller;
 	public Transform Done_LoadingBar;
 	public Transform Retry_LoadingBar;
@@ -32,6 +38,9 @@ public class ProgressBarControllerScript : MonoBehaviour {
 		Done_LoadingBar_Background.gameObject.SetActive (true);
 		Retry_LoadingBar.gameObject.SetActive (false);
 		Retry_LoadingBar_Background.gameObject.SetActive (false);
+
+		next = false;
+		delay = 0;
 	}
 	
 	// Update is called once per frame
@@ -54,12 +63,24 @@ public class ProgressBarControllerScript : MonoBehaviour {
 		} else {
 			FillRetryProgressBar (hand);
 		}
+
+		if (next) {
+			delay += Time.deltaTime;
+		}
+
+		if (delay >= 0.4f) {
+			UnityEngine.Application.LoadLevel (str);
+		}
 	}
 
 	private void FillDoneProgressBar(Hand hand){
 
 		if (doneButton_Amount >= 100) {
-			UnityEngine.Application.LoadLevel("SongSelection");
+			if (!confirm.isPlaying) {
+				confirm.Play ();
+			}
+			next = true;
+			str = "SongSelection";
 		} else if (hand.GrabStrength == 1	) {
 			doneButton_Amount += progressBarSpeed * Time.deltaTime;
 		} else {
@@ -72,7 +93,11 @@ public class ProgressBarControllerScript : MonoBehaviour {
 	private void FillRetryProgressBar(Hand hand){
 
 		if (retryButton_Amount >= 100) {
-			UnityEngine.Application.LoadLevel("Gameplay");
+			if (!confirm.isPlaying) {
+				confirm.Play ();
+			}
+			next = true;
+			str = "Gameplay";
 		} else if (hand.GrabStrength == 1) {
 			retryButton_Amount += progressBarSpeed * Time.deltaTime;
 		} else {
@@ -86,6 +111,9 @@ public class ProgressBarControllerScript : MonoBehaviour {
 		Hand rightHand = hands.Rightmost;
 		Hand leftHand = hands.Leftmost;
 		if (isSwipeRight(rightHand)) {
+			if (!selectB.isPlaying) {
+				selectB.Play ();
+			}
 			Done_LoadingBar.gameObject.SetActive (true);
 			Done_LoadingBar_Background.gameObject.SetActive (true);
 			Retry_LoadingBar.gameObject.SetActive (false);
@@ -94,6 +122,9 @@ public class ProgressBarControllerScript : MonoBehaviour {
 			isFlicking = true;
 		}
 		if (isSwipeLeft(leftHand)) {
+			if (!selectB.isPlaying) {
+				selectB.Play ();
+			}
 			Done_LoadingBar.gameObject.SetActive (false);
 			Done_LoadingBar_Background.gameObject.SetActive (false);
 			Retry_LoadingBar.gameObject.SetActive (true);

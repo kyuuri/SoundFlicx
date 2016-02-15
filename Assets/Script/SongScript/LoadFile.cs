@@ -94,6 +94,9 @@ public class LoadFile : MonoBehaviour {
 	public void Awake ()
 	{
 		//GetFiles ();
+		string[] spt = GlobalData.textFile[0].Split(',');
+		currentSong.clip = Resources.Load (spt[0] + "Audio.mp3") as AudioClip;
+
 	}
 
 	public void Start(){
@@ -149,8 +152,8 @@ public class LoadFile : MonoBehaviour {
 		difficultyPanelPosition = difficultyPanel.position;
 		difficultyPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
 
-		string songName = nameList [indexColorChange];
-		currentSong.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
+//		string songName = nameList [indexColorChange];
+//		currentSong.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
 		delayTrack = 0.0f;
 		if (delayTrack >= 0.5f) {
 			currentSong.Play ();
@@ -435,7 +438,7 @@ public class LoadFile : MonoBehaviour {
 			}
 			if (layerState == Layers.NORMAL_LAYER) {
 
-				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x - 260 + indexColorChange * 214.8f, contentPanel.localPosition.y);
+				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x - 180 + indexColorChange * 214.8f, contentPanel.localPosition.y);
 				for (int i = 0; i < buttonList.Count; i++) {
 					if (i == indexColorChange) {
 						continue;
@@ -446,7 +449,7 @@ public class LoadFile : MonoBehaviour {
 
 				for (int i = 0; i < 4; i++) {
 					Vector3 pos = parBox [i].transform.position;
-					parBox [i].transform.position = new Vector3 (pos.x - 12.2f, pos.y, pos.z);
+					parBox [i].transform.position = new Vector3 (pos.x - 8.5f, pos.y, pos.z);
 				}
 
 
@@ -544,11 +547,11 @@ public class LoadFile : MonoBehaviour {
 					GameObject obj = buttonList [i];
 					obj.active = true;				
 				}
-				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x + 260 - indexColorChange * 214.8f, contentPanel.localPosition.y);
+				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x + 180 - indexColorChange * 214.8f, contentPanel.localPosition.y);
 
 				for (int i = 0; i < 4; i++) {
 					Vector3 pos = parBox [i].transform.position;
-					parBox [i].transform.position = new Vector3 (pos.x + 12.2f, pos.y, pos.z);
+					parBox [i].transform.position = new Vector3 (pos.x + 8.5f, pos.y, pos.z);
 					parBox [i].startColor = new Color (236/255.0f,213/255.0f,92/255.0f);
 				}
 
