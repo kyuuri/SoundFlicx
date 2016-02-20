@@ -15,7 +15,7 @@ public class SFController : MonoBehaviour {
 	private bool isRflicking = false;
 	private bool isLflicking = false;
 
-	private float flickDelay = 0.128f;
+	private float flickDelay = 0.18f;
 
 	private float RDelay = 0;
 	private float LDelay = 0;

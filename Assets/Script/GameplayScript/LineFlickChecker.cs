@@ -23,6 +23,9 @@ public class LineFlickChecker : MonoBehaviour {
 	}
 		
 	void Update () {
+		if (key == "z") {
+			Debug.Log (Input.GetKeyDown(key));
+		}
 
 		Vector3 pos = flickChecker.transform.position;
 		if (Input.GetKeyDown(key)) {
@@ -32,7 +35,7 @@ public class LineFlickChecker : MonoBehaviour {
 
 			laneState = LaneFlickState.Flick;
 		}
-		else if(Input.GetKeyUp (key)){
+		else if(!Input.GetKeyDown(key) || Input.GetKeyUp (key)){
 			Vector3 hidePosition = new Vector3 (firstPosition.x, firstPosition.y - 3.2f, 0);
 			flickChecker.transform.localPosition = hidePosition;
 			laneState = LaneFlickState.NONE;

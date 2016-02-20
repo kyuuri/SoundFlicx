@@ -68,9 +68,9 @@ public class NoteRenderer : MonoBehaviour {
 				note = Instantiate (Resources.Load ("FlickNote")) as GameObject;
 				noteDescription.NoteObject = note;
 				if (noteDescription.Lane <= 1) {
-					note.transform.position = new Vector3 (0.46f, 0.35f, lanePosition [0].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay) - 1.586f/2); //1.586f
+					note.transform.position = new Vector3 (0.46f, 0.35f, lanePosition [0].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay) - 1.586f/2.7f); //1.586f
 				} else {
-					note.transform.position = new Vector3 (-0.46f, 0.35f, lanePosition [3].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay) - 1.586f/2);
+					note.transform.position = new Vector3 (-0.46f, 0.35f, lanePosition [3].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay) - 1.586f/2.7f);
 					note.transform.rotation = Quaternion.Euler(-90.0f,270.0f,-270.0f);
 				}
 			}
