@@ -23,10 +23,6 @@ public class LineFlickChecker : MonoBehaviour {
 	}
 		
 	void Update () {
-		if (key == "z") {
-			Debug.Log (Input.GetKeyDown(key));
-		}
-
 		Vector3 pos = flickChecker.transform.position;
 		if (Input.GetKeyDown(key)) {
 			//Debug.Log (key);

@@ -15,12 +15,8 @@ public class SoundPlayer : MonoBehaviour {
 	void Start(){
 		source = GetComponent<AudioSource> ();
 		offset = GlobalData.selectedTrack.offset;
-
 		string songName = GlobalData.selectedTrack.songName;
-		if (songName == null) {
-			//songName = "Test";
-			songName = "The_Clear_Blue_Sky";
-		}
+
 		source.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
 	}
 

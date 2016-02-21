@@ -41,6 +41,7 @@ public class StartScript : MonoBehaviour {
 				}
 				delay = 0.1f;
 				opacRate = 0.65f;
+				startText.color = new Color (startText.color.r, startText.color.g, startText.color.b, opac);
 			}
 		}
 

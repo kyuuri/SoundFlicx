@@ -654,9 +654,8 @@ public class LoadFile : MonoBehaviour {
 			difficult = Difficulty.HARD;
 			level = int.Parse (eachLine [5]);
 		}
-
-		Debug.Log (difficult);
-		Track track = new Track(nameList[index],eachLine[1], difficult,level, float.Parse(eachLine[2]));
+			
+		Track track = new Track(nameList[index],eachLine[1], difficult,level, float.Parse(eachLine[2]),  float.Parse(eachLine[6]));
 		GlobalData.selectedTrack = track;
 
 		GlobalData.speed = speed;

@@ -97,7 +97,7 @@ public class SongSelectionController : MonoBehaviour {
 			difficult = Difficulty.HARD;
 			level = int.Parse (eachLine [5]);
 		}
-		Track track = new Track(eachLine[0],eachLine[1], difficult,level, float.Parse(eachLine[2]));
+		Track track = new Track(eachLine[0],eachLine[1], difficult,level, float.Parse(eachLine[2]),  float.Parse(eachLine[6]));
 		track.offset = float.Parse (eachLine[6]);
 		GlobalData.selectedTrack = track;
 
