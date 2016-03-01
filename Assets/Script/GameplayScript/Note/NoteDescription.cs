@@ -9,11 +9,14 @@ public class NoteDescription : MonoBehaviour {
 	public static int noteIDRunner = 1;
 	private int noteID;
 	private float hitTime;
-	private int lane; // 0 leftmost
+	private int lane; // 0 leftmost // >10 R-Tilt
 	private int combo; // default = 1
 	private float length; // 0, normal note
 	private NoteHitState noteState; //0 ready, 1 passed, 2 missed
 	private bool isFlick;
+	private bool isRTilt;
+	private bool isLTilt;
+	private bool startOrEnd;
 
 	private int addedCombo; // default = 0 (combo that has been added)
 	private float[] eachComboTime;
@@ -84,6 +87,21 @@ public class NoteDescription : MonoBehaviour {
 	public bool IsFlick{
 		get { return isFlick;}
 		set { isFlick = value;}
+	}
+
+	public bool IsRTilt{
+		get { return isRTilt;}
+		set { isRTilt = value;}
+	}
+
+	public bool IsLTilt{
+		get { return isLTilt;}
+		set { isLTilt = value;}
+	}
+
+	public bool StartOrEnd{
+		get { return startOrEnd;}
+		set { startOrEnd = value;}
 	}
 
 	public float[] EachComboTime{

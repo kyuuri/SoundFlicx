@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using WindowsInput;
 
 public class ParticleTimer : MonoBehaviour {
 
@@ -13,6 +14,11 @@ public class ParticleTimer : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		//to be removed
+		if (Input.GetKeyDown ("p") && Input.GetKeyDown ("o")) {
+			Application.LoadLevel ("SongSelection");
+		}
+
 		if (TimerScript.timePass > 13.9) {
 			if (!fastParticle.isPlaying) {
 				fastParticle.Play ();

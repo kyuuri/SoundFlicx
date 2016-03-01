@@ -90,27 +90,45 @@ public static class MidiFileReader{
 							var tmpMidiEvent = new NoteMidiEvent();
 							float noteHoldTime = 0;
 							float noteTime = (t_note.AbsoluteTime * period * speed);
-							int lane = t_note.NoteNumber % 12;
-							if (t_note.NoteLength > 2)
-							{
-								noteHoldTime = (t_note.NoteLength * period * speed);
+
+							if (t_note.NoteNumber >= 12 && t_note.NoteNumber < 24) { //octave 1 // normal long flick
+								int lane = t_note.NoteNumber % 12;
+								if (t_note.NoteLength > 2) {
+									noteHoldTime = (t_note.NoteLength * period * speed);
+								}
+
+								tmpMidiEvent.id = noteCount;
+								tmpMidiEvent.hitTime = noteTime;
+								tmpMidiEvent.length = noteHoldTime;
+								tmpMidiEvent.lane = lane;
+								if (t_note.Velocity > 100) {
+									tmpMidiEvent.isFlick = true;
+								}
+							} 
+							else if (t_note.NoteNumber >= 24 && t_note.NoteNumber < 36){ // octave 2 // r tilt 
+								int lane = t_note.NoteNumber % 12 + 10;
+								if (t_note.NoteLength > 2) {
+									noteHoldTime = (t_note.NoteLength * period * speed);
+								}
+
+								tmpMidiEvent.id = noteCount;
+								tmpMidiEvent.hitTime = noteTime;
+								tmpMidiEvent.length = noteHoldTime;
+								tmpMidiEvent.lane = lane;
+								if (t_note.Velocity > 100) {
+									tmpMidiEvent.startOrEnd = true;
+								}
+
 							}
 
-							tmpMidiEvent.id = noteCount;
-							tmpMidiEvent.hitTime = noteTime;
-							tmpMidiEvent.length = noteHoldTime;
-							tmpMidiEvent.lane = lane;
-							if (t_note.Velocity > 100) {
-								tmpMidiEvent.isFlick = true;
-							}
-
-							midiEventList[midiSlot].Add(tmpMidiEvent);
+							midiEventList [midiSlot].Add (tmpMidiEvent);
 							noteCount++;
 						}
 						else
 						{
+							//not used
 							float noteTime = (t_note.AbsoluteTime * period * speed);
-							Debug.LogError("\t\t\tVelo " + t_note.Velocity + " | " + noteTime);
+							//Debug.LogError("\t\t\tVelo " + t_note.Velocity + " | " + noteTime);
 						}
 					}
 				}

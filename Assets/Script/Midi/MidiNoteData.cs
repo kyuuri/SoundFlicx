@@ -18,6 +18,7 @@ public struct NoteMidiEvent
 	public float hitTime;
 	public float length;
 	public bool isFlick;
+	public bool startOrEnd;
 }
 
 public struct MidiNoteData

@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Leap;
+using WindowsInput;
 
 public class LoadFile : MonoBehaviour {
 
@@ -26,6 +27,7 @@ public class LoadFile : MonoBehaviour {
 
 	public AudioSource selectSound;
 	public AudioSource currentSong;
+	private AudioClip[] songList;
 
 	private float delayTrack = 0.0f;
 
@@ -95,10 +97,13 @@ public class LoadFile : MonoBehaviour {
 
 	public void Awake ()
 	{
+		songList = new AudioClip[GlobalData.textFile.Length];
 		//GetFiles ();
-		string[] spt = GlobalData.textFile[0].Split(',');
-		currentSong.clip = Resources.Load (spt[0] + "Audio.mp3") as AudioClip;
-
+		for (int i = 0; i < GlobalData.textFile.Length; i++) {
+			string[] spt = GlobalData.textFile [i].Split (',');
+			songList[i] = Resources.Load (spt [0] + "Audio.mp3") as AudioClip;
+		}
+		currentSong.clip = songList [0];
 	}
 
 	public void Start(){
@@ -164,6 +169,7 @@ public class LoadFile : MonoBehaviour {
 	}
 
 	void Update(){
+
 		delayTrack += Time.deltaTime;
 
 		Frame frame = controller.Frame ();
@@ -194,7 +200,8 @@ public class LoadFile : MonoBehaviour {
 				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x - 215, contentPanel.localPosition.y);
 
 				string songName = nameList [indexColorChange];
-				currentSong.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
+				//currentSong.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
+				currentSong.clip = songList[indexColorChange];
 				delayTrack = 0.0f;
 
 //				buttonList.RemoveAt (indexColorChange - 1);
@@ -217,7 +224,8 @@ public class LoadFile : MonoBehaviour {
 				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x + 215, contentPanel.localPosition.y);
 
 				string songName = nameList [indexColorChange];
-				currentSong.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
+				//currentSong.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
+				currentSong.clip = songList[indexColorChange];
 				delayTrack = 0.0f;
 			} else {
 				++indexColorChange;

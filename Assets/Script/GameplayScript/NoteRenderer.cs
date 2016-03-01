@@ -7,15 +7,26 @@ using System.IO;
 public class NoteRenderer : MonoBehaviour {
 
 	public Transform[] lanePosition = new Transform[4];
+	public Transform[] outLanePosition = new Transform[2]; // 0 left, 1 right
 	public static List<NoteDescription>[] allnotes = new List<NoteDescription>[6];
+	public static List<NoteDescription>[] rightTiltNotes = new List<NoteDescription>[1];
+	public static List<NoteDescription>[] leftTiltNotes = new List<NoteDescription>[1];
+	public static bool rightTilting = false;
+	public static bool leftTilting = false;
 
 	void Awake(){
+		rightTilting = false;
+		leftTilting = false;
+
 		allnotes[0] = new List<NoteDescription>();
 		allnotes[1] = new List<NoteDescription>();
 		allnotes[2] = new List<NoteDescription>();
 		allnotes[3] = new List<NoteDescription>();
 		allnotes[4] = new List<NoteDescription>();
 		allnotes[5] = new List<NoteDescription>();
+
+		rightTiltNotes[0] = new List<NoteDescription>();
+		leftTiltNotes[0] = new List<NoteDescription>();
 
 		//InvokeRepeating("GenTestNote", 0.3f, 0.46875f);
 		GenerateNoteFromMidi("");
@@ -24,7 +35,7 @@ public class NoteRenderer : MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
-		
+
 	}
 
 	void GenerateNoteFromMidi(string midiPath){
@@ -63,8 +74,16 @@ public class NoteRenderer : MonoBehaviour {
 
 			GameObject note = Instantiate (Resources.Load ("Note")) as GameObject;
 			noteDescription.NoteObject = note;
+			int actualLane = 0;
 
-			if (noteDescription.IsFlick) { // flick note
+			if (noteDescription.IsRTilt || noteDescription.IsLTilt) {
+				if (noteDescription.IsRTilt) {
+					CreateTiltNote (noteDescription, note, ref actualLane, "R", ref rightTilting);
+				} else {
+					CreateTiltNote (noteDescription, note, ref actualLane, "L", ref leftTilting);
+				}
+			}
+			else if (noteDescription.IsFlick) { // flick note
 				note = Instantiate (Resources.Load ("FlickNote")) as GameObject;
 				noteDescription.NoteObject = note;
 				if (noteDescription.Lane <= 1) {
@@ -85,7 +104,14 @@ public class NoteRenderer : MonoBehaviour {
 				note.transform.position = new Vector3 (lanePosition [lane].position.x, 0.01f, lanePosition [lane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay) + length/2);
 			}
 
-			allnotes [lane].Add (noteDescription);
+			if (noteDescription.IsRTilt) {
+				rightTiltNotes [0].Add (noteDescription);
+			} else if (noteDescription.IsLTilt) {
+				leftTiltNotes [0].Add (noteDescription);
+			}
+			else {
+				allnotes [lane].Add (noteDescription);
+			}
 		}
 
 	}
@@ -93,7 +119,89 @@ public class NoteRenderer : MonoBehaviour {
 	private NoteDescription ToNoteDescription (NoteMidiEvent midiNote){
 		NoteDescription tmp = new NoteDescription (midiNote.hitTime, midiNote.lane, 0 ,midiNote.length - 0.02f);
 		tmp.IsFlick = midiNote.isFlick;
+		tmp.StartOrEnd = midiNote.startOrEnd;
+		if(tmp.Lane >= 10){
+			if (tmp.Lane < 12) {
+				tmp.IsRTilt = true;
+			} else if (tmp.Lane >= 12) {
+				tmp.IsLTilt = true;
+			}
+		}
 		return tmp;
+	}
+
+	private void CreateTiltNote(NoteDescription noteDescription, GameObject note, ref int actualLane, string side, ref bool isTilting){
+
+		note = Instantiate (Resources.Load (side + "TiltNote")) as GameObject;
+		noteDescription.NoteObject = note;
+		actualLane = noteDescription.Lane - 10;
+		if (side == "L") {
+			actualLane -= 2;
+		}
+		actualLane = 1 - actualLane; 
+
+		if (noteDescription.StartOrEnd && !isTilting) {
+			isTilting = true;
+			note.transform.position = new Vector3 (outLanePosition [actualLane].position.x, 0.04f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));			
+
+		} else if (noteDescription.StartOrEnd) {
+			isTilting = false;
+			note.transform.position = new Vector3 (outLanePosition [actualLane].position.x, 0.04f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));			
+
+			NoteDescription previousNote;
+
+			if(side == "R"){
+				previousNote = rightTiltNotes [0] [rightTiltNotes [0].Count - 1];
+			}
+			else{
+				previousNote = leftTiltNotes [0] [leftTiltNotes [0].Count - 1];
+			}
+			float diffTime = noteDescription.HitTime - previousNote.HitTime;
+			float diffX = noteDescription.NoteObject.transform.position.x - previousNote.NoteObject.transform.position.x;
+
+			float ratio = 0.0075f;
+			float smallNotes = diffTime / ratio;
+			float smallX = diffX / smallNotes;
+
+			int k = 1;
+			for (float j = ratio; j < diffTime; j += ratio) {
+				NoteDescription noteDesc = new NoteDescription (previousNote.HitTime + j, -1, 1, 0);
+				noteDesc.IsRTilt = side == "R";
+				noteDesc.IsLTilt = side == "L";
+				GameObject obj = Instantiate (Resources.Load (side + "TiltNote")) as GameObject;
+				noteDesc.NoteObject = obj;
+				obj.transform.position = new Vector3 (previousNote.NoteObject.transform.position.x + smallX * k, 0.04f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDesc.HitTime - TimerScript.delay));			
+				++k;
+			}
+		} else {
+			note.transform.position = new Vector3 (outLanePosition [actualLane].position.x, 0.04f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));			
+
+			NoteDescription previousNote;
+
+			if(side == "R"){
+				previousNote = rightTiltNotes [0] [rightTiltNotes [0].Count - 1];
+			}
+			else{
+				previousNote = leftTiltNotes [0] [leftTiltNotes [0].Count - 1];
+			}
+			float diffTime = noteDescription.HitTime - previousNote.HitTime;
+			float diffX = noteDescription.NoteObject.transform.position.x - previousNote.NoteObject.transform.position.x;
+
+			float ratio = 0.0075f;
+			float smallNotes = diffTime / ratio;
+			float smallX = diffX / smallNotes;
+
+			int k = 1;
+			for (float j = ratio; j < diffTime; j += ratio) {
+				NoteDescription noteDesc = new NoteDescription (previousNote.HitTime + j, -1, 1, 0);
+				noteDesc.IsRTilt = side == "R";
+				noteDesc.IsLTilt = side == "L";
+				GameObject obj = Instantiate (Resources.Load (side + "TiltNote")) as GameObject;
+				noteDesc.NoteObject = obj;
+				obj.transform.position = new Vector3 (previousNote.NoteObject.transform.position.x + smallX * k, 0.04f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDesc.HitTime - TimerScript.delay));			
+				++k;
+			}
+		}
 	}
 
 	/*
