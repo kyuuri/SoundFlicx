@@ -76,11 +76,11 @@ public class NoteRenderer : MonoBehaviour {
 			noteDescription.NoteObject = note;
 			int actualLane = 0;
 
-			if (noteDescription.IsRTilt || noteDescription.IsLTilt) {
+			if (noteDescription.IsRTilt || noteDescription.IsLTilt) { //tilt note
 				if (noteDescription.IsRTilt) {
-					CreateTiltNote (noteDescription, note, ref actualLane, "R", ref rightTilting);
+					CreateTiltNote (ref noteDescription, ref note, ref actualLane, "R", ref rightTilting);
 				} else {
-					CreateTiltNote (noteDescription, note, ref actualLane, "L", ref leftTilting);
+					CreateTiltNote (ref noteDescription, ref note, ref actualLane, "L", ref leftTilting);
 				}
 			}
 			else if (noteDescription.IsFlick) { // flick note
@@ -130,7 +130,7 @@ public class NoteRenderer : MonoBehaviour {
 		return tmp;
 	}
 
-	private void CreateTiltNote(NoteDescription noteDescription, GameObject note, ref int actualLane, string side, ref bool isTilting){
+	private void CreateTiltNote(ref NoteDescription noteDescription, ref GameObject note, ref int actualLane, string side, ref bool isTilting){
 
 		note = Instantiate (Resources.Load (side + "TiltNote")) as GameObject;
 		noteDescription.NoteObject = note;
@@ -142,11 +142,11 @@ public class NoteRenderer : MonoBehaviour {
 
 		if (noteDescription.StartOrEnd && !isTilting) {
 			isTilting = true;
-			note.transform.position = new Vector3 (outLanePosition [actualLane].position.x, 0.04f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));			
+			note.transform.position = new Vector3 (outLanePosition [actualLane].position.x, 0.01f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));			
 
 		} else if (noteDescription.StartOrEnd) {
 			isTilting = false;
-			note.transform.position = new Vector3 (outLanePosition [actualLane].position.x, 0.04f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));			
+			note.transform.position = new Vector3 (outLanePosition [actualLane].position.x, 0.01f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));			
 
 			NoteDescription previousNote;
 
@@ -159,7 +159,25 @@ public class NoteRenderer : MonoBehaviour {
 			float diffTime = noteDescription.HitTime - previousNote.HitTime;
 			float diffX = noteDescription.NoteObject.transform.position.x - previousNote.NoteObject.transform.position.x;
 
+			NoteDescription noteDesc = new NoteDescription (previousNote.HitTime, -1, 1, diffTime);
+			noteDesc.IsRTilt = side == "R";
+			noteDesc.IsLTilt = side == "L";
+			GameObject obj = Instantiate (Resources.Load (side + "TiltNote")) as GameObject;
+			noteDesc.NoteObject = obj;
+			float length = noteDesc.Length * Runner.speed;
+			float angle = CalculateAngle (noteDescription.NoteObject, previousNote.NoteObject);
+			obj.transform.rotation = Quaternion.Euler(0,angle,0);
+
+			if (angle < 0) angle = -angle;
+			obj.transform.localScale = new Vector3 (obj.transform.localScale.x, obj.transform.localScale.y, length + length * Mathf.Sin (angle * Mathf.PI / 180)/3.5f);
+			obj.transform.position = new Vector3(previousNote.NoteObject.transform.position.x + diffX/2.0f, 0.01f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDesc.HitTime - TimerScript.delay) + length/2);			
+
+			/*
+			float diffTime = noteDescription.HitTime - previousNote.HitTime;
+			float diffX = noteDescription.NoteObject.transform.position.x - previousNote.NoteObject.transform.position.x;
+
 			float ratio = 0.0075f;
+			//ratio = 0.3f;
 			float smallNotes = diffTime / ratio;
 			float smallX = diffX / smallNotes;
 
@@ -172,9 +190,16 @@ public class NoteRenderer : MonoBehaviour {
 				noteDesc.NoteObject = obj;
 				obj.transform.position = new Vector3 (previousNote.NoteObject.transform.position.x + smallX * k, 0.04f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDesc.HitTime - TimerScript.delay));			
 				++k;
+
+				if (side == "R") {
+					rightTiltNotes [0].Add (noteDesc);
+				} else {
+					leftTiltNotes [0].Add (noteDesc);
+				}
 			}
+			*/
 		} else {
-			note.transform.position = new Vector3 (outLanePosition [actualLane].position.x, 0.04f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));			
+			note.transform.position = new Vector3 (outLanePosition [actualLane].position.x, 0.01f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));			
 
 			NoteDescription previousNote;
 
@@ -184,6 +209,24 @@ public class NoteRenderer : MonoBehaviour {
 			else{
 				previousNote = leftTiltNotes [0] [leftTiltNotes [0].Count - 1];
 			}
+
+			float diffTime = noteDescription.HitTime - previousNote.HitTime;
+			float diffX = noteDescription.NoteObject.transform.position.x - previousNote.NoteObject.transform.position.x;
+
+			NoteDescription noteDesc = new NoteDescription (previousNote.HitTime, -1, 1, diffTime);
+			noteDesc.IsRTilt = side == "R";
+			noteDesc.IsLTilt = side == "L";
+			GameObject obj = Instantiate (Resources.Load (side + "TiltNote")) as GameObject;
+			noteDesc.NoteObject = obj;
+			float length = noteDesc.Length * Runner.speed;
+			float angle = CalculateAngle (noteDescription.NoteObject, previousNote.NoteObject);
+			obj.transform.rotation = Quaternion.Euler(0,angle,0);
+
+			if (angle < 0) angle = -angle;
+			obj.transform.localScale = new Vector3 (obj.transform.localScale.x, obj.transform.localScale.y, length + length * Mathf.Sin (angle * Mathf.PI / 180)/3.5f);
+			obj.transform.position = new Vector3(previousNote.NoteObject.transform.position.x + diffX/2.0f, 0.01f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDesc.HitTime - TimerScript.delay) + length/2);			
+
+			/*
 			float diffTime = noteDescription.HitTime - previousNote.HitTime;
 			float diffX = noteDescription.NoteObject.transform.position.x - previousNote.NoteObject.transform.position.x;
 
@@ -200,7 +243,39 @@ public class NoteRenderer : MonoBehaviour {
 				noteDesc.NoteObject = obj;
 				obj.transform.position = new Vector3 (previousNote.NoteObject.transform.position.x + smallX * k, 0.04f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDesc.HitTime - TimerScript.delay));			
 				++k;
+
+				if (side == "R") {
+					rightTiltNotes [0].Add (noteDesc);
+				} else {
+					leftTiltNotes [0].Add (noteDesc);
+				}
 			}
+			*/
+		}
+	}
+
+	private float CalculateAngle(GameObject current, GameObject prev){
+		float angle = 0;
+
+		float cx = current.transform.position.x;
+		float cz = current.transform.position.z;
+
+		float px = prev.transform.position.x;
+		float pz = prev.transform.position.z;
+
+		float c = Vector3.Distance (current.transform.position, prev.transform.position);
+
+		float a = cx - px;
+
+		float b = cz - pz;
+
+		angle = Mathf.Acos(b / c) * 180 / Mathf.PI;
+
+		if (a < 0) {
+			return -angle;
+		}
+		else {
+			return angle;
 		}
 	}
 

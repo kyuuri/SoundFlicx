@@ -7,10 +7,14 @@ public class NoteDestroyer : MonoBehaviour {
 	public LineHitChecker[] lineCheckers = new LineHitChecker[4];
 	public List<NoteDescription>[] allnotes;
 	private List<NoteDescription> laneNotes;
+	private List<NoteDescription>[] rightTiltNotes;
+	private List<NoteDescription>[] leftTiltNotes;
 
 
 	void Update () {
 		allnotes = NoteRenderer.allnotes;
+		rightTiltNotes = NoteRenderer.rightTiltNotes;
+		leftTiltNotes = NoteRenderer.leftTiltNotes;
 
 		for (int i = 0; i < allnotes.Length; i++) {
 			laneNotes = NoteRenderer.allnotes[i];
@@ -38,7 +42,31 @@ public class NoteDestroyer : MonoBehaviour {
 				}
 			}
 		}
+
+		//CheckDestroyTiltNote (rightTiltNotes[0]);
+		//CheckDestroyTiltNote (leftTiltNotes[0]);
+
 	}
+
+	/*
+	private void CheckDestroyTiltNote(List<NoteDescription> notes){
+
+		if (notes.Count > 0) {
+			NoteDescription note = notes [0];
+			float deltaTime = GetDeltaTime (note.HitTime);
+
+			if (OutRange (deltaTime)) {
+				Debug.Log ("destroy : " + note.ToString ());
+				if (note.NoteState == NoteDescription.NoteHitState.READY) {
+					note.NoteState = NoteDescription.NoteHitState.MISSED;
+					JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
+					JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
+				}
+				DestroyNote (note);
+			}
+		}
+	}*/
+
 	private bool CheckReleaseLongNoteEndPoint(NoteDescription note){
 		return (note.HitTime + note.Length - TimerScript.timePass) <= 0.175f;
 	}
@@ -59,6 +87,8 @@ public class NoteDestroyer : MonoBehaviour {
 		if (OutRange (deltaTime)) {
 			note.DestroySelf ();
 			laneNotes.Remove (note);
+			rightTiltNotes [0].Remove (note);
+			leftTiltNotes [0].Remove (note);
 		}
 
 	}
