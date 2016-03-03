@@ -16,12 +16,13 @@ public class NoteDescription : MonoBehaviour {
 	private bool isFlick;
 	private bool isRTilt;
 	private bool isLTilt;
+	private float tiltAngle; // -1 to left, 0 idle, 1 to right.
 	private bool startOrEnd;
 
 	private int addedCombo; // default = 0 (combo that has been added)
 	private float[] eachComboTime;
 	private bool[] eachComboAdded;
-	public static float ticker = 0.07f;
+	public static float ticker = 0.06f;
 
 	public NoteDescription(float time, int ln, int com, float len){
 		noteID = noteIDRunner++;
@@ -82,6 +83,11 @@ public class NoteDescription : MonoBehaviour {
 	public float Length{
 		get { return length;}
 		set { length = value;}
+	}
+
+	public float TiltAngle{
+		get { return tiltAngle;}
+		set { tiltAngle = value;}
 	}
 
 	public bool IsFlick{

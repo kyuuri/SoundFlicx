@@ -72,8 +72,12 @@ public class NoteRenderer : MonoBehaviour {
 				}
 			}
 
-			GameObject note = Instantiate (Resources.Load ("Note")) as GameObject;
-			noteDescription.NoteObject = note;
+			GameObject note = null;
+			if (!(noteDescription.IsRTilt || noteDescription.IsLTilt || noteDescription.IsFlick)) {
+				note = Instantiate (Resources.Load ("Note")) as GameObject;
+				noteDescription.NoteObject = note;
+			}
+
 			int actualLane = 0;
 
 			if (noteDescription.IsRTilt || noteDescription.IsLTilt) { //tilt note
@@ -113,7 +117,6 @@ public class NoteRenderer : MonoBehaviour {
 				allnotes [lane].Add (noteDescription);
 			}
 		}
-
 	}
 
 	private NoteDescription ToNoteDescription (NoteMidiEvent midiNote){
@@ -144,63 +147,11 @@ public class NoteRenderer : MonoBehaviour {
 			isTilting = true;
 			note.transform.position = new Vector3 (outLanePosition [actualLane].position.x, 0.01f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));			
 
-		} else if (noteDescription.StartOrEnd) {
-			isTilting = false;
-			note.transform.position = new Vector3 (outLanePosition [actualLane].position.x, 0.01f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));			
-
-			NoteDescription previousNote;
-
-			if(side == "R"){
-				previousNote = rightTiltNotes [0] [rightTiltNotes [0].Count - 1];
-			}
-			else{
-				previousNote = leftTiltNotes [0] [leftTiltNotes [0].Count - 1];
-			}
-			float diffTime = noteDescription.HitTime - previousNote.HitTime;
-			float diffX = noteDescription.NoteObject.transform.position.x - previousNote.NoteObject.transform.position.x;
-
-			NoteDescription noteDesc = new NoteDescription (previousNote.HitTime, -1, 1, diffTime);
-			noteDesc.IsRTilt = side == "R";
-			noteDesc.IsLTilt = side == "L";
-			GameObject obj = Instantiate (Resources.Load (side + "TiltNote")) as GameObject;
-			noteDesc.NoteObject = obj;
-			float length = noteDesc.Length * Runner.speed;
-			float angle = CalculateAngle (noteDescription.NoteObject, previousNote.NoteObject);
-			obj.transform.rotation = Quaternion.Euler(0,angle,0);
-
-			if (angle < 0) angle = -angle;
-			obj.transform.localScale = new Vector3 (obj.transform.localScale.x, obj.transform.localScale.y, length + length * Mathf.Sin (angle * Mathf.PI / 180)/3.5f);
-			obj.transform.position = new Vector3(previousNote.NoteObject.transform.position.x + diffX/2.0f, 0.01f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDesc.HitTime - TimerScript.delay) + length/2);			
-
-			/*
-			float diffTime = noteDescription.HitTime - previousNote.HitTime;
-			float diffX = noteDescription.NoteObject.transform.position.x - previousNote.NoteObject.transform.position.x;
-
-			float ratio = 0.0075f;
-			//ratio = 0.3f;
-			float smallNotes = diffTime / ratio;
-			float smallX = diffX / smallNotes;
-
-			int k = 1;
-			for (float j = ratio; j < diffTime; j += ratio) {
-				NoteDescription noteDesc = new NoteDescription (previousNote.HitTime + j, -1, 1, 0);
-				noteDesc.IsRTilt = side == "R";
-				noteDesc.IsLTilt = side == "L";
-				GameObject obj = Instantiate (Resources.Load (side + "TiltNote")) as GameObject;
-				noteDesc.NoteObject = obj;
-				obj.transform.position = new Vector3 (previousNote.NoteObject.transform.position.x + smallX * k, 0.04f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDesc.HitTime - TimerScript.delay));			
-				++k;
-
-				if (side == "R") {
-					rightTiltNotes [0].Add (noteDesc);
-				} else {
-					leftTiltNotes [0].Add (noteDesc);
-				}
-			}
-			*/
 		} else {
+			if (noteDescription.StartOrEnd) {
+				isTilting = false;
+			}
 			note.transform.position = new Vector3 (outLanePosition [actualLane].position.x, 0.01f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));			
-
 			NoteDescription previousNote;
 
 			if(side == "R"){
@@ -221,36 +172,17 @@ public class NoteRenderer : MonoBehaviour {
 			float length = noteDesc.Length * Runner.speed;
 			float angle = CalculateAngle (noteDescription.NoteObject, previousNote.NoteObject);
 			obj.transform.rotation = Quaternion.Euler(0,angle,0);
+			noteDesc.TiltAngle = angle;
 
 			if (angle < 0) angle = -angle;
 			obj.transform.localScale = new Vector3 (obj.transform.localScale.x, obj.transform.localScale.y, length + length * Mathf.Sin (angle * Mathf.PI / 180)/3.5f);
 			obj.transform.position = new Vector3(previousNote.NoteObject.transform.position.x + diffX/2.0f, 0.01f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDesc.HitTime - TimerScript.delay) + length/2);			
 
-			/*
-			float diffTime = noteDescription.HitTime - previousNote.HitTime;
-			float diffX = noteDescription.NoteObject.transform.position.x - previousNote.NoteObject.transform.position.x;
-
-			float ratio = 0.0075f;
-			float smallNotes = diffTime / ratio;
-			float smallX = diffX / smallNotes;
-
-			int k = 1;
-			for (float j = ratio; j < diffTime; j += ratio) {
-				NoteDescription noteDesc = new NoteDescription (previousNote.HitTime + j, -1, 1, 0);
-				noteDesc.IsRTilt = side == "R";
-				noteDesc.IsLTilt = side == "L";
-				GameObject obj = Instantiate (Resources.Load (side + "TiltNote")) as GameObject;
-				noteDesc.NoteObject = obj;
-				obj.transform.position = new Vector3 (previousNote.NoteObject.transform.position.x + smallX * k, 0.04f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDesc.HitTime - TimerScript.delay));			
-				++k;
-
-				if (side == "R") {
-					rightTiltNotes [0].Add (noteDesc);
-				} else {
-					leftTiltNotes [0].Add (noteDesc);
-				}
+			if (side == "R") {
+				rightTiltNotes [0].Add (noteDesc);
+			} else {
+				leftTiltNotes [0].Add (noteDesc);
 			}
-			*/
 		}
 	}
 
