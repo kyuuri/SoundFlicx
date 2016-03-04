@@ -2,6 +2,7 @@
 using System.Collections;
 using Leap;
 using WindowsInput;
+using System.Collections.Generic;
 
 public class SFController : MonoBehaviour {
 
@@ -90,6 +91,7 @@ public class SFController : MonoBehaviour {
 			}
 
 			CheckPressing (hands, previousHands);
+			CheckTilt (hands, previousHands);
 		}
 	}
 
@@ -270,6 +272,69 @@ public class SFController : MonoBehaviour {
 			}
 		}
 	}
+
+	private void CheckTilt (HandList hands, HandList previousHands){
+		Hand rHand = hands.Rightmost;
+		Hand lHand = hands.Leftmost;
+
+		Hand previousRHand = previousHands.Rightmost;
+		Hand previousLHand = previousHands.Leftmost;
+
+		float offset = 10;
+
+		float rRoll = rHand.PalmNormal.Roll * offset;
+		float lRoll = lHand.PalmNormal.Roll * offset;
+		float previousRRoll = previousRHand.PalmNormal.Roll * offset;
+		float previousLRoll = previousLHand.PalmNormal.Roll * offset;
+
+		float rightTilt = (rRoll - previousRRoll) * 10;
+		float leftInTilt = (lRoll - previousLRoll) * 10;
+		float deltaRoll = 0.2f;
+		//right hand tilt
+
+		/*
+		List<NoteDescription> list = NoteRenderer.rightTiltNotes[0];
+		if (list [0].TiltAngle != 0) {
+		}
+		*/
+
+		if (hands.Count == 0) {
+			InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
+			InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
+			InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);
+			InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
+		} else {
+//			Debug.Log (rightTilt);
+			if (rHand.IsValid && rHand.IsRight) {
+				if (rightTilt > deltaRoll) {
+//				Debug.Log ("RIGHT left");
+					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_N);
+				} else if (rightTilt < -deltaRoll) {
+//				Debug.Log ("RIGHT right");
+					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_M);
+				} else {
+					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
+					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
+				}
+			}
+
+			//left hand tilt
+			if (lHand.IsValid && lHand.IsLeft) {
+//				Debug.Log ("LEFT left");
+				if (leftInTilt > deltaRoll) {
+					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_V);
+				} else if (leftInTilt < -deltaRoll) {
+//				Debug.Log ("LEFT right");
+					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_B);
+				} else {
+					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);
+					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
+				}
+			}
+
+		}
+	}
+
 	private bool CheckPress(float velocity){
 		return velocity < -200;
 	}
