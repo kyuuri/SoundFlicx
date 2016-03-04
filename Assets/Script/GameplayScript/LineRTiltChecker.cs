@@ -24,10 +24,18 @@ public class LineRTiltChecker : MonoBehaviour {
 
 	public LaneTiltState laneState = LaneTiltState.IDLE;
 
+	private Color[] colors;
+	private Color bc = new Color(31, 255, 173, 1.0f);
+
 	void Start () {
+		colors = new Color[2];
 		parInitPos = particleObj.transform.position;
 		otherParInitPos = otherParticleObj.transform.position;
 
+		Material[] m = NoteRenderer.rightTiltNotes [0] [0].NoteObject.GetComponent<Renderer> ().materials;
+		for(int i = 0 ; i < m.Length ; i++){
+			colors [i] = m [i].GetColor ("_TintColor");
+		}
 	}
 
 	// Update is called once per frame
@@ -136,6 +144,7 @@ public class LineRTiltChecker : MonoBehaviour {
 					}
 				}
 			}
+
 		}
 	}
 

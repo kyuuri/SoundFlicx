@@ -175,7 +175,7 @@ public class NoteRenderer : MonoBehaviour {
 			noteDesc.TiltAngle = angle;
 
 			if (angle < 0) angle = -angle;
-			obj.transform.localScale = new Vector3 (obj.transform.localScale.x, obj.transform.localScale.y, length + length * Mathf.Sin (angle * Mathf.PI / 180)/3.5f);
+			obj.transform.localScale = new Vector3 (obj.transform.localScale.x, obj.transform.localScale.y, length + length * Mathf.Sin (angle * Mathf.PI / 180) / (length/2.0f));
 			obj.transform.position = new Vector3(previousNote.NoteObject.transform.position.x + diffX/2.0f, 0.01f, outLanePosition [actualLane].position.z - 13f + Runner.speed * (noteDesc.HitTime - TimerScript.delay) + length/2);			
 
 			if (side == "R") {
