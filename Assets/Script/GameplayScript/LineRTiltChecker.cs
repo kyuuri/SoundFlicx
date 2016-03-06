@@ -111,7 +111,7 @@ public class LineRTiltChecker : MonoBehaviour {
 					// pos = (del pos / del time) * (@time-time1 ) + pos1
 					x = (diffPos / length) * (currentTime - hitTime) + parInitPos.x;
 
-					if (note.TiltAngle > 0) {
+					if (note.TiltAngle >= 0) {
 						x = -x;
 					}
 					particleObj.transform.position = new Vector3 (x/1.08f, particleObj.transform.position.y, particleObj.transform.position.z);
@@ -217,8 +217,7 @@ public class LineRTiltChecker : MonoBehaviour {
 			bool move = false;
 			if (note.TiltAngle > 0.1f && laneState == LaneTiltState.R2RTILT) {
 				move = true;
-			}
-			else if(note.TiltAngle < 0.1f && laneState == LaneTiltState.R2LTILT){
+			} else if (note.TiltAngle < 0.1f && laneState == LaneTiltState.R2LTILT) {
 				move = true;
 			}
 				
