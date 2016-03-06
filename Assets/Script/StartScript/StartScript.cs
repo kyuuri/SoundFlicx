@@ -52,6 +52,10 @@ public class StartScript : MonoBehaviour {
 		if (sceneTimer > 1.7f) {
 			ChangeScene ();
 		}
+
+		if (Input.GetKeyDown ("space")) {
+			goingNext = true;
+		}
 	}
 
 	void Blink(){
