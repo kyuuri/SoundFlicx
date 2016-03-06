@@ -66,7 +66,6 @@ public class CameraRotation : MonoBehaviour {
 					cal = -cal;
 				}
 			}
-			Debug.Log ("cal1 : " + cal);
 			angle += cal;
 		}
 
@@ -95,7 +94,6 @@ public class CameraRotation : MonoBehaviour {
 					cal = -cal;
 				}
 			}
-			Debug.Log ("cal2 : " + cal);
 			angle += cal;
 
 		}

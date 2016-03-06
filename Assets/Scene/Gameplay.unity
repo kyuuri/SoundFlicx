@@ -158,7 +158,7 @@ GameObject:
   - 4: {fileID: 12083085}
   - 198: {fileID: 12083087}
   - 199: {fileID: 12083086}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14671,7 +14671,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 355989103}
   - 33: {fileID: 355989106}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22758,7 +22758,7 @@ GameObject:
   - 4: {fileID: 571076624}
   - 198: {fileID: 571076626}
   - 199: {fileID: 571076625}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: RunEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32246,7 +32246,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!92 &738645206
 Behaviour:
   m_ObjectHideFlags: 0
@@ -32464,7 +32464,7 @@ GameObject:
   - 4: {fileID: 767455532}
   - 198: {fileID: 767455534}
   - 199: {fileID: 767455533}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: RunEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64182,7 +64182,7 @@ GameObject:
   - 4: {fileID: 1507497901}
   - 198: {fileID: 1507497903}
   - 199: {fileID: 1507497902}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68928,6 +68928,8 @@ GameObject:
   - 4: {fileID: 1604016396}
   - 82: {fileID: 1604016395}
   - 114: {fileID: 1604016394}
+  - 169: {fileID: 1604016398}
+  - 164: {fileID: 1604016397}
   m_Layer: 0
   m_Name: AudioPlayer
   m_TagString: Untagged
@@ -69034,6 +69036,49 @@ Transform:
   m_Children: []
   m_Father: {fileID: 124781743}
   m_RootOrder: 24
+--- !u!164 &1604016397
+AudioReverbFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1604016393}
+  m_Enabled: 0
+  m_DryLevel: 0
+  m_Room: 0
+  m_RoomHF: 0
+  m_RoomRolloff: 0
+  m_DecayTime: 1
+  m_DecayHFRatio: 0.5
+  m_ReflectionsLevel: -10000
+  m_ReverbLevel: 0
+  m_ReverbDelay: 0.04
+  m_Diffusion: 100
+  m_Density: 100
+  m_HFReference: 5000
+  m_RoomLF: 0
+  m_LFReference: 250
+  m_ReflectionsDelay: 0
+  m_ReverbPreset: 27
+--- !u!169 &1604016398
+AudioLowPassFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1604016393}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_LowpassResonanceQ: 1
+  lowpassLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0.77272725
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1 &1623064510
 GameObject:
   m_ObjectHideFlags: 0
@@ -86410,7 +86455,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2078294915}
   - 33: {fileID: 2078294917}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
