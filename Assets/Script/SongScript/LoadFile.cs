@@ -93,7 +93,25 @@ public class LoadFile : MonoBehaviour {
 	// 1 easy 2 normal 3 hard
 	private int level = 2;
 
+	private bool isWait = false;
+
 	private Layers layerState;
+
+	//Move Panel
+	private float startTime;
+	private Vector3 startMarker;
+	private Vector3 endMarker;
+	private bool isPanelMoving;
+	private float journeyLength;
+	private bool moveLeft;
+	private bool moveRight;
+
+	private Vector3 sizeMin;
+	private Vector3 sizeNormal;
+
+//	RectTransform rectLeft;
+//	RectTransform rectCenter;
+//	RectTransform rectRight;
 
 	public void Awake ()
 	{
@@ -107,6 +125,10 @@ public class LoadFile : MonoBehaviour {
 	}
 
 	public void Start(){
+		isPanelMoving = false;
+		sizeMin = new Vector3 (0.75f, 0.75f, 1);
+		sizeNormal = new Vector3 (1, 1, 1);
+
 		okToChange = true;
 		delayScene = 0.0f;
 		layerState = Layers.NORMAL_LAYER;
@@ -116,6 +138,7 @@ public class LoadFile : MonoBehaviour {
 			mt.M_Name = spt [0];
 			buttonList.Add (CreateButton(mt, GlobalData.textFile [i]));
 		}
+		buttonList [0].GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);
 		//for (int i = 0; i < Mtems.Count; i++) {
 		//	buttonList.Add (CreateButton(Mtems [i], GlobalData.textFile [i]));
 		//}
@@ -137,6 +160,9 @@ public class LoadFile : MonoBehaviour {
 		if (buttonList.Count >= 1) {
 //			Debug.Log (buttonList.Count+" = "+indexColorChange);
 			buttonList [indexColorChange].GetComponent<UnityEngine.UI.Image> ().color = new Color (103/255f, (172/255f), 1f,1f);
+			if (buttonList.Count >= 2) {
+				buttonList [indexColorChange + 1].GetComponent<RectTransform> ().localScale = new Vector3 (0.75f, 0.75f, 1);
+			}
 //			buttonList [indexColorChange].GetComponent<Image> ().color = Color.blue;
 //			if (indexColorChange != 0) {
 //				buttonList [indexColorChange - 1].GetComponent<Image> ().color = new Color (255, 255, 255);
@@ -144,6 +170,7 @@ public class LoadFile : MonoBehaviour {
 		}
 
 		contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x + 200, contentPanel.localPosition.y);
+
 
 		//leap motion
 		controller = new Leap.Controller ();
@@ -169,6 +196,42 @@ public class LoadFile : MonoBehaviour {
 	}
 
 	void Update(){
+		
+		if(isPanelMoving){
+			Debug.Log ("Move");
+			float distCovered = (Time.time - startTime) * 975.0f;
+			float fracJourney = distCovered / journeyLength;
+//			Debug.Log("content Before"+contentPanel.localPosition);
+			Debug.Log("distCover = "+ distCovered+" Jorney Length = "+journeyLength);
+			Debug.Log (fracJourney);
+			contentPanel.localPosition = Vector3.Lerp(startMarker, endMarker, fracJourney);
+			buttonList [indexColorChange].GetComponent<RectTransform> ().localScale = Vector3.Lerp(sizeMin, sizeNormal, fracJourney);
+			if (moveRight) {
+				if (indexColorChange - 1 >= 0) {
+					buttonList [indexColorChange - 1].GetComponent<RectTransform> ().localScale = Vector3.Lerp (sizeNormal, sizeMin, fracJourney);
+				}
+				if (indexColorChange + 1 < buttonList.Count) {
+					buttonList [indexColorChange + 1].GetComponent<RectTransform> ().localScale = sizeMin;
+				}
+			}
+				//				buttonList [indexColorChange].GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);
+//				buttonList [indexColorChange - 1].GetComponent<RectTransform> ().localScale = new Vector3 (0.75f, 0.75f, 1);
+			if (moveLeft) {
+				if (indexColorChange + 1 < buttonList.Count) {
+					buttonList [indexColorChange + 1].GetComponent<RectTransform> ().localScale = Vector3.Lerp (sizeNormal, sizeMin, fracJourney);
+				}
+				if (indexColorChange - 1 >= 0) {
+					buttonList [indexColorChange - 1].GetComponent<RectTransform> ().localScale = sizeMin;
+				}
+			}
+
+			if (contentPanel.localPosition == endMarker) {
+//
+				isPanelMoving = false;
+				moveRight = false;
+				moveLeft = false;
+			}
+		}
 
 		delayTrack += Time.deltaTime;
 
@@ -190,46 +253,71 @@ public class LoadFile : MonoBehaviour {
 		}
 
 	}
-	public void selectedListDown(){
-		if (buttonList.Count >= 1) {
-			++indexColorChange;
-			if (indexColorChange < buttonList.Count) {
-				buttonList [indexColorChange].GetComponent<UnityEngine.UI.Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
-				buttonList [indexColorChange - 1].GetComponent<UnityEngine.UI.Image> ().color = new Color (1, 1, 1, 1);
 
-				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x - 215, contentPanel.localPosition.y);
 
-				string songName = nameList [indexColorChange];
-				//currentSong.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
-				currentSong.clip = songList[indexColorChange];
-				delayTrack = 0.0f;
+	public void selectedListRight(){
+		if (!isPanelMoving) {
+			if (buttonList.Count >= 1) {
+				++indexColorChange;
+				if (indexColorChange < buttonList.Count) {
+					buttonList [indexColorChange].GetComponent<UnityEngine.UI.Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
+//					buttonList [indexColorChange].GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);
+					buttonList [indexColorChange - 1].GetComponent<UnityEngine.UI.Image> ().color = new Color (1, 1, 1, 1);
+//					buttonList [indexColorChange - 1].GetComponent<RectTransform> ().localScale = new Vector3 (0.75f, 0.75f, 1);
+//					if (indexColorChange + 1 < buttonList.Count) {
+//						buttonList [indexColorChange + 1].GetComponent<RectTransform> ().localScale = new Vector3 (0.75f, 0.75f, 1);
+//					}
+					startTime = Time.time;
+					startMarker = contentPanel.localPosition;
+					endMarker = new Vector3 (contentPanel.localPosition.x - 215, contentPanel.localPosition.y, contentPanel.localPosition.z);
+					journeyLength = Vector3.Distance(startMarker, endMarker);
+					moveRight = true;
+					//contentPanel.localPosition = Vector3.Lerp (contentPanel.localPosition,new Vector3(contentPanel.localPosition.x - 215, contentPanel.localPosition.y, 0f),  (Time.time - startTime) / 5f);
+//				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x - 215, contentPanel.localPosition.y);
 
-//				buttonList.RemoveAt (indexColorChange - 1);
-//				sampleButonList.RemoveAt (indexColorChange - 1);
-//				contentPanel.
-			} else {
-				--indexColorChange;
-			}
+					string songName = nameList [indexColorChange];
+					//currentSong.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
+					currentSong.clip = songList [indexColorChange];
+					delayTrack = 0.0f;
+
+				} else {
+					--indexColorChange;
+				}
 		
 
+			}
+			isPanelMoving = true;
 		}
 	}
 
-	public void selectedListUp(){
-		if (buttonList.Count >= 1) {
-			--indexColorChange;
-			if (indexColorChange >= 0) {
-				buttonList [indexColorChange].GetComponent<UnityEngine.UI.Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
-				buttonList [indexColorChange + 1].GetComponent<UnityEngine.UI.Image> ().color = new Color (1, 1, 1, 1);
-				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x + 215, contentPanel.localPosition.y);
+	public void selectedListLeft(){
+		if (!isPanelMoving) {
+			if (buttonList.Count >= 1) {
+				--indexColorChange;
+				if (indexColorChange >= 0) {
+					buttonList [indexColorChange].GetComponent<UnityEngine.UI.Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
+//					buttonList [indexColorChange].GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);
+					buttonList [indexColorChange + 1].GetComponent<UnityEngine.UI.Image> ().color = new Color (1, 1, 1, 1);
+//					buttonList [indexColorChange + 1].GetComponent<RectTransform> ().localScale = new Vector3 (0.75f, 0.75f, 1);
+//					if (indexColorChange > 0) {
+//						buttonList [indexColorChange - 1].GetComponent<RectTransform> ().localScale = new Vector3 (0.75f, 0.75f, 1);
+//					}
+					startTime = Time.time;
+					startMarker = contentPanel.localPosition;
+					endMarker = new Vector3 (contentPanel.localPosition.x + 215, contentPanel.localPosition.y, contentPanel.localPosition.z);
+					journeyLength = Vector3.Distance(startMarker, endMarker);
+					moveLeft = true;
+					//contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x + 215, contentPanel.localPosition.y);
 
-				string songName = nameList [indexColorChange];
-				//currentSong.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
-				currentSong.clip = songList[indexColorChange];
-				delayTrack = 0.0f;
-			} else {
-				++indexColorChange;
+					string songName = nameList [indexColorChange];
+					//currentSong.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
+					currentSong.clip = songList [indexColorChange];
+					delayTrack = 0.0f;
+				} else {
+					++indexColorChange;
+				}
 			}
+			isPanelMoving = true;
 		}
 	}
 
@@ -324,7 +412,7 @@ public class LoadFile : MonoBehaviour {
 //		sampleButonList.Add (button);
 		newButton.transform.SetParent (contentPanel);
 		RectTransform rect = newButton.GetComponent<RectTransform> ();
-		rect.localScale = new Vector3 (1, 1, 1);
+		rect.localScale = new Vector3 (0.75f, 0.75f, 1);
 		rect.localPosition = new Vector3 (rect.position.x, rect.position.y, 0);
 
 //		}
@@ -377,39 +465,40 @@ public class LoadFile : MonoBehaviour {
 		Hand leftHand = hands.Leftmost;
 
 
-		if (layerState == Layers.NORMAL_LAYER) {
-			if (isSwipeRight(rightHand)) {
+		if (layerState == Layers.NORMAL_LAYER ) {
+			if (isSwipeRight(rightHand)|| Input.GetKeyDown(KeyCode.RightArrow)) {
 				isFlicking = true;
-				this.selectedListDown ();
+				this.selectedListRight ();
 				selectSound.Play ();
 			}
-			if (isSwipeLeft(leftHand)) {
+			if (isSwipeLeft(leftHand)|| Input.GetKeyDown(KeyCode.LeftArrow)) {
 				isFlicking = true;
-				this.selectedListUp ();
+				this.selectedListLeft ();
 				selectSound.Play ();
 			}
 		} else if (layerState == Layers.SPEED_LAYER) {
-		
-			if (isSwipeRight (rightHand)) {
+			Debug.Log ("Speed");
+			if (isSwipeRight (rightHand) || Input.GetKeyDown(KeyCode.RightArrow)) {
 				isFlicking = true;
 				this.speedUp ();
 				selectSound.Play ();
 			}
-			if (isSwipeLeft (leftHand)) {
+			if (isSwipeLeft (leftHand) || Input.GetKeyDown(KeyCode.LeftArrow)) {
 				isFlicking = true;
 				this.speedDown ();
 				selectSound.Play ();
 			}
 
 		} else {
+			Debug.Log ("Else");
 
-			if (isSwipeRight(rightHand)) {
+			if (isSwipeRight(rightHand) || Input.GetKeyDown(KeyCode.RightArrow)) {
 				isFlicking = true;
 				this.increaseLevel ();
 				selectSound.Play ();
 				currentAmount = 0;
 			}
-			if (isSwipeLeft(leftHand)) {
+			if (isSwipeLeft(leftHand) || Input.GetKeyDown(KeyCode.LeftArrow)) {
 				isFlicking = true;
 				this.decreaseLevel ();
 				selectSound.Play ();
@@ -492,19 +581,21 @@ public class LoadFile : MonoBehaviour {
 				okToChange = false;
 			}
 
-		} else if (hand.GrabStrength == 1) {
-			isGrab = true;
-			currentAmount += progressBarSpeed * Time.deltaTime;
-			if (layerState == Layers.DIFFICULTY_LAYER) {
-				if (level == 1) {
-					Easy_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString() + "%";
-				} else if (level == 2) {
-					Normal_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString() + "%";
+		} else if (hand.GrabStrength == 1 || Input.GetKey( KeyCode.Space ) ) {
+			if (!isWait) {
+				isGrab = true;
+				currentAmount += progressBarSpeed * Time.deltaTime;
+				if (layerState == Layers.DIFFICULTY_LAYER) {
+					if (level == 1) {
+						Easy_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
+					} else if (level == 2) {
+						Normal_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
+					} else {
+						Hard_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
+					}
 				} else {
-					Hard_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString() + "%";
+					TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
 				}
-			} else {
-				TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
 			}
 		} else {
 			isGrab = false;
@@ -590,11 +681,13 @@ public class LoadFile : MonoBehaviour {
 	}
 		
 	public void showSpeed (){
+		isWait = true;
 		layerState = Layers.SPEED_LAYER;
 		currentAmount = 0;
 		selectedSong ();
 		speedPanel.position = Vector3.Slerp(destination, speedPanelPosition, 5);
 		difficultyPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
+		StartCoroutine(TestCoroutine());
 	}
 
 	public void speedUp(){
@@ -618,14 +711,22 @@ public class LoadFile : MonoBehaviour {
 	}
 
 	public void showDifficulty(){
+		isWait = true;
 		layerState = Layers.DIFFICULTY_LAYER;
 		currentAmount = 0;
 		speedPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
 		difficultyPanel.position = Vector3.Slerp(destination, difficultyPanelPosition, 5);
+		StartCoroutine(TestCoroutine());
+
 	}
 
 	public void backFromDifficulty(){
 		difficultyPanel.position = Vector3.Slerp (difficultyPanel.position, destination,5);
+	}
+
+	IEnumerator TestCoroutine() {
+		yield return new WaitForSeconds(0.7f);
+		isWait = false;
 	}
 
 	public int getLevel(){
