@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Audio;
 
 public class LineRTiltChecker : MonoBehaviour {
 
@@ -24,6 +25,8 @@ public class LineRTiltChecker : MonoBehaviour {
 
 	public LaneTiltState laneState = LaneTiltState.IDLE;
 
+	public static bool filterRGoingDown = false;
+
 	private Color[] colors;
 	private Color bc = new Color(31, 255, 173, 1.0f);
 
@@ -42,14 +45,9 @@ public class LineRTiltChecker : MonoBehaviour {
 	void Update () {
 		//Vector3 pos = lineChecker.transform.position;
 		if (Input.GetKey(key2R)) {
-			//Vector3 hidePosition = new Vector3 (firstPosition.x, firstPosition.y + 2.7f, 0);
-			//lineChecker.transform.localPosition = hidePosition;
-
 			laneState = LaneTiltState.R2RTILT;
 		}
 		else if(Input.GetKey(key2L)){
-			//Vector3 hidePosition = new Vector3 (firstPosition.x, firstPosition.y - 2.7f, 0);
-			//lineChecker.transform.localPosition = hidePosition;
 			laneState = LaneTiltState.R2LTILT;
 		}
 
@@ -93,6 +91,7 @@ public class LineRTiltChecker : MonoBehaviour {
 
 			float autoTime = TimerScript.timePass;
 			float hitDeltaTime = GetHitDeltaTime (autoTime, note.HitTime);
+			bool isFxCalled = false;
 
 			if (InRange (hitDeltaTime)) {
 				if (note.NoteState == NoteDescription.NoteHitState.READY) {
@@ -115,33 +114,38 @@ public class LineRTiltChecker : MonoBehaviour {
 						x = -x;
 					}
 					particleObj.transform.position = new Vector3 (x/1.08f, particleObj.transform.position.y, particleObj.transform.position.z);
+					//PlayEffect (true, 9999);
+					isFxCalled = true;
 				}
 			}
-			bool isHit = false;
 
-			if (laneState == LaneTiltState.R2RTILT && note.TiltAngle > 0.1f) {
-				isHit = true;
-			}
-			else if (laneState == LaneTiltState.R2LTILT && note.TiltAngle < -0.1f) {
-				isHit = true;
-			}
-			else if (laneState == LaneTiltState.IDLE && note.TiltAngle >= -0.1f && note.TiltAngle <= 0.1f) {
-				isHit = true;
-			}
+			if (!isFxCalled) {
+				bool isHit = false;
 
-			if (isHit) {
-				note.NoteState = NoteDescription.NoteHitState.HIT;
-				judge = JudgeScript.Judge.FANTASTIC;
-				score = (int)judge;
-				if (TiltInRange (note)) {			
-					for (int j = 0; j < note.EachComboTime.Length; j++) {
-						if (!note.EachComboAdded [j]) {
-							if (TimerScript.timePass >= note.EachComboTime [j]) {
-								ApplyHit ();
-								note.EachComboAdded [j] = true;
+				if (laneState == LaneTiltState.R2RTILT && note.TiltAngle > 0.1f) {
+					isHit = true;
+				} else if (laneState == LaneTiltState.R2LTILT && note.TiltAngle < -0.1f) {
+					isHit = true;
+				} else if (laneState == LaneTiltState.IDLE && note.TiltAngle >= -0.1f && note.TiltAngle <= 0.1f) {
+					isHit = true;
+				}
+
+				if (isHit) {
+					note.NoteState = NoteDescription.NoteHitState.HIT;
+					judge = JudgeScript.Judge.FANTASTIC;
+					score = (int)judge;
+					if (TiltInRange (note)) {			
+						for (int j = 0; j < note.EachComboTime.Length; j++) {
+							if (!note.EachComboAdded [j]) {
+								if (TimerScript.timePass >= note.EachComboTime [j]) {
+									ApplyHit ();
+									note.EachComboAdded [j] = true;
+								}
 							}
 						}
 					}
+				} else {
+					//PlayEffect (false, 10);
 				}
 			}
 
@@ -223,14 +227,40 @@ public class LineRTiltChecker : MonoBehaviour {
 				
 			if (move) {
 				particleObj.transform.position = new Vector3 (x, particleObj.transform.position.y, particleObj.transform.position.z);
+				//PlayEffect (true, x);
 			}
 
 		} else if (note.TiltAngle >= -0.1f && note.TiltAngle <= 0.1f){
 			particleObj.transform.position = new Vector3 (note.NoteObject.transform.position.x, particleObj.transform.position.y, particleObj.transform.position.z);
+			//PlayEffect (true, note.NoteObject.transform.position.x);
 		}
 	}
 
 	private bool IsParticleInRange(float x){
 		return x <= parInitPos.x && x >= otherParInitPos.x;
 	}
+
+//	private void PlayEffect(bool flange, float value){
+//		
+//		if (flange) {
+//			FXPlayer.Flange.TransitionTo (0.1f);
+//			if (value != 9999) {
+//				value = -value;
+//				value += 1.9f;
+//				filterRGoingDown = false;
+//
+//				//value = value * 500;
+//				//FXPlayer.SetHighCutOff (value);
+//
+//				value = 22000 - value * 6000;
+//				FXPlayer.SetLowCutOff (value);
+//			}
+//
+//		} else {
+//			//Debug.Log ("false");
+//			FXPlayer.Default.TransitionTo (0.5f);
+//			filterRGoingDown = true;
+//		}
+//
+//	}
 }

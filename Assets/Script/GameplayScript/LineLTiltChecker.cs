@@ -24,6 +24,8 @@ public class LineLTiltChecker : MonoBehaviour {
 
 	public LaneTiltState laneState = LaneTiltState.IDLE;
 
+	public static bool filterLGoingDown = false;
+
 	void Start () {
 		parInitPos = particleObj.transform.position;
 		otherParInitPos = otherParticleObj.transform.position;
@@ -107,6 +109,7 @@ public class LineLTiltChecker : MonoBehaviour {
 						x = -x;
 					}
 					particleObj.transform.position = new Vector3 (x/1.08f, particleObj.transform.position.y, particleObj.transform.position.z);
+					//PlayEffect (true, 9999);
 				}
 			}
 			bool isHit = false;
@@ -135,6 +138,8 @@ public class LineLTiltChecker : MonoBehaviour {
 						}
 					}
 				}
+			} else {
+				//PlayEffect (false, 0);
 			}
 		}
 	}
@@ -215,14 +220,64 @@ public class LineLTiltChecker : MonoBehaviour {
 
 			if (move) {
 				particleObj.transform.position = new Vector3 (x, particleObj.transform.position.y, particleObj.transform.position.z);
+				//PlayEffect (true, x);
 			}
 
 		} else if (note.TiltAngle >= -0.1f && note.TiltAngle <= 0.1f){
 			particleObj.transform.position = new Vector3 (note.NoteObject.transform.position.x, particleObj.transform.position.y, particleObj.transform.position.z);
+			//PlayEffect (true, note.NoteObject.transform.position.x);
 		}
 	}
 
 	private bool IsParticleInRange(float x){
 		return x <= parInitPos.x && x >= otherParInitPos.x;
 	}
+
+	/*
+	private void PlayEffect(bool flange, float value){
+		if (flange) {
+			SoundPlayer.Flange.TransitionTo (0.1f);
+			if (value != 9999) {
+				value += 1.475f;
+				filterGoingDown = false;
+				SoundPlayer.SetLowCutOff (22000 - value * 7000);
+			}
+
+		} else {
+			SoundPlayer.Default.TransitionTo (0.1f);
+			filterGoingDown = true;
+		}
+	}
+
+	private void LowerFilter(){
+		if (filterGoingDown) {
+			if (SoundPlayer.lowPass.cutoffFrequency < 22000) {
+				float value = SoundPlayer.lowPass.cutoffFrequency + 200;
+				SoundPlayer.SetLowCutOff (value);
+			}
+		}
+	}
+	*/
+
+//	private void PlayEffect(bool flange, float value){
+//		
+//		if (flange) {
+//			FXPlayer.Flange.TransitionTo (0.1f);
+//			if (value != 9999) {
+//				value += 1.50f;
+//				filterLGoingDown = false;
+//
+//				//value = value * 450;
+//				//FXPlayer.SetHighCutOff (value);
+//
+//				//value = 22000 - value * 6000;
+//				//SoundPlayer.SetLowCutOff (value);
+//			}
+//
+//		} else {
+//			//Debug.Log ("false");
+//			//FXPlayer.Default.TransitionTo (0.3f);
+//			filterLGoingDown = true;
+//		
+//	}
 }

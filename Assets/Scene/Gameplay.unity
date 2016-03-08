@@ -433,10 +433,10 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4282830587
+        rgba: 4282621936
       minMaxState: 0
     startSize:
-      scalar: 0.15
+      scalar: 0.18
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5235,6 +5235,7 @@ Transform:
   - {fileID: 1362769044}
   - {fileID: 71581350}
   - {fileID: 1604016396}
+  - {fileID: 1524202764}
   - {fileID: 425359993}
   - {fileID: 718351872}
   m_Father: {fileID: 0}
@@ -17815,7 +17816,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 124781743}
-  m_RootOrder: 25
+  m_RootOrder: 26
 --- !u!114 &425359994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26100,7 +26101,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4282038006
+        rgba: 4282089209
       minMaxState: 0
     startSize:
       scalar: 0.045
@@ -30647,7 +30648,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &718351872
 Transform:
   m_ObjectHideFlags: 0
@@ -30659,7 +30660,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 124781743}
-  m_RootOrder: 26
+  m_RootOrder: 27
 --- !u!114 &718351873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32739,7 +32740,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4278243320
+        rgba: 4278226164
       minMaxState: 0
     startSize:
       scalar: 5
@@ -54612,7 +54613,7 @@ ParticleSystem:
         rgba: 4282993151
       maxColor:
         serializedVersion: 2
-        rgba: 4281707753
+        rgba: 4281898230
       minMaxState: 0
     startSize:
       scalar: 0.1
@@ -64460,7 +64461,7 @@ ParticleSystem:
         rgba: 4294229248
       minMaxState: 0
     startSize:
-      scalar: 0.15
+      scalar: 0.18
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -65741,6 +65742,152 @@ ParticleSystem:
     subEmitterCollision1: {fileID: 0}
     subEmitterDeath: {fileID: 0}
     subEmitterDeath1: {fileID: 0}
+--- !u!1 &1524202763
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1524202764}
+  - 82: {fileID: 1524202766}
+  - 165: {fileID: 1524202765}
+  - 114: {fileID: 1524202767}
+  - 169: {fileID: 1524202768}
+  m_Layer: 0
+  m_Name: FXPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1524202764
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1524202763}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 124781743}
+  m_RootOrder: 25
+--- !u!165 &1524202765
+AudioHighPassFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1524202763}
+  m_Enabled: 0
+  m_CutoffFrequency: 10
+  m_HighpassResonanceQ: 4
+--- !u!82 &1524202766
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1524202763}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24383396, guid: cf628d78e960a724e88c2c193d8295fa,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.9
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  Priority: 130
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+--- !u!114 &1524202767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1524202763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4526d76728c21ff42b401d5ba9364b7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!169 &1524202768
+AudioLowPassFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1524202763}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_LowpassResonanceQ: 3
+  lowpassLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: -0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1 &1540381382
 GameObject:
   m_ObjectHideFlags: 0
@@ -68928,8 +69075,6 @@ GameObject:
   - 4: {fileID: 1604016396}
   - 82: {fileID: 1604016395}
   - 114: {fileID: 1604016394}
-  - 169: {fileID: 1604016398}
-  - 164: {fileID: 1604016397}
   m_Layer: 0
   m_Name: AudioPlayer
   m_TagString: Untagged
@@ -68948,7 +69093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a517fcb3a02f4362a104aed7f8a5f5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  source: {fileID: 0}
+  baseSource: {fileID: 0}
   offset: 0
 --- !u!82 &1604016395
 AudioSource:
@@ -68961,7 +69106,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -68972,7 +69117,7 @@ AudioSource:
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
-  BypassEffects: 0
+  BypassEffects: 1
   BypassListenerEffects: 0
   BypassReverbZones: 0
   rolloffCustomCurve:
@@ -69036,49 +69181,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 124781743}
   m_RootOrder: 24
---- !u!164 &1604016397
-AudioReverbFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1604016393}
-  m_Enabled: 0
-  m_DryLevel: 0
-  m_Room: 0
-  m_RoomHF: 0
-  m_RoomRolloff: 0
-  m_DecayTime: 1
-  m_DecayHFRatio: 0.5
-  m_ReflectionsLevel: -10000
-  m_ReverbLevel: 0
-  m_ReverbDelay: 0.04
-  m_Diffusion: 100
-  m_Density: 100
-  m_HFReference: 5000
-  m_RoomLF: 0
-  m_LFReference: 250
-  m_ReflectionsDelay: 0
-  m_ReverbPreset: 27
---- !u!169 &1604016398
-AudioLowPassFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1604016393}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_LowpassResonanceQ: 1
-  lowpassLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 0.77272725
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!1 &1623064510
 GameObject:
   m_ObjectHideFlags: 0
@@ -72458,7 +72560,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4284728319
+        rgba: 4284721407
       minMaxState: 0
     startSize:
       scalar: 0.1
