@@ -20,8 +20,8 @@ public class SFController : MonoBehaviour {
 
 	private float RDelay = 0;
 	private float LDelay = 0;
-	private float rightTiltDegrees;
-	private float leftTiltDegrees;
+//	private float rightTiltDegrees;
+//	private float leftTiltDegrees;
 
 	public float offset;
 
@@ -30,7 +30,7 @@ public class SFController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Application.runInBackground = true;
+//		Application.runInBackground = true;
 		controller = new Leap.Controller ();
 		fingers = new Finger[4];
 		previousFingers = new Finger[4];
@@ -256,7 +256,8 @@ public class SFController : MonoBehaviour {
 
 		if (!isRflicking) {
 			//		if (rightHandYaw > 1.5 && rightHand.PalmVelocity.x > speed) {
-			if (rightHandYaw > 1.21f && rightHand.PalmVelocity.x > speed && rightHand.IsRight) {
+//			if (rightHandYaw > 1.21f && rightHand.PalmVelocity.x > speed && rightHand.IsRight) {
+			if (rightHand.PalmVelocity.x > speed && rightHand.IsRight) {
 				//Debug.Log ("right swipe");
 				//			Debug.Log(rightHandYaw);
 				InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_X);
@@ -266,7 +267,8 @@ public class SFController : MonoBehaviour {
 		}
 		if (!isLflicking) {
 			//		if (leftHandYaw > 1.5  && leftHand.PalmVelocity.x < -speed) {
-			if (leftHandYaw > 1.21f && leftHand.PalmVelocity.x < -speed && leftHand.IsLeft) {
+//			if (leftHandYaw > 1.21f && leftHand.PalmVelocity.x < -speed && leftHand.IsLeft) {
+			if (leftHand.PalmVelocity.x < -speed && leftHand.IsLeft) {
 				//Debug.Log ("left swipe");
 				//			Debug.Log(leftHandYaw);
 				InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_Z);
@@ -372,71 +374,79 @@ public class SFController : MonoBehaviour {
 //				}
 			} else {
 				CheckRollAngle (rHand, rightTiltNote);
-				CheckRollAngle (lHand, leftTiltNote);				
-			}
-
-
+				CheckRollAngle (lHand, leftTiltNote);
+		}
 	}
 	private void CheckRollAngle(Hand hand, List<NoteDescription> tiltNotes){
 		float rollDegrees = ToDegrees (hand.PalmNormal.Roll);
 		float maxAngle = 45;
-		float offsetDegrees = 15;
+		float offsetDegrees = 20;
+		float rightTiltDegrees = 0;
+		float leftTiltDegrees = 0;
 		NoteDescription note = null;
 
-		if (tiltNotes [0].Length > 0) {
-			if (TimerScript.timePass > tiltNotes [0].HitTime + tiltNotes [0].Length) {
-				note = tiltNotes [2];
-			} else {
-				note = tiltNotes [0];
-			}
-			if (hand.IsRight && note.IsRTilt) {
-				if (note.TiltAngle == 0) {
-					if (rollDegrees > 35) {
-						InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
-						InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
-					} else {
-						InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_M);
-					}
-				} else if (note.TiltAngle < 0.1f) {
-					rightTiltDegrees = FindDegrees (note) * -1;
-					if (rollDegrees - maxAngle > rightTiltDegrees - offsetDegrees && rollDegrees - maxAngle < rightTiltDegrees + offsetDegrees) {
-						InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_N);
-						InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
-					}
-				} else if (note.TiltAngle > 0.1f) {
-					rightTiltDegrees = FindDegrees (note);
-					if (rollDegrees > rightTiltDegrees - offsetDegrees && rollDegrees < rightTiltDegrees + offsetDegrees) {
-						InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_M);
-						InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
+		for (int i = 0; i < tiltNotes.Count; i++) {
+			note = tiltNotes [i];
+			if (note.Length > 0) {
+				if (TimerScript.timePass > note.HitTime + note.Length - 0.02f) {
+					if (i + 2 < tiltNotes.Count - 1) {
+						note = tiltNotes [i + 2];
 					}
 				}
-
-			} 
-			if (hand.IsLeft && note.IsLTilt) {
-				rollDegrees *= -1;
-				if(note.TiltAngle == 0){
-					if (rollDegrees > 35) {
-						Debug.Log (rollDegrees);
-						InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);
-						InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
-					} else {
-						InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_V);
-					}
-				} else if (note.TiltAngle > 0.1f) {
-//				 if (note.TiltAngle > 0.1f) {
-					leftTiltDegrees = FindDegrees (note);
-//					Debug.Log (rollDegrees);
-					if (rollDegrees > leftTiltDegrees - offsetDegrees && rollDegrees < leftTiltDegrees + offsetDegrees) {
-						InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_B);
-						InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);
-					}
-				} else if (note.TiltAngle < 0.1f) {
-					leftTiltDegrees = FindDegrees (note)*-1;
+				break;
+			}
+		}
+		if (hand.IsRight && note.IsRTilt) {
+			if (note.TiltAngle == 0) {
+				if (rollDegrees > 35) {
+					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
+					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
+				} else {
+					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_M);
+				}
+			} else if (note.TiltAngle < 0.1f) {
+				rightTiltDegrees = FindDegrees (note);
+//				Debug.Log (rollDegrees +  "       " + rightTiltDegrees);
+				if (rollDegrees > rightTiltDegrees - offsetDegrees && rollDegrees < rightTiltDegrees + offsetDegrees) {
+					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_N);
+					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
+				} else {
+					Debug.Log (rollDegrees + " > " + (rightTiltDegrees - offsetDegrees) + "       " + rollDegrees + " < " + (rightTiltDegrees + offsetDegrees));
+				}
+			} else if (note.TiltAngle > 0.1f) {
+				rightTiltDegrees = FindDegrees (note) * -1;
 //					Debug.Log (rollDegrees - maxAngle);
-					if (rollDegrees - maxAngle > leftTiltDegrees - offsetDegrees && rollDegrees - maxAngle < leftTiltDegrees + offsetDegrees) {
-						InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_V);
-						InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
-					}
+//				if (2*rollDegrees - maxAngle > rightTiltDegrees - offsetDegrees && 2*rollDegrees - maxAngle < rightTiltDegrees + offsetDegrees) {
+				if (rollDegrees - maxAngle > rightTiltDegrees - offsetDegrees && rollDegrees - maxAngle < rightTiltDegrees + offsetDegrees) {
+					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_M);
+					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
+				}
+			}
+		}
+		if (hand.IsLeft && note.IsLTilt) {
+			rollDegrees *= -1;
+			if(note.TiltAngle == 0){
+				if (rollDegrees > 35) {
+//					Debug.Log (rollDegrees);
+					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);
+					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
+				} else {
+					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_V);
+				}
+			} else if (note.TiltAngle > 0.1f) {
+//				 if (note.TiltAngle > 0.1f) {
+				leftTiltDegrees = FindDegrees (note);
+				if (rollDegrees > leftTiltDegrees - offsetDegrees && rollDegrees < leftTiltDegrees + offsetDegrees) {
+					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_B);
+					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);
+				}
+			} else if (note.TiltAngle < 0.1f) {
+				leftTiltDegrees = FindDegrees (note)*-1;
+//				Debug.Log (rollDegrees - maxAngle +  "       " + leftTiltDegrees);
+//				if (2*rollDegrees - maxAngle > leftTiltDegrees - offsetDegrees && 2*rollDegrees - maxAngle < leftTiltDegrees + offsetDegrees) {
+				if (rollDegrees - maxAngle > leftTiltDegrees - offsetDegrees && rollDegrees - maxAngle < leftTiltDegrees + offsetDegrees) {
+					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_V);
+					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
 				}
 			}
 		}
