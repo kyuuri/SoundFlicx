@@ -154,9 +154,9 @@ Material:
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
-          name: _EmisColor
-        second: {r: 1, g: 1, b: 1, a: 0}
+          name: _TintColor
+        second: {r: 0.44604242, g: 0.5514706, b: 0, a: 0.5}
       data:
         first:
-          name: _TintColor
-        second: {r: 1, g: 1, b: 1, a: 0.5}
+          name: _EmisColor
+        second: {r: 1, g: 1, b: 1, a: 0}

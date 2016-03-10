@@ -11,7 +11,7 @@ GameObject:
   - 33: {fileID: 3315196}
   - 23: {fileID: 2323592}
   - 114: {fileID: 11464082}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: RTiltNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,6 @@ MeshRenderer:
   m_ReceiveShadows: 0
   m_Materials:
   - {fileID: 2100000, guid: 5fd317a217b7ceb49bb016bf046867b2, type: 2}
-  - {fileID: 2100000, guid: 6cbfd5f6469f29e4a9d37dbcd5af6cb9, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -84,7 +83,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x
@@ -105,6 +104,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalScale.y
       value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ReceiveShadows
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -19,8 +19,8 @@ TagManager:
   - Leap
   - Particle
   - Lane
-  - 
-  - 
+  - TiltNote
+  - FlickNote
   - 
   - 
   - 
@@ -41,4 +41,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: New Layer
+    uniqueID: 736641639
     locked: 0

@@ -147,9 +147,9 @@ Material:
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
-          name: _EmisColor
-        second: {r: 1, g: 1, b: 1, a: 1}
+          name: _TintColor
+        second: {r: 0, g: 0.32017732, b: 0.46323532, a: 1}
       data:
         first:
-          name: _TintColor
+          name: _EmisColor
         second: {r: 1, g: 1, b: 1, a: 1}
