@@ -109,12 +109,16 @@ public class LoadFile : MonoBehaviour {
 	private Vector3 sizeMin;
 	private Vector3 sizeNormal;
 
+	public Transform secondCamera;
+	public UnityEngine.UI.Image loadingImage;
+
 //	RectTransform rectLeft;
 //	RectTransform rectCenter;
 //	RectTransform rectRight;
 
 	public void Awake ()
 	{
+
 		songList = new AudioClip[GlobalData.textFile.Length];
 		//GetFiles ();
 		for (int i = 0; i < GlobalData.textFile.Length; i++) {
@@ -193,6 +197,8 @@ public class LoadFile : MonoBehaviour {
 		if (delayTrack >= 0.5f) {
 			currentSong.Play ();
 		}
+		loadingImage.gameObject.SetActive (false);
+		secondCamera.gameObject.SetActive (true);
 	}
 
 	void Update(){

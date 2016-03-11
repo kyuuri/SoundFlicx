@@ -18,9 +18,15 @@ public class StartScript : MonoBehaviour {
 	private bool goingNext = false;
 	private float sceneTimer = 0;
 
+	public UnityEngine.UI.Image loadingPicture;
+	public Transform particalFolder;
+	public Transform audioSpectrum;
+	public Transform uiCamera;
+
 	Leap.Controller controller;
 	// Use this for initialization
 	void Start () {
+		loadingPicture.rectTransform.localPosition = new Vector3(5000,5000);
 		Application.runInBackground = true;
 		controller = new Leap.Controller ();
 		controller.EnableGesture (Gesture.GestureType.TYPESWIPE);
@@ -82,6 +88,10 @@ public class StartScript : MonoBehaviour {
 	}
 
 	IEnumerator ChangeScene() {
+		particalFolder.gameObject.SetActive (false);
+		audioSpectrum.gameObject.SetActive (false);
+		uiCamera.gameObject.SetActive (false);
+		loadingPicture.rectTransform.localPosition = new Vector3(0,0);
 		source.Play ();
 		//yield return new WaitForSeconds(2);
 
