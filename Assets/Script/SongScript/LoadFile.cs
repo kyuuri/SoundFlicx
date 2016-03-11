@@ -586,13 +586,15 @@ public class LoadFile : MonoBehaviour {
 				isGrab = true;
 				currentAmount += progressBarSpeed * Time.deltaTime;
 				if (layerState == Layers.DIFFICULTY_LAYER) {
-					if (level == 1) {
-						Easy_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
-					} else if (level == 2) {
-						Normal_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
-					} else {
-						Hard_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
-					}
+//					if (level == 1) {
+//						Easy_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
+//					} else if (level == 2) {
+//						Normal_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
+//					} else {
+//						Hard_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
+//					}
+
+					TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
 				} else {
 					TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
 				}
@@ -614,19 +616,21 @@ public class LoadFile : MonoBehaviour {
 						Normal_TextLevel.GetComponent<Text> ().text = "NORMAL";
 						Hard_TextLevel.GetComponent<Text> ().text = "HARD";
 					}
+					TextLevel.GetComponent<Text> ().text = "Grab !";
 				} else {
 					TextLevel.GetComponent<Text> ().text = "Grab !";
 				}
 				
 			} else if (currentAmount > 0) {
 				if (layerState == Layers.DIFFICULTY_LAYER) {
-					if (level == 1) {
-						Easy_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
-					} else if (level == 2) {
-						Normal_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
-					} else {
-						Hard_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
-					}
+//					if (level == 1) {
+//						Easy_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
+//					} else if (level == 2) {
+//						Normal_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
+//					} else {
+//						Hard_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
+//					}
+					TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
 				} else {
 					TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
 				}
