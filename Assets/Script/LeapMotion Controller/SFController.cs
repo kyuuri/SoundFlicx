@@ -284,6 +284,7 @@ public class SFController : MonoBehaviour {
 
 		Hand previousRHand = previousHands.Rightmost;
 		Hand previousLHand = previousHands.Leftmost;
+
 //		float offset = 10;
 
 //		float rRoll = rHand.PalmNormal.Roll * offset;
@@ -300,8 +301,9 @@ public class SFController : MonoBehaviour {
 			
 		float rightTilt = (rRoll - previousRRoll) * 100;
 		float leftTilt = (lRoll - previousLRoll) * 100;
-		float deltaTilt = 0.05f;
+		float deltaTilt = 0.1f;
 		float holdTilt = 0.8f;
+
 
 		List<NoteDescription> rightTiltNote = NoteRenderer.rightTiltNotes[0];
 		List<NoteDescription> leftTiltNote = NoteRenderer.leftTiltNotes[0];
@@ -314,11 +316,8 @@ public class SFController : MonoBehaviour {
 			InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
 //		} else if(false){
 //
-//			NoteDescription rNote = GetNote(rightTiltNote);
-//			NoteDescription lNote = GetNote(leftTiltNote);
 //
-//
-//			if (rNote.TiltAngle != 0) {
+//			if (rightTiltNote [0].TiltAngle != 0) {
 //				if (rHand.IsValid && rHand.IsRight) {
 //					if (rightTilt > deltaTilt) {
 ////				Debug.Log ("RIGHT left");
@@ -327,12 +326,11 @@ public class SFController : MonoBehaviour {
 ////				Debug.Log ("RIGHT right");
 //						InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_M);
 //					} else {
-//						Debug.Log(rightTilt + " ..... " + deltaTilt);
 //						InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
 //						InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
 //					}
 //				}
-//			} else if(rNote.TiltAngle == 0){
+//			} else if(rightTiltNote[0].TiltAngle == 0){
 //				if (rHand.IsValid && rHand.IsRight) {
 //					if (rightTilt > holdTilt) {
 ////						Debug.Log ("RIGHT left");
@@ -348,7 +346,7 @@ public class SFController : MonoBehaviour {
 //			}
 //
 //			//left hand tilt
-//			if (lNote.TiltAngle != 0) {
+//			if (leftTiltNote [0].TiltAngle != 0) {
 //				if (lHand.IsValid && lHand.IsLeft) {
 ////				Debug.Log ("LEFT left");
 //					if (leftTilt > deltaTilt) {
@@ -357,12 +355,11 @@ public class SFController : MonoBehaviour {
 ////				Debug.Log ("LEFT right");
 //						InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_B);
 //					} else {
-//						Debug.Log(leftTilt + " ..... " + deltaTilt);
 //						InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);
 //						InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
 //					}
 //				}
-//			} else if (lNote.TiltAngle == 0) {
+//			} else if (leftTiltNote [0].TiltAngle == 0) {
 //				if (lHand.IsValid && lHand.IsLeft) {
 //					//				Debug.Log ("LEFT left");
 //					if (leftTilt > holdTilt) {
@@ -375,30 +372,11 @@ public class SFController : MonoBehaviour {
 //						InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
 //					}
 //				}
-		} else {
-			CheckRollAngle (lHand, leftTiltNote);
-			CheckRollAngle (rHand, rightTiltNote);
+			} else {
+				CheckRollAngle (rHand, rightTiltNote);
+				CheckRollAngle (lHand, leftTiltNote);
 		}
 	}
-
-
-	private NoteDescription GetNote( List<NoteDescription> tiltNotes ){
-		NoteDescription note = null;
-
-		for (int i = 0; i < tiltNotes.Count; i++) {
-			note = tiltNotes [i];
-			if (note.Length > 0) {
-				if (TimerScript.timePass > note.HitTime + note.Length - 0.02f) {
-					if (i + 2 < tiltNotes.Count - 1) {
-						note = tiltNotes [i + 2];
-					}
-				}
-				break;
-			}
-		}
-		return note;
-	}
-
 	private void CheckRollAngle(Hand hand, List<NoteDescription> tiltNotes){
 		float rollDegrees = ToDegrees (hand.PalmNormal.Roll);
 		float maxAngle = 45;
@@ -420,7 +398,7 @@ public class SFController : MonoBehaviour {
 		}
 		if (hand.IsRight && note.IsRTilt) {
 			if (note.TiltAngle == 0) {
-				if (rollDegrees > 35 || rollDegrees < 0) {
+				if (rollDegrees > 35) {
 					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
 					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
 				} else {
@@ -429,14 +407,11 @@ public class SFController : MonoBehaviour {
 			} else if (note.TiltAngle < 0.1f) {
 				rightTiltDegrees = FindDegrees (note);
 //				Debug.Log (rollDegrees +  "       " + rightTiltDegrees);
-								if (rollDegrees > rightTiltDegrees - offsetDegrees && rollDegrees < rightTiltDegrees + offsetDegrees) {
-//				if (Mathf.Abs(rollDegrees-maxAngle)/2 > rightTiltDegrees - offsetDegrees && rollDegrees < rightTiltDegrees + offsetDegrees) {
+				if (rollDegrees > rightTiltDegrees - offsetDegrees && rollDegrees < rightTiltDegrees + offsetDegrees) {
 					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_N);
 					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
-					Debug.Log (rollDegrees + " > " + (rightTiltDegrees - offsetDegrees) + "   ||    " + rollDegrees + " < " + (rightTiltDegrees + offsetDegrees));
 				} else {
-					Debug.Log (rollDegrees + " < " + (rightTiltDegrees - offsetDegrees) + "   ||    " + rollDegrees + " > " + (rightTiltDegrees + offsetDegrees));
-					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
+					Debug.Log (rollDegrees + " > " + (rightTiltDegrees - offsetDegrees) + "       " + rollDegrees + " < " + (rightTiltDegrees + offsetDegrees));
 				}
 			} else if (note.TiltAngle > 0.1f) {
 				rightTiltDegrees = FindDegrees (note) * -1;
@@ -445,15 +420,13 @@ public class SFController : MonoBehaviour {
 				if (rollDegrees - maxAngle > rightTiltDegrees - offsetDegrees && rollDegrees - maxAngle < rightTiltDegrees + offsetDegrees) {
 					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_M);
 					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
-				} else {
-					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
 				}
 			}
 		}
 		if (hand.IsLeft && note.IsLTilt) {
 			rollDegrees *= -1;
 			if(note.TiltAngle == 0){
-				if (rollDegrees > 35 || rollDegrees < 0) {
+				if (rollDegrees > 35) {
 //					Debug.Log (rollDegrees);
 					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);
 					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
@@ -466,8 +439,6 @@ public class SFController : MonoBehaviour {
 				if (rollDegrees > leftTiltDegrees - offsetDegrees && rollDegrees < leftTiltDegrees + offsetDegrees) {
 					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_B);
 					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);
-				} else {
-					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
 				}
 			} else if (note.TiltAngle < 0.1f) {
 				leftTiltDegrees = FindDegrees (note)*-1;
@@ -476,8 +447,7 @@ public class SFController : MonoBehaviour {
 				if (rollDegrees - maxAngle > leftTiltDegrees - offsetDegrees && rollDegrees - maxAngle < leftTiltDegrees + offsetDegrees) {
 					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_V);
 					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
-				} else {
-					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);				}
+				}
 			}
 		}
 	}
@@ -543,12 +513,3 @@ public class SFController : MonoBehaviour {
 		return ((45 / len) * (currentTime - hitTime) + initTime);
 	}
 }
-
-
-//45 >>  0
-//35 >> 5
-//25 >> 10
-//5  >> 20
-//-5 >> 25
-//-25>> 35
-//-45 >> 45
