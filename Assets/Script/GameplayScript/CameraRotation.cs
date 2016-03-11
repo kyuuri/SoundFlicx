@@ -98,7 +98,7 @@ public class CameraRotation : MonoBehaviour {
 
 		}
 
-		if (angle == -1.475f || angle == 1.475f || angle == -2.95f || angle == 2.95f) {
+		if (angle == -1.425f || angle == 1.425f || angle == -2.85f || angle == 2.85f) {
 			count++;
 		} else {
 			count = 0;
