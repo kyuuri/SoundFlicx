@@ -257,67 +257,56 @@ public class LoadFile : MonoBehaviour {
 
 	public void selectedListRight(){
 		if (!isPanelMoving) {
-			if (buttonList.Count >= 1) {
+			if (buttonList.Count >= 1 && indexColorChange < buttonList.Count - 1) {
 				++indexColorChange;
-				if (indexColorChange < buttonList.Count) {
-					buttonList [indexColorChange].GetComponent<UnityEngine.UI.Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
+				buttonList [indexColorChange].GetComponent<UnityEngine.UI.Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
 //					buttonList [indexColorChange].GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);
-					buttonList [indexColorChange - 1].GetComponent<UnityEngine.UI.Image> ().color = new Color (1, 1, 1, 1);
+				buttonList [indexColorChange - 1].GetComponent<UnityEngine.UI.Image> ().color = new Color (1, 1, 1, 1);
 //					buttonList [indexColorChange - 1].GetComponent<RectTransform> ().localScale = new Vector3 (0.75f, 0.75f, 1);
 //					if (indexColorChange + 1 < buttonList.Count) {
 //						buttonList [indexColorChange + 1].GetComponent<RectTransform> ().localScale = new Vector3 (0.75f, 0.75f, 1);
 //					}
-					startTime = Time.time;
-					startMarker = contentPanel.localPosition;
-					endMarker = new Vector3 (contentPanel.localPosition.x - 215, contentPanel.localPosition.y, contentPanel.localPosition.z);
-					journeyLength = Vector3.Distance(startMarker, endMarker);
-					moveRight = true;
-					//contentPanel.localPosition = Vector3.Lerp (contentPanel.localPosition,new Vector3(contentPanel.localPosition.x - 215, contentPanel.localPosition.y, 0f),  (Time.time - startTime) / 5f);
+				startTime = Time.time;
+				startMarker = contentPanel.localPosition;
+				endMarker = new Vector3 (contentPanel.localPosition.x - 215, contentPanel.localPosition.y, contentPanel.localPosition.z);
+				journeyLength = Vector3.Distance (startMarker, endMarker);
+				moveRight = true;
+				//contentPanel.localPosition = Vector3.Lerp (contentPanel.localPosition,new Vector3(contentPanel.localPosition.x - 215, contentPanel.localPosition.y, 0f),  (Time.time - startTime) / 5f);
 //				contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x - 215, contentPanel.localPosition.y);
 
-					string songName = nameList [indexColorChange];
-					//currentSong.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
-					currentSong.clip = songList [indexColorChange];
-					delayTrack = 0.0f;
-
-				} else {
-					--indexColorChange;
-				}
-		
-
+				string songName = nameList [indexColorChange];
+				//currentSong.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
+				currentSong.clip = songList [indexColorChange];
+				delayTrack = 0.0f;
+				isPanelMoving = true;
 			}
-			isPanelMoving = true;
 		}
 	}
 
 	public void selectedListLeft(){
 		if (!isPanelMoving) {
-			if (buttonList.Count >= 1) {
+			if (buttonList.Count >= 1 && buttonList.Count >= 1 && indexColorChange > 0) {
 				--indexColorChange;
-				if (indexColorChange >= 0) {
-					buttonList [indexColorChange].GetComponent<UnityEngine.UI.Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
+				buttonList [indexColorChange].GetComponent<UnityEngine.UI.Image> ().color = new Color (103 / 255f, (172 / 255f), 1f, 1f);
 //					buttonList [indexColorChange].GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);
-					buttonList [indexColorChange + 1].GetComponent<UnityEngine.UI.Image> ().color = new Color (1, 1, 1, 1);
+				buttonList [indexColorChange + 1].GetComponent<UnityEngine.UI.Image> ().color = new Color (1, 1, 1, 1);
 //					buttonList [indexColorChange + 1].GetComponent<RectTransform> ().localScale = new Vector3 (0.75f, 0.75f, 1);
 //					if (indexColorChange > 0) {
 //						buttonList [indexColorChange - 1].GetComponent<RectTransform> ().localScale = new Vector3 (0.75f, 0.75f, 1);
 //					}
-					startTime = Time.time;
-					startMarker = contentPanel.localPosition;
-					endMarker = new Vector3 (contentPanel.localPosition.x + 215, contentPanel.localPosition.y, contentPanel.localPosition.z);
-					journeyLength = Vector3.Distance(startMarker, endMarker);
-					moveLeft = true;
-					//contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x + 215, contentPanel.localPosition.y);
+				startTime = Time.time;
+				startMarker = contentPanel.localPosition;
+				endMarker = new Vector3 (contentPanel.localPosition.x + 215, contentPanel.localPosition.y, contentPanel.localPosition.z);
+				journeyLength = Vector3.Distance (startMarker, endMarker);
+				moveLeft = true;
+				//contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x + 215, contentPanel.localPosition.y);
 
-					string songName = nameList [indexColorChange];
-					//currentSong.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
-					currentSong.clip = songList [indexColorChange];
-					delayTrack = 0.0f;
-				} else {
-					++indexColorChange;
-				}
+				string songName = nameList [indexColorChange];
+				//currentSong.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
+				currentSong.clip = songList [indexColorChange];
+				delayTrack = 0.0f;
+				isPanelMoving = true;
 			}
-			isPanelMoving = true;
 		}
 	}
 
@@ -470,11 +459,13 @@ public class LoadFile : MonoBehaviour {
 				isFlicking = true;
 				this.selectedListRight ();
 				selectSound.Play ();
+				currentAmount = 0;
 			}
 			if (isSwipeLeft(leftHand)|| Input.GetKeyDown(KeyCode.LeftArrow)) {
 				isFlicking = true;
 				this.selectedListLeft ();
 				selectSound.Play ();
+				currentAmount = 0;
 			}
 		} else if (layerState == Layers.SPEED_LAYER) {
 			Debug.Log ("Speed");
@@ -482,11 +473,13 @@ public class LoadFile : MonoBehaviour {
 				isFlicking = true;
 				this.speedUp ();
 				selectSound.Play ();
+				currentAmount = 0;
 			}
 			if (isSwipeLeft (leftHand) || Input.GetKeyDown(KeyCode.LeftArrow)) {
 				isFlicking = true;
 				this.speedDown ();
 				selectSound.Play ();
+				currentAmount = 0;
 			}
 
 		} else {
@@ -531,6 +524,7 @@ public class LoadFile : MonoBehaviour {
 	}
 
 	private void FillProgressBar(Hand hand){
+		
 		if (currentAmount >= 100) {
 			TextLevel.GetComponent<Text> ().text = "Done!";
 			if (!GetComponent<AudioSource> ().isPlaying) {

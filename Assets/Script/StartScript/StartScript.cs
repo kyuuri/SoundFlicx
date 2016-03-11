@@ -50,11 +50,18 @@ public class StartScript : MonoBehaviour {
 		}
 
 		if (sceneTimer > 1.7f) {
-			ChangeScene ();
+			StartCoroutine(ChangeScene());
 		}
 
 		if (Input.GetKeyDown ("space")) {
-			goingNext = true;
+			if(!source.isPlaying && ! goingNext){
+				goingNext = true;
+				source.Play ();
+			}
+			delay = 0.1f;
+			opacRate = 0.65f;
+			startText.color = new Color (startText.color.r, startText.color.g, startText.color.b, opac);
+
 		}
 	}
 
@@ -74,9 +81,23 @@ public class StartScript : MonoBehaviour {
 		}
 	}
 
-	public void ChangeScene(){
-		SceneManager.LoadSceneAsync("SongSelection");
+	IEnumerator ChangeScene() {
+		source.Play ();
+		//yield return new WaitForSeconds(2);
+
+
+		// Start an asynchronous operation to load the scene that was passed to the LoadNewScene coroutine.
+		AsyncOperation async = Application.LoadLevelAsync("SongSelection");
+
+		// While the asynchronous operation to load the new scene is not yet complete, continue waiting until it's done.
+		while (!async.isDone) {
+			yield return null;
+		}
 	}
+
+//	public void ChangeScene(){
+//		SceneManager.LoadSceneAsync("SongSelection");
+//	}
 
 	float PercentWidth(float width){
 		return (width / 100) * UnityEngine.Screen.width;
