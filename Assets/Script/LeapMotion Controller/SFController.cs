@@ -20,6 +20,8 @@ public class SFController : MonoBehaviour {
 
 	private float RDelay = 0;
 	private float LDelay = 0;
+	public float maxAngle;
+	public float offsetDegrees;
 //	private float rightTiltDegrees;
 //	private float leftTiltDegrees;
 
@@ -401,10 +403,9 @@ public class SFController : MonoBehaviour {
 
 	private void CheckRollAngle(Hand hand, List<NoteDescription> tiltNotes){
 		float rollDegrees = ToDegrees (hand.PalmNormal.Roll);
-		float maxAngle = 45;
-		float offsetDegrees = 30;
 		float rightTiltDegrees = 0;
 		float leftTiltDegrees = 0;
+
 		NoteDescription note = null;
 
 		if (tiltNotes.Count > 0) {
@@ -419,6 +420,8 @@ public class SFController : MonoBehaviour {
 					break;
 				}
 			}
+		} else {
+			return;
 		}
 
 		if (hand.IsRight && note.IsRTilt) {
@@ -453,6 +456,7 @@ public class SFController : MonoBehaviour {
 				}
 			}
 		}
+
 		if (hand.IsLeft && note.IsLTilt) {
 			rollDegrees *= -1;
 			if(note.TiltAngle == 0){

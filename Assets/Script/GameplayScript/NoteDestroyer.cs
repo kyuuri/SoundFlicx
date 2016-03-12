@@ -82,7 +82,7 @@ public class NoteDestroyer : MonoBehaviour {
 							}
 
 							if (miss) {
-								note.NoteState = NoteDescription.NoteHitState.MISSED;
+								//note.NoteState = NoteDescription.NoteHitState.MISSED;
 								JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
 								JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
 							}

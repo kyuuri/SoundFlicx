@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Audio;
+using Leap;
 
 public class LineRTiltChecker : MonoBehaviour {
 
 	public enum LaneTiltState {IDLE, R2RTILT, R2LTILT} //0, 1, 2
+
+	public GameObject rTilt;
+	private Leap.Controller controller;
 
 	public Transform lineChecker;
 	public Transform particleObj;
@@ -30,19 +34,25 @@ public class LineRTiltChecker : MonoBehaviour {
 	private Color[] colors;
 	private Color bc = new Color(31, 255, 173, 1.0f);
 
+	private bool isHit;
+	private bool move;
+
 	void Start () {
-		colors = new Color[2];
+		//colors = new Color[2];
 		parInitPos = particleObj.transform.position;
 		otherParInitPos = otherParticleObj.transform.position;
 
-		Material[] m = NoteRenderer.rightTiltNotes [0] [0].NoteObject.GetComponent<Renderer> ().materials;
-		for(int i = 0 ; i < m.Length ; i++){
-			colors [i] = m [i].GetColor ("_TintColor");
-		}
+		controller = new Leap.Controller ();
+
+//		Material[] m = NoteRenderer.rightTiltNotes [0] [0].NoteObject.GetComponent<Renderer> ().materials;
+//		for(int i = 0 ; i < m.Length ; i++){
+//			colors [i] = m [i].GetColor ("_TintColor");
+//		}
 	}
 
 	// Update is called once per frame
 	void Update () {
+
 		//Vector3 pos = lineChecker.transform.position;
 		if (Input.GetKey(key2R)) {
 			laneState = LaneTiltState.R2RTILT;
@@ -51,7 +61,11 @@ public class LineRTiltChecker : MonoBehaviour {
 			laneState = LaneTiltState.R2LTILT;
 		}
 
+		notes = NoteRenderer.rightTiltNotes [0];
+
+		UpdateTiltVisual ();
 		CheckTilt ();
+		CheckTimeTilt ();
 
 		if (Input.GetKeyUp(key2L) || Input.GetKeyUp(key2R)) {
 			laneState = LaneTiltState.IDLE;
@@ -72,8 +86,6 @@ public class LineRTiltChecker : MonoBehaviour {
 	}
 
 	public void CheckTilt(){
-		notes = NoteRenderer.rightTiltNotes [0];
-
 		if (notes.Count > 0) {
 			NoteDescription note = null;
 			for (int i = 0; i < notes.Count; i++) {
@@ -92,6 +104,8 @@ public class LineRTiltChecker : MonoBehaviour {
 			float autoTime = TimerScript.timePass;
 			float hitDeltaTime = GetHitDeltaTime (autoTime, note.HitTime);
 			bool isFxCalled = false;
+
+			isHit = false;
 
 			if (InRange (hitDeltaTime)) {
 				if (note.NoteState == NoteDescription.NoteHitState.READY) {
@@ -114,22 +128,28 @@ public class LineRTiltChecker : MonoBehaviour {
 						x = -x;
 					}
 					particleObj.transform.position = new Vector3 (x/1.08f, particleObj.transform.position.y, particleObj.transform.position.z);
+					rTilt.transform.position = new Vector3 (x/1.08f, rTilt.transform.position.y, rTilt.transform.position.z);
+
+					isHit = true;
 					//PlayEffect (true, 9999);
-					isFxCalled = true;
+					//isFxCalled = true;
 				}
 			}
 
 			if (!isFxCalled) {
-				bool isHit = false;
 
-				if (laneState == LaneTiltState.R2RTILT && note.TiltAngle > 0.1f) {
-					isHit = true;
-				} else if (laneState == LaneTiltState.R2LTILT && note.TiltAngle < -0.1f) {
-					isHit = true;
-				} else if (laneState == LaneTiltState.IDLE && note.TiltAngle >= -0.1f && note.TiltAngle <= 0.1f) {
-					isHit = true;
+				if (TiltInRange (note)) {
+					if (laneState == LaneTiltState.R2RTILT && note.TiltAngle > 0.1f) {
+						isHit = true;
+					} else if (laneState == LaneTiltState.R2LTILT && note.TiltAngle < -0.1f) {
+						isHit = true;
+					} else if (laneState == LaneTiltState.IDLE && note.TiltAngle >= -0.1f && note.TiltAngle <= 0.1f) {
+						isHit = true;
+					}
 				}
 
+
+					
 				if (isHit) {
 					note.NoteState = NoteDescription.NoteHitState.HIT;
 					judge = JudgeScript.Judge.FANTASTIC;
@@ -218,7 +238,8 @@ public class LineRTiltChecker : MonoBehaviour {
 				x = -x;
 			}
 
-			bool move = false;
+			move = false;
+
 			if (note.TiltAngle > 0.1f && laneState == LaneTiltState.R2RTILT) {
 				move = true;
 			} else if (note.TiltAngle < 0.1f && laneState == LaneTiltState.R2LTILT) {
@@ -226,18 +247,88 @@ public class LineRTiltChecker : MonoBehaviour {
 			}
 				
 			if (move) {
-				particleObj.transform.position = new Vector3 (x, particleObj.transform.position.y, particleObj.transform.position.z);
+				Vector3 pos = new Vector3 (x, particleObj.transform.position.y, particleObj.transform.position.z);
+				particleObj.transform.position = pos;
+				rTilt.transform.position = new Vector3 (x, rTilt.transform.position.y, rTilt.transform.position.z);
 				//PlayEffect (true, x);
 			}
 
 		} else if (note.TiltAngle >= -0.1f && note.TiltAngle <= 0.1f){
-			particleObj.transform.position = new Vector3 (note.NoteObject.transform.position.x, particleObj.transform.position.y, particleObj.transform.position.z);
+			Vector3 pos = new Vector3 (note.NoteObject.transform.position.x, particleObj.transform.position.y, particleObj.transform.position.z);
+			particleObj.transform.position = pos;
+			rTilt.transform.position = new Vector3 (note.NoteObject.transform.position.x, rTilt.transform.position.y, rTilt.transform.position.z);
 			//PlayEffect (true, note.NoteObject.transform.position.x);
 		}
 	}
 
 	private bool IsParticleInRange(float x){
 		return x <= parInitPos.x && x >= otherParInitPos.x;
+	}
+		
+	void UpdateTiltVisual () {
+		Frame frame = controller.Frame ();
+		HandList hands = frame.Hands;
+		Hand rHand = hands.Rightmost;
+
+		if (rHand.IsRight) {
+			Vector3 rTiltPos = new Vector3 (0, rTilt.transform.position.y, rTilt.transform.position.z);
+
+			float rRoll = ToDegrees (rHand.PalmNormal.Roll);
+
+			float rPos = GetRightXPos (rRoll);
+
+//			Debug.Log (rPos);
+
+			if (rPos > parInitPos.x)
+				rPos = parInitPos.x;
+			else if (rPos < otherParInitPos.x)
+				rPos = otherParInitPos.x;
+
+			rTilt.transform.position = new Vector3 (rPos, rTiltPos.y, rTiltPos.z);
+
+		}
+	}
+
+	float ToDegrees (float Radian) {
+		float Degrees;
+		Degrees = Radian * 180 / Mathf.PI;
+		return Degrees;
+	}
+
+	float GetRightXPos (float degrees) {
+		float maxDegrees = 45;
+		return  -( ((parInitPos.x - otherParInitPos.x) / maxDegrees) * (degrees - 0) - parInitPos.x  );
+		//return (2 * otherParInitPos.x / maxDegrees) * (degrees) + parInitPos.x;
+	}
+
+	void CheckTimeTilt(){
+		if (notes.Count > 0) {
+			NoteDescription note = null;
+			for (int i = 0; i < notes.Count; i++) {
+				note = notes [i];
+				if (note.Length > 0) {
+					if (TimerScript.timePass > note.HitTime + note.Length - 0.02f) {
+						if (i + 2 < notes.Count - 1) {
+							note = notes [i + 2];
+						}
+					}
+					break;
+				}
+			}
+			if (note.HitTime - TimerScript.timePass < 1) {
+				if (!rTilt.activeSelf) {
+					rTilt.SetActive (true);
+				}
+			} else {
+				if(rTilt.activeSelf){
+					rTilt.SetActive (false);
+				}
+			}
+		} else {
+			if(rTilt.activeSelf){
+				rTilt.SetActive (false);
+			}
+		}
 	}
 
 //	private void PlayEffect(bool flange, float value){

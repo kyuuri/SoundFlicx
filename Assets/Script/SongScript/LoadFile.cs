@@ -204,12 +204,12 @@ public class LoadFile : MonoBehaviour {
 	void Update(){
 		
 		if(isPanelMoving){
-			Debug.Log ("Move");
+			//Debug.Log ("Move");
 			float distCovered = (Time.time - startTime) * 975.0f;
 			float fracJourney = distCovered / journeyLength;
 //			Debug.Log("content Before"+contentPanel.localPosition);
-			Debug.Log("distCover = "+ distCovered+" Jorney Length = "+journeyLength);
-			Debug.Log (fracJourney);
+			//Debug.Log("distCover = "+ distCovered+" Jorney Length = "+journeyLength);
+			//Debug.Log (fracJourney);
 			contentPanel.localPosition = Vector3.Lerp(startMarker, endMarker, fracJourney);
 			buttonList [indexColorChange].GetComponent<RectTransform> ().localScale = Vector3.Lerp(sizeMin, sizeNormal, fracJourney);
 			if (moveRight) {

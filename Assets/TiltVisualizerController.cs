@@ -4,20 +4,18 @@ using Leap;
 using System.Collections.Generic;
 
 public class TiltVisualizerController : MonoBehaviour {
-	enum TILT_STATE{TILTING, NOT_TILT}
+	
 	public GameObject rTilt;
 	public GameObject lTilt;
 	private Leap.Controller controller;
 	private float rightMost;
 	private float leftMost;
-	private TILT_STATE state;
 
 	// Use this for initialization
 	void Start () {
 		controller = new Leap.Controller ();
 		rightMost = rTilt.transform.position.x;
 		leftMost = lTilt.transform.position.x;
-		state = TILT_STATE.NOT_TILT;
 	}
 	
 	// Update is called once per frame
@@ -59,21 +57,24 @@ public class TiltVisualizerController : MonoBehaviour {
 	}
 		
 	bool CheckTimeTilt(List<NoteDescription> tiltNotes){
-		NoteDescription note = null;
-		for (int i = 0; i < tiltNotes.Count; i++) {
-			note = tiltNotes [i];
-			if (note.Length > 0) {
-				if (TimerScript.timePass > note.HitTime + note.Length - 0.02f) {
-					if (i + 2 < tiltNotes.Count - 1) {
-						note = tiltNotes [i + 2];
+		if (tiltNotes.Count > 0) {
+			NoteDescription note = null;
+			for (int i = 0; i < tiltNotes.Count; i++) {
+				note = tiltNotes [i];
+				if (note.Length > 0) {
+					if (TimerScript.timePass > note.HitTime + note.Length - 0.02f) {
+						if (i + 2 < tiltNotes.Count - 1) {
+							note = tiltNotes [i + 2];
+						}
 					}
+					break;
 				}
-				break;
 			}
-		}
-		if (note.HitTime != null) {
-			if (note.HitTime - TimerScript.timePass < 1)
-				return true;
+			if (note.HitTime != null) {
+				if (note.HitTime - TimerScript.timePass < 1)
+					return true;
+			}
+			return false;
 		}
 		return false;
 	}
@@ -92,5 +93,6 @@ public class TiltVisualizerController : MonoBehaviour {
 	float GetLeftXPos (float degrees) {
 		float maxDegrees = 60;
 		return (2 * leftMost / maxDegrees) * (degrees) + leftMost;
-	} 
+	}
+
 }

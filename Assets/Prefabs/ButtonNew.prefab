@@ -207,8 +207,8 @@ MonoBehaviour:
   nameLabel: {fileID: 11435032}
   composer: {fileID: 11477136}
   icon: {fileID: 0}
-  bpm: 0
-  level: 0
+  bpm: {fileID: 0}
+  level: {fileID: 0}
 --- !u!114 &11452790
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -556,6 +556,26 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Colors.m_HighlightedColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Colors.m_HighlightedColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Colors.m_HighlightedColor.b
+      value: 0.23200011
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.g
+      value: 0.38965517
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.b
+      value: 0.38965517
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

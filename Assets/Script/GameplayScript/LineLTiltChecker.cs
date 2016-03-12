@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Leap;
 
 public class LineLTiltChecker : MonoBehaviour {
 
 	public enum LaneTiltState {IDLE, L2RTILT, L2LTILT} //0, 1, 2
+
+	public GameObject lTilt;
+	private Leap.Controller controller;
 
 	public Transform lineChecker;
 	public Transform particleObj;
@@ -26,9 +30,14 @@ public class LineLTiltChecker : MonoBehaviour {
 
 	public static bool filterLGoingDown = false;
 
+	private bool isHit;
+	private bool move;
+
 	void Start () {
 		parInitPos = particleObj.transform.position;
 		otherParInitPos = otherParticleObj.transform.position;
+
+		controller = new Leap.Controller ();
 	}
 
 	// Update is called once per frame
@@ -47,7 +56,11 @@ public class LineLTiltChecker : MonoBehaviour {
 			laneState = LaneTiltState.L2LTILT;
 		}
 
+		notes = NoteRenderer.leftTiltNotes [0];
+
+		UpdateTiltVisual ();
 		CheckTilt ();
+		CheckTimeTilt ();
 
 		if (Input.GetKeyUp(key2L) || Input.GetKeyUp(key2R)) {
 			laneState = LaneTiltState.IDLE;
@@ -68,8 +81,6 @@ public class LineLTiltChecker : MonoBehaviour {
 	}
 
 	public void CheckTilt(){
-		notes = NoteRenderer.leftTiltNotes [0];
-
 		if (notes.Count > 0) {
 			NoteDescription note = null;
 			for (int i = 0; i < notes.Count; i++) {
@@ -84,6 +95,8 @@ public class LineLTiltChecker : MonoBehaviour {
 				}
 			}
 			MovePaticle (note);
+
+			isHit = false;
 
 			float autoTime = TimerScript.timePass;
 			float hitDeltaTime = GetHitDeltaTime (autoTime, note.HitTime);
@@ -109,10 +122,12 @@ public class LineLTiltChecker : MonoBehaviour {
 						x = -x;
 					}
 					particleObj.transform.position = new Vector3 (x/1.08f, particleObj.transform.position.y, particleObj.transform.position.z);
+					lTilt.transform.position = new Vector3 (x/1.08f, lTilt.transform.position.y, lTilt.transform.position.z);
+
+					isHit = true;
 					//PlayEffect (true, 9999);
 				}
 			}
-			bool isHit = false;
 
 			if (laneState == LaneTiltState.L2RTILT && note.TiltAngle > 0.1f) {
 				isHit = true;
@@ -220,17 +235,89 @@ public class LineLTiltChecker : MonoBehaviour {
 
 			if (move) {
 				particleObj.transform.position = new Vector3 (x, particleObj.transform.position.y, particleObj.transform.position.z);
+				lTilt.transform.position = new Vector3 (x, lTilt.transform.position.y, lTilt.transform.position.z);
+
 				//PlayEffect (true, x);
 			}
 
 		} else if (note.TiltAngle >= -0.1f && note.TiltAngle <= 0.1f){
 			particleObj.transform.position = new Vector3 (note.NoteObject.transform.position.x, particleObj.transform.position.y, particleObj.transform.position.z);
+			lTilt.transform.position = new Vector3 (note.NoteObject.transform.position.x, lTilt.transform.position.y, lTilt.transform.position.z);
+
 			//PlayEffect (true, note.NoteObject.transform.position.x);
 		}
 	}
 
 	private bool IsParticleInRange(float x){
 		return x <= parInitPos.x && x >= otherParInitPos.x;
+	}
+
+	void UpdateTiltVisual () {
+		Frame frame = controller.Frame ();
+		HandList hands = frame.Hands;
+		Hand lHand = hands.Rightmost;
+
+		if (lHand.IsLeft) {
+			Vector3 lTiltPos = new Vector3 (0, lTilt.transform.position.y, lTilt.transform.position.z);
+
+			float lRoll = ToDegrees (lHand.PalmNormal.Roll);
+
+			float lPos = GetLeftXPos (lRoll);
+
+//			if (!isHit) {
+//				if (lPos > parInitPos.x && lPos < otherParInitPos.x) {
+//					lTilt.transform.position = new Vector3 (lPos, lTiltPos.y, lTiltPos.z);
+//				}
+//			}
+			if (lPos < parInitPos.x)
+				lPos = parInitPos.x;
+			else if (lPos > otherParInitPos.x)
+				lPos = otherParInitPos.x;
+
+			lTilt.transform.position = new Vector3 (lPos, lTiltPos.y, lTiltPos.z);
+
+		}
+	}
+
+	float ToDegrees (float Radian) {
+		float Degrees;
+		Degrees = Radian * 180 / Mathf.PI;
+		return Degrees;
+	}
+
+	float GetLeftXPos (float degrees) {
+		float maxDegrees = 45;
+		return  ( ((parInitPos.x - otherParInitPos.x) / maxDegrees) * (degrees - 0) + parInitPos.x  );
+	}
+
+	void CheckTimeTilt(){
+		if (notes.Count > 0) {
+			NoteDescription note = null;
+			for (int i = 0; i < notes.Count; i++) {
+				note = notes [i];
+				if (note.Length > 0) {
+					if (TimerScript.timePass > note.HitTime + note.Length - 0.02f) {
+						if (i + 2 < notes.Count - 1) {
+							note = notes [i + 2];
+						}
+					}
+					break;
+				}
+			}
+			if (note.HitTime - TimerScript.timePass < 1) {
+				if (!lTilt.activeSelf) {
+					lTilt.SetActive (true);
+				}
+			} else {
+				if(lTilt.activeSelf){
+					lTilt.SetActive (false);
+				}
+			}
+		} else {
+			if(lTilt.activeSelf){
+				lTilt.SetActive (false);
+			}
+		}
 	}
 
 	/*
