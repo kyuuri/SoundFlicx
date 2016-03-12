@@ -8836,7 +8836,6 @@ GameObject:
   - 20: {fileID: 523039626}
   - 124: {fileID: 523039625}
   - 92: {fileID: 523039624}
-  - 81: {fileID: 523039623}
   m_Layer: 0
   m_Name: SecondCamera
   m_TagString: Untagged
@@ -8844,13 +8843,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!81 &523039623
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 523039622}
-  m_Enabled: 1
 --- !u!92 &523039624
 Behaviour:
   m_ObjectHideFlags: 0
