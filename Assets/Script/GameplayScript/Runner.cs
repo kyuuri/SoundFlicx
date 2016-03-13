@@ -7,7 +7,7 @@ public class Runner : MonoBehaviour {
 	public static float speed = 5 * GlobalData.speed;
 
 	void Awake(){
-		Application.targetFrameRate = 60;
+		Application.targetFrameRate = 90;
 		speed = 5 * 2 * GlobalData.speed;
 		camera.transform.position = new Vector3 (0,1,0);
 	}
