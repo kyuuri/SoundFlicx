@@ -11,6 +11,7 @@ public static class GlobalData {
 	public static int songIndex;
 	public static float speed = 1.0f;
 	public static string[] textFile = new string[] {
+		"Tutorial,Tutorial,120,0,0,0,-0.075",
 		"Exargon,5argon & encX,170,2,6,9,-0.082",
 		"The_Clear_Blue_Sky,Tsukasa,178,3,6,8,0.0",
 		"Little_Witch,Pepper Peach,128,1,7,10,-0.17"

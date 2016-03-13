@@ -151,7 +151,9 @@ public class NoteRenderer : MonoBehaviour {
 		if (side == "L") {
 			actualLane -= 2;
 		}
-		actualLane = 1 - actualLane; 
+		actualLane = 1 - actualLane;
+
+		//Debug.Log (actualLane + side);
 
 		if (noteDescription.StartOrEnd && !isTilting) {
 			isTilting = true;
@@ -229,7 +231,7 @@ public class NoteRenderer : MonoBehaviour {
 
 
 
-		for (float i = 0; i < lastHitNoteTime + 8.0f; i += bar) {
+		for (float i = 0; i < lastHitNoteTime + 20.0f; i += bar) {
 			GameObject barObject = Instantiate (Resources.Load ("BarIndicator")) as GameObject;;
 			barObject.transform.position = new Vector3 (0, 0.03f, lanePosition [0].position.z - 13f + Runner.speed * (i - TimerScript.delay));
 			bars.Add (barObject);
