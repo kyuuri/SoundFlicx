@@ -23,9 +23,16 @@ public class StartScript : MonoBehaviour {
 	public Transform audioSpectrum;
 	public Transform uiCamera;
 
+	private bool isStarted;
+
 	Leap.Controller controller;
 	// Use this for initialization
 	void Start () {
+		opac = 1.0f;
+		opacRate = 0.06f;
+
+		goingNext = false;
+		isStarted = false;
 		loadingPicture.rectTransform.localPosition = new Vector3(5000,5000);
 		Application.runInBackground = true;
 		controller = new Leap.Controller ();
@@ -41,8 +48,8 @@ public class StartScript : MonoBehaviour {
 
 		for (int i = 0; i < gestures.Count; i++) {
 			if (gestures [i].Type == Gesture.GestureType.TYPE_SWIPE) {
-				if(!source.isPlaying && ! goingNext){
-				goingNext = true;
+				if(!source.isPlaying && !goingNext){
+					goingNext = true;
 					source.Play ();
 				}
 				delay = 0.1f;
@@ -56,7 +63,10 @@ public class StartScript : MonoBehaviour {
 		}
 
 		if (sceneTimer > 1.7f) {
-			StartCoroutine(ChangeScene());
+			if (!isStarted) {
+				isStarted = true;
+				StartCoroutine (ChangeScene ());
+			}
 		}
 
 		if (Input.GetKeyDown ("space")) {
@@ -92,7 +102,6 @@ public class StartScript : MonoBehaviour {
 		audioSpectrum.gameObject.SetActive (false);
 		uiCamera.gameObject.SetActive (false);
 		loadingPicture.rectTransform.localPosition = new Vector3(0,0);
-		source.Play ();
 		//yield return new WaitForSeconds(2);
 
 

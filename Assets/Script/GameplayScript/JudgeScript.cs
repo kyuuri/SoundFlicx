@@ -50,8 +50,6 @@ public class JudgeScript : MonoBehaviour {
 		}
 		count = 0;
 		isJumping = true;
-
-		Debug.Log (judge);
 	}
 
 	public void StoreJudge (Judge judge){

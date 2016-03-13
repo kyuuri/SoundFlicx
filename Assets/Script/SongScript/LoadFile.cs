@@ -206,7 +206,7 @@ public class LoadFile : MonoBehaviour {
 
 	void Update(){
 		if (fadeLoadingImage) {
-			Debug.Log (loadingImage.color.a );
+			//Debug.Log (loadingImage.color.a );
 			loadingImage.color = new Color (loadingImage.color.r, loadingImage.color.g, loadingImage.color.b, loadingImage.color.a - 0.05f);
 			if (loadingImage.color.a <= 0) {
 				fadeLoadingImage = false;

@@ -16227,7 +16227,6 @@ GameObject:
   - 20: {fileID: 1733011342}
   - 124: {fileID: 1733011341}
   - 92: {fileID: 1733011340}
-  - 81: {fileID: 1733011339}
   m_Layer: 0
   m_Name: UICamera
   m_TagString: Untagged
@@ -16235,13 +16234,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1733011339
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1733011338}
-  m_Enabled: 0
 --- !u!92 &1733011340
 Behaviour:
   m_ObjectHideFlags: 0
