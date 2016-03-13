@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class Tutorial : MonoBehaviour {
 
 	public GameObject images;
+	public GameObject judgeText;
 	private Sprite picture;
 	private RectTransform rect;
 	private Vector3 speedSizeImage;
@@ -45,7 +46,7 @@ public class Tutorial : MonoBehaviour {
 		phaseNumber = 0;
 		timeStart = new float[]{ 0, 4, 8, 12, 20, 28, 32, 38, 48, 54, 64, 70, 88, 90, 92, 94 };
 		timeEnd = new float[]{ 4, 8, 12, 16, 24, 32, 38, 40, 54, 56, 70, 72, 90, 92, 94, 98 };
-		loopPictureNumber = new int[]{ 1, 1, 5, 2, 1, 1, 5, 1, 12, 1, 7, 1, 1, 1, 1, 1 };
+		loopPictureNumber = new int[]{ 1, 1, 5, 2, 1, 1, 6, 1, 12, 1, 7, 1, 1, 1, 1, 1 };
 		isSingle = new bool[]{ true, true, false, false, true, true, false, true, false, true, false, true, true, true, true, true };
 		picture = images.GetComponent<Image> ().sprite;
 		rect = images.GetComponent<RectTransform> ();
@@ -66,7 +67,7 @@ public class Tutorial : MonoBehaviour {
 				ShowLoopPicture();
 			}
 		} else if (timePass >= timeEnd [phaseNumber] - DELAY) {
-			if (phaseNumber + 1 <= timeStart.Length) {
+			if (phaseNumber + 1 < timeStart.Length) {
 				if (timePass < timeStart [phaseNumber + 1]) {
 					ScaleDown ();
 				} else { //TimerScript > timeStart [phaseNumber + 1]
@@ -101,14 +102,17 @@ public class Tutorial : MonoBehaviour {
 		if (rect.localScale.x > 0) {
 			rect.localScale -= speedSizeImage;
 			if (rect.localScale.x <= 0) {
+				judgeText.SetActive (true);
 				rect.localScale = Vector3.zero;
 			} 
 		}
 	}
 
 	private void ScaleUp(){
-		if (rect.localScale.x < 1)
+		if (rect.localScale.x < 1){
+			judgeText.SetActive (false);
 			rect.localScale += speedSizeImage;
+		}
 	}
 
 	private void ShowPictureSingle(){
@@ -120,7 +124,7 @@ public class Tutorial : MonoBehaviour {
 	}
 
 	private void ShowLoopPicture(){
-		if (frameCount % 15 == 0) {
+		if (frameCount % 15 == 0 || frameCount == 0) {
 			images.GetComponent<UnityEngine.UI.Image> ().sprite = spriteList [imageNumber + loopImage];
 			++loopImage;
 			if (loopImage >= loopPictureNumber [phaseNumber]) {

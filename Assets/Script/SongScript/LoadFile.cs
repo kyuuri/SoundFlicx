@@ -568,6 +568,7 @@ public class LoadFile : MonoBehaviour {
 					speed = 1;
 					changeScene ();
 					loadingImage.color = new Color (loadingImage.color.r, loadingImage.color.g, loadingImage.color.b, 1);
+					secondCamera.gameObject.SetActive (false);
 					UnityEngine.Application.LoadLevel ("GameplayTutorial");
 				} else {
 
