@@ -255,7 +255,7 @@ public class LineLTiltChecker : MonoBehaviour {
 	void UpdateTiltVisual () {
 		Frame frame = controller.Frame ();
 		HandList hands = frame.Hands;
-		Hand lHand = hands.Rightmost;
+		Hand lHand = hands.Leftmost;
 
 		if (lHand.IsLeft) {
 			Vector3 lTiltPos = new Vector3 (0, lTilt.transform.position.y, lTilt.transform.position.z);
