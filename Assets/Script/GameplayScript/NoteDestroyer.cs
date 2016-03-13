@@ -22,26 +22,27 @@ public class NoteDestroyer : MonoBehaviour {
 			laneNotes = NoteRenderer.allnotes[i];
 			if (laneNotes.Count > 0) {
 				NoteDescription note = laneNotes [0];
-				float deltaTime = GetDeltaTime (note.HitTime);
+				if (!note.IsLTilt && !note.IsRTilt) {
+					float deltaTime = GetDeltaTime (note.HitTime);
 
-				if (OutRange (deltaTime)) {
-					if (note.NoteState == NoteDescription.NoteHitState.READY) {
-						note.NoteState = NoteDescription.NoteHitState.MISSED;
-						JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
-						JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
-					}
-					if (note.Length > 0 && note.NoteState != NoteDescription.NoteHitState.MISSED) {
-						if(CheckReleaseLongNoteEndPoint(note)){
-							//nothing
-						}
-						else if(lineCheckers[i].laneState != LineHitChecker.LaneHitState.HOLD ){
+					if (OutRange (deltaTime)) {
+						if (note.NoteState == NoteDescription.NoteHitState.READY) {
 							note.NoteState = NoteDescription.NoteHitState.MISSED;
 							JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
 							JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
 						}
-					}
-					if (DestroyNote (note)) {
-						laneNotes.Remove (note);
+						if (note.Length > 0 && note.NoteState != NoteDescription.NoteHitState.MISSED) {
+							if (CheckReleaseLongNoteEndPoint (note)) {
+								//nothing
+							} else if (lineCheckers [i].laneState != LineHitChecker.LaneHitState.HOLD) {
+								note.NoteState = NoteDescription.NoteHitState.MISSED;
+								JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
+								JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
+							}
+						}
+						if (DestroyNote (note)) {
+							laneNotes.Remove (note);
+						}
 					}
 				}
 			}
@@ -59,60 +60,62 @@ public class NoteDestroyer : MonoBehaviour {
 			NoteDescription note = notes [0];
 			float deltaTime = GetDeltaTime (note.HitTime);
 
-			if (OutRange (deltaTime)) {
-				if (note.Length == 0) {
-					//ignore, just delete.
-				} else {
-					if (note.NoteState == NoteDescription.NoteHitState.READY) {
-						note.NoteState = NoteDescription.NoteHitState.MISSED;
-						JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
-						JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
-					}
-					if (note.Length > 0 && note.NoteState != NoteDescription.NoteHitState.MISSED) {
+			if (note.IsRTilt || note.IsLTilt) {
 
-						if (side == "R") {
-							bool miss = false;
-							if (CheckReleaseLongNoteEndPoint (note)) {
-								//nothing
-							} else if (rTiltChecker.laneState != LineRTiltChecker.LaneTiltState.R2LTILT && note.TiltAngle < -0.1f) {
-								miss = true;
-							} else if (rTiltChecker.laneState != LineRTiltChecker.LaneTiltState.R2RTILT && note.TiltAngle > 0.1f) {
-								miss = true;
-							} else if (rTiltChecker.laneState != LineRTiltChecker.LaneTiltState.IDLE && note.TiltAngle >= -0.1f && note.TiltAngle <= 0.1f) {
-								miss = true;
-							}
-
-							if (miss) {
-								//note.NoteState = NoteDescription.NoteHitState.MISSED;
-								JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
-								JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
-							}
-						} else {
-							bool miss = false;
-							if (CheckReleaseLongNoteEndPoint (note)) {
-								//nothing
-							} else if (lTiltChecker.laneState != LineLTiltChecker.LaneTiltState.L2LTILT && note.TiltAngle < -0.1f) {
-								miss = true;
-							} else if (lTiltChecker.laneState != LineLTiltChecker.LaneTiltState.L2RTILT && note.TiltAngle > 0.1f) {
-								miss = true;
-							} else if (lTiltChecker.laneState != LineLTiltChecker.LaneTiltState.IDLE && note.TiltAngle >= -0.1f && note.TiltAngle <= 0.1f) {
-								miss = true;
-							}
-
-							if (miss) {
-								note.NoteState = NoteDescription.NoteHitState.MISSED;
-								JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
-								JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
-							}
-						}
-
-					}
-				}
-				if (DestroyNote (note)) {
-					if (side == "R") {
-						rightTiltNotes [0].Remove (note);
+				if (OutRange (deltaTime)) {
+					if (note.Length == 0) {
+						//ignore, just delete.
 					} else {
-						leftTiltNotes [0].Remove (note);
+						if (note.NoteState == NoteDescription.NoteHitState.READY) {
+							note.NoteState = NoteDescription.NoteHitState.MISSED;
+							JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
+							JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
+						}
+						if (note.Length > 0 && note.NoteState != NoteDescription.NoteHitState.MISSED) {
+							if (side == "R") {
+								bool miss = false;
+								if (CheckReleaseLongNoteEndPoint (note)) {
+									//nothing
+								} else if (rTiltChecker.laneState != LineRTiltChecker.LaneTiltState.R2LTILT && note.TiltAngle < -0.1f) {
+									miss = true;
+								} else if (rTiltChecker.laneState != LineRTiltChecker.LaneTiltState.R2RTILT && note.TiltAngle > 0.1f) {
+									miss = true;
+								} else if (rTiltChecker.laneState != LineRTiltChecker.LaneTiltState.IDLE && note.TiltAngle >= -0.1f && note.TiltAngle <= 0.1f) {
+									miss = true;
+								}
+
+								if (miss) {
+									note.NoteState = NoteDescription.NoteHitState.MISSED;
+									JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
+									JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
+								}
+							} else {
+								bool miss = false;
+								if (CheckReleaseLongNoteEndPoint (note)) {
+									//nothing
+								} else if (lTiltChecker.laneState != LineLTiltChecker.LaneTiltState.L2LTILT && note.TiltAngle < -0.1f) {
+									miss = true;
+								} else if (lTiltChecker.laneState != LineLTiltChecker.LaneTiltState.L2RTILT && note.TiltAngle > 0.1f) {
+									miss = true;
+								} else if (lTiltChecker.laneState != LineLTiltChecker.LaneTiltState.IDLE && note.TiltAngle >= -0.1f && note.TiltAngle <= 0.1f) {
+									miss = true;
+								}
+
+								if (miss) {
+									note.NoteState = NoteDescription.NoteHitState.MISSED;
+									JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
+									JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
+								}
+							}
+
+						}
+					}
+					if (DestroyNote (note)) {
+						if (side == "R") {
+							rightTiltNotes [0].Remove (note);
+						} else {
+							leftTiltNotes [0].Remove (note);
+						}
 					}
 				}
 			}

@@ -177,7 +177,7 @@ public class LineRTiltChecker : MonoBehaviour {
 	}
 
 	private bool TiltInRange(NoteDescription note){
-		return note.NoteState == NoteDescription.NoteHitState.HIT && note.HitTime < TimerScript.timePass && TimerScript.timePass < note.HitTime + note.Length;
+		return (note.NoteState == NoteDescription.NoteHitState.HIT || note.NoteState == NoteDescription.NoteHitState.MISSED) && note.HitTime < TimerScript.timePass && TimerScript.timePass < note.HitTime + note.Length;
 	}
 
 	private float GetHitDeltaTime(float hitTime, float noteTime){
