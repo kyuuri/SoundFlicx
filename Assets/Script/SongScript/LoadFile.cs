@@ -113,6 +113,8 @@ public class LoadFile : MonoBehaviour {
 	public UnityEngine.UI.Image loadingImage;
 	private bool fadeLoadingImage;
 
+	public GameObject leapCamera;
+
 //	RectTransform rectLeft;
 //	RectTransform rectCenter;
 //	RectTransform rectRight;
@@ -153,6 +155,7 @@ public class LoadFile : MonoBehaviour {
 		//}
 
 		for (int i = 0; i < 4; i++) {
+			parBox [i].gameObject.active = false;
 			parBox [i].startColor = new Color (236/255.0f,213/255.0f,92/255.0f);
 		}
 
@@ -262,7 +265,11 @@ public class LoadFile : MonoBehaviour {
 
 		if (delayScene >= 0.8f) {
 			loadingImage.color = new Color (loadingImage.color.r, loadingImage.color.g, loadingImage.color.b, 1);
+			leapCamera.SetActive (false);
 			secondCamera.gameObject.SetActive (false);
+			for (int i = 0; i < 4; i++) {
+				parBox [i].gameObject.active = false;
+			}
 			UnityEngine.Application.LoadLevel("Gameplay");
 		}
 
@@ -569,6 +576,7 @@ public class LoadFile : MonoBehaviour {
 					changeScene ();
 					loadingImage.color = new Color (loadingImage.color.r, loadingImage.color.g, loadingImage.color.b, 1);
 					secondCamera.gameObject.SetActive (false);
+					leapCamera.SetActive (false);
 					UnityEngine.Application.LoadLevel ("GameplayTutorial");
 				} else {
 
@@ -580,6 +588,7 @@ public class LoadFile : MonoBehaviour {
 				Normal_LoadingBar.gameObject.SetActive (true);
 				Hard_LoadingBar.gameObject.SetActive (false);
 				for (int i = 0; i < 4; i++) {
+					parBox [i].gameObject.active = true;
 					parBox [i].startColor = Color.yellow;
 				}
 
@@ -681,8 +690,10 @@ public class LoadFile : MonoBehaviour {
 
 				for (int i = 0; i < 4; i++) {
 					Vector3 pos = parBox [i].transform.position;
+					parBox [i].gameObject.active = false;
 					parBox [i].transform.position = new Vector3 (pos.x + 8.5f, pos.y, pos.z);
 					parBox [i].startColor = new Color (236/255.0f,213/255.0f,92/255.0f);
+
 				}
 
 			} else if (layerState == Layers.SPEED_LAYER) {

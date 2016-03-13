@@ -25,6 +25,8 @@ public class StartScript : MonoBehaviour {
 
 	private bool isStarted;
 
+	public GameObject leapCamera;
+
 	Leap.Controller controller;
 	// Use this for initialization
 	void Start () {
@@ -99,6 +101,7 @@ public class StartScript : MonoBehaviour {
 
 	IEnumerator ChangeScene() {
 		particalFolder.gameObject.SetActive (false);
+		leapCamera.SetActive (false);
 		audioSpectrum.gameObject.SetActive (false);
 		uiCamera.gameObject.SetActive (false);
 		loadingPicture.rectTransform.localPosition = new Vector3(0,0);

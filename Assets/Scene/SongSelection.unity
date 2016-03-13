@@ -176,6 +176,7 @@ MonoBehaviour:
   buttonRight: {fileID: 1911748357}
   secondCamera: {fileID: 523039627}
   loadingImage: {fileID: 1108113049}
+  leapCamera: {fileID: 1317640262}
 --- !u!82 &201683
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2298,7 +2299,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!199 &191429361
 ParticleSystemRenderer:
   m_ObjectHideFlags: 0
@@ -6899,7 +6900,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!199 &331522216
 ParticleSystemRenderer:
   m_ObjectHideFlags: 0
@@ -11569,7 +11570,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1108113048
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11870,7 +11871,7 @@ MonoBehaviour:
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 2
 --- !u!222 &1181476751
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12067,7 +12068,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!199 &1297387126
 ParticleSystemRenderer:
   m_ObjectHideFlags: 0
@@ -17614,7 +17615,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!199 &1728040355
 ParticleSystemRenderer:
   m_ObjectHideFlags: 0
@@ -22815,7 +22816,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!199 &1876576421
 ParticleSystemRenderer:
   m_ObjectHideFlags: 0
