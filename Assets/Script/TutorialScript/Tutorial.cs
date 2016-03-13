@@ -30,7 +30,7 @@ public class Tutorial : MonoBehaviour {
 	private readonly float DELAY = 0.2f;
 	void Awake(){
 		spriteList = new List<Sprite>();
-		for(int i=1 ;i<47;i++){
+		for(int i=1 ;i<46;i++){
 			Sprite temp = (Sprite.Create(Resources.Load ("Tutorial/" + i) as Texture2D,new Rect(0, 0, 512,512), new Vector2(0, 0),100.0f));
 			Debug.Log (temp);
 			spriteList.Add (temp);
@@ -44,10 +44,10 @@ public class Tutorial : MonoBehaviour {
 		imageNumber = 0;
 		isImageChange = false;
 		phaseNumber = 0;
-		timeStart = new float[]{ 0, 4, 8, 12, 20, 28, 32, 38, 48, 54, 64, 70, 88, 90, 92, 94 };
-		timeEnd = new float[]{ 4, 8, 12, 16, 24, 32, 38, 40, 54, 56, 70, 72, 90, 92, 94, 98 };
-		loopPictureNumber = new int[]{ 1, 1, 5, 2, 1, 1, 6, 1, 12, 1, 10, 1, 1, 1, 1, 1 };
-		isSingle = new bool[]{ true, true, false, false, true, true, false, true, false, true, false, true, true, true, true, true };
+		timeStart = new float[]{ 0, 4, 8, 12, 20, 28, 32, 38, 48, 54, 64, 66.5f, 70.5f, 88, 90, 93, 97 };
+		timeEnd   = new float[]{ 4, 8, 12, 16, 24, 32, 38, 40, 54, 56, 66.5f, 70.5f, 72, 90, 93, 97, 101 };
+		loopPictureNumber = new int[]{ 1, 1, 5, 2, 1, 1, 6, 1, 12, 1, 6, 3, 1, 1, 1, 1, 1 };
+		isSingle = new bool[]{ true, true, false, false, true, true, false, true, false, true, false, false ,true, true, true, true, true };
 		picture = images.GetComponent<Image> ().sprite;
 		rect = images.GetComponent<RectTransform> ();
 //		images.GetComponent<UnityEngine.UI.Image> ().sprite = spriteList [0];
@@ -124,7 +124,7 @@ public class Tutorial : MonoBehaviour {
 	}
 
 	private void ShowLoopPicture(){
-		if (frameCount % 15 == 0 || frameCount == 0) {
+		if (frameCount % 16 == 0 || frameCount == 0) {
 			images.GetComponent<UnityEngine.UI.Image> ().sprite = spriteList [imageNumber + loopImage];
 			++loopImage;
 			if (loopImage >= loopPictureNumber [phaseNumber]) {

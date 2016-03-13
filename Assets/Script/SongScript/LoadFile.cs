@@ -567,7 +567,7 @@ public class LoadFile : MonoBehaviour {
 					secondCamera.gameObject.SetActive (false);
 					leapCamera.SetActive (false);
 					//public Track(string songName, string composer,Difficulty dificulty, int level, float bpm, float offset)
-					Track track = new Track(nameList[0], "Tutorial", Difficulty.HARD, 0, 120,  -0.75f);
+					Track track = new Track(nameList[0], "Tutorial", Difficulty.HARD, 0, 120,  -0.075f);
 					GlobalData.selectedTrack = track;
 					UnityEngine.Application.LoadLevel ("GameplayTutorial");
 				}
