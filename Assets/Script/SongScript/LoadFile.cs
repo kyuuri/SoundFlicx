@@ -111,6 +111,7 @@ public class LoadFile : MonoBehaviour {
 
 	public Transform secondCamera;
 	public UnityEngine.UI.Image loadingImage;
+	private bool fadeLoadingImage;
 
 //	RectTransform rectLeft;
 //	RectTransform rectCenter;
@@ -129,6 +130,7 @@ public class LoadFile : MonoBehaviour {
 	}
 
 	public void Start(){
+		fadeLoadingImage = false;
 		isPanelMoving = false;
 		sizeMin = new Vector3 (0.75f, 0.75f, 1);
 		sizeNormal = new Vector3 (1, 1, 1);
@@ -197,11 +199,19 @@ public class LoadFile : MonoBehaviour {
 		if (delayTrack >= 0.5f) {
 			currentSong.Play ();
 		}
-		loadingImage.gameObject.SetActive (false);
+//		loadingImage.gameObject.SetActive (false);
+		fadeLoadingImage = true;
 		secondCamera.gameObject.SetActive (true);
 	}
 
 	void Update(){
+		if (fadeLoadingImage) {
+			Debug.Log (loadingImage.color.a );
+			loadingImage.color = new Color (loadingImage.color.r, loadingImage.color.g, loadingImage.color.b, loadingImage.color.a - 0.05f);
+			if (loadingImage.color.a <= 0) {
+				fadeLoadingImage = false;
+			}
+		}
 		
 		if(isPanelMoving){
 			//Debug.Log ("Move");
@@ -251,6 +261,8 @@ public class LoadFile : MonoBehaviour {
 		}
 
 		if (delayScene >= 0.8f) {
+			loadingImage.gameObject.SetActive (true);
+			secondCamera.gameObject.SetActive (false);
 			UnityEngine.Application.LoadLevel("Gameplay");
 		}
 
@@ -775,4 +787,5 @@ public class LoadFile : MonoBehaviour {
 
 		goingNext = true;
 	}
+		
 }
