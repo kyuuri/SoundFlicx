@@ -17976,8 +17976,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 588c6665f06144d4980d22ade9897e45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fastParticle: {fileID: 1985742118}
-  fastParticle2: {fileID: 1455998247}
+  fastParticle: {fileID: 1455998247}
+  fastParticle2: {fileID: 1985742118}
 --- !u!1 &452450196
 GameObject:
   m_ObjectHideFlags: 0
@@ -93298,7 +93298,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_RenderMode: 2
+  m_RenderMode: 0
   m_SortMode: 2
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -93360,14 +93360,14 @@ ParticleSystem:
   randomSeed: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   moveWithTransform: 1
   scalingMode: 1
   InitialModule:
     serializedVersion: 2
     enabled: 1
     startLifetime:
-      scalar: 1.7
+      scalar: 1.1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -93402,7 +93402,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startSpeed:
-      scalar: 40
+      scalar: 30
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -93531,7 +93531,7 @@ ParticleSystem:
         rgba: 4294967295
       minMaxState: 0
     startSize:
-      scalar: 1.2
+      scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -93678,7 +93678,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     type: 7
-    radius: 4.5
+    radius: 20
     angle: 0
     length: 5
     boxX: 10
@@ -93699,7 +93699,7 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
-      scalar: 8
+      scalar: 40
       maxCurve:
         serializedVersion: 2
         m_Curve:
