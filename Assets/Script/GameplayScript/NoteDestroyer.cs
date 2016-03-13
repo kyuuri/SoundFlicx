@@ -50,6 +50,7 @@ public class NoteDestroyer : MonoBehaviour {
 		CheckDestroyTiltNote (rightTiltNotes[0], "R");
 		CheckDestroyTiltNote (leftTiltNotes[0], "L");
 
+		CheckDestroyBar ();
 	}
 
 
@@ -157,6 +158,17 @@ public class NoteDestroyer : MonoBehaviour {
 			return true;
 		}
 		return false;
+	}
+
+	private void CheckDestroyBar(){
+		List<GameObject> bars = NoteRenderer.bars;
+		if (bars.Count > 0) {
+			GameObject bar = bars [0];
+			if (bar.transform.position.z - transform.position.z < -0.5f) {
+				bars.RemoveAt (0);
+				Destroy (bar, 0.01f);
+			}
+		}
 	}
 
 

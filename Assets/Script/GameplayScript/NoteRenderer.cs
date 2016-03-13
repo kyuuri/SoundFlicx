@@ -13,6 +13,9 @@ public class NoteRenderer : MonoBehaviour {
 	public static List<NoteDescription>[] leftTiltNotes = new List<NoteDescription>[1];
 	public static bool rightTilting = false;
 	public static bool leftTilting = false;
+	public static List<GameObject> bars;
+
+	private float lastHitNoteTime = 0;
 
 	void Awake(){
 		rightTilting = false;
@@ -28,9 +31,12 @@ public class NoteRenderer : MonoBehaviour {
 		rightTiltNotes[0] = new List<NoteDescription>();
 		leftTiltNotes[0] = new List<NoteDescription>();
 
+		bars = new List<GameObject>();
+
 		//InvokeRepeating("GenTestNote", 0.3f, 0.46875f);
 		GenerateNoteFromMidi("");
 		GlobalData.result = new ResultScore ();
+		GenerateBarIndicator ();
 	}
 
 	// Use this for initialization
@@ -115,6 +121,10 @@ public class NoteRenderer : MonoBehaviour {
 			}
 			else {
 				allnotes [lane].Add (noteDescription);
+			}
+
+			if (i == events.Count - 1) {
+				lastHitNoteTime = events [i].hitTime;
 			}
 		}
 	}
@@ -209,6 +219,23 @@ public class NoteRenderer : MonoBehaviour {
 		else {
 			return angle;
 		}
+	}
+
+	void GenerateBarIndicator(){
+		//GameObject barObject = Instantiate (Resources.Load ("BarIndicator")) as GameObject;;
+		float bpm = GlobalData.selectedTrack.bpm;
+
+		float bar = (60.0f / bpm) * 4;
+
+
+
+		for (float i = 0; i < lastHitNoteTime + 8.0f; i += bar) {
+			GameObject barObject = Instantiate (Resources.Load ("BarIndicator")) as GameObject;;
+			barObject.transform.position = new Vector3 (0, 0.03f, lanePosition [0].position.z - 13f + Runner.speed * (i - TimerScript.delay));
+			bars.Add (barObject);
+		}
+
+		//note.transform.position = new Vector3 (lanePosition [lane].position.x, 0.04f, lanePosition [lane].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay));
 	}
 
 	/*

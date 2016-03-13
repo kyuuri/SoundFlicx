@@ -287,7 +287,7 @@ public class LineLTiltChecker : MonoBehaviour {
 
 	float GetLeftXPos (float degrees) {
 		float maxDegrees = 45;
-		return  ( ((parInitPos.x - otherParInitPos.x) / maxDegrees) * (degrees - 0) + parInitPos.x  );
+		return  ( ((parInitPos.x - otherParInitPos.x) / maxDegrees) * (degrees - 45) + parInitPos.x  );
 	}
 
 	void CheckTimeTilt(){
