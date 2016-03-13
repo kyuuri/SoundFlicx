@@ -261,7 +261,7 @@ public class LoadFile : MonoBehaviour {
 		}
 
 		if (delayScene >= 0.8f) {
-			loadingImage.gameObject.SetActive (true);
+			loadingImage.color = new Color (loadingImage.color.r, loadingImage.color.g, loadingImage.color.b, 1);
 			secondCamera.gameObject.SetActive (false);
 			UnityEngine.Application.LoadLevel("Gameplay");
 		}
