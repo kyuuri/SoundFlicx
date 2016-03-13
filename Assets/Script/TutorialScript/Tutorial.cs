@@ -71,6 +71,8 @@ public class Tutorial : MonoBehaviour {
 					ScaleDown ();
 				} else { //TimerScript > timeStart [phaseNumber + 1]
 					imageNumber += loopPictureNumber [phaseNumber];
+					frameCount = 0;
+					loopImage = 0;
 					ScaleUp ();
 					phaseNumber++;
 					isImageChange = false;
@@ -118,7 +120,7 @@ public class Tutorial : MonoBehaviour {
 	}
 
 	private void ShowLoopPicture(){
-		if (frameCount % 10 == 0) {
+		if (frameCount % 15 == 0) {
 			images.GetComponent<UnityEngine.UI.Image> ().sprite = spriteList [imageNumber + loopImage];
 			++loopImage;
 			if (loopImage >= loopPictureNumber [phaseNumber]) {

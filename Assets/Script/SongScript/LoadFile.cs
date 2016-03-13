@@ -564,8 +564,15 @@ public class LoadFile : MonoBehaviour {
 					parBox [i].transform.position = new Vector3 (pos.x - 8.5f, pos.y, pos.z);
 				}
 
+				if (indexColorChange == 0) {
+					speed = 1;
+					changeScene ();
+					UnityEngine.Application.LoadLevel ("GameplayTutorial");
+				} else {
 
-				showDifficulty ();
+
+					showDifficulty ();
+				}
 
 				Easy_LoadingBar.gameObject.SetActive (false);
 				Normal_LoadingBar.gameObject.SetActive (true);
