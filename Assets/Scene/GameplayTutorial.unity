@@ -3680,7 +3680,7 @@ GameObject:
   - 4: {fileID: 120007466}
   - 198: {fileID: 120007468}
   - 199: {fileID: 120007467}
-  m_Layer: 11
+  m_Layer: 12
   m_Name: FarLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5301,10 +5301,10 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294936776
+    m_Bits: 2048
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -29245,7 +29245,7 @@ GameObject:
   - 4: {fileID: 628073715}
   - 198: {fileID: 628073717}
   - 199: {fileID: 628073716}
-  m_Layer: 11
+  m_Layer: 12
   m_Name: ParticleSlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62968,7 +62968,7 @@ GameObject:
   - 4: {fileID: 1439667419}
   - 198: {fileID: 1439667421}
   - 199: {fileID: 1439667420}
-  m_Layer: 11
+  m_Layer: 12
   m_Name: ParticleSlowest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93363,7 +93363,7 @@ GameObject:
   - 4: {fileID: 1985742116}
   - 198: {fileID: 1985742118}
   - 199: {fileID: 1985742117}
-  m_Layer: 11
+  m_Layer: 12
   m_Name: ParticleFast
   m_TagString: Untagged
   m_Icon: {fileID: 0}

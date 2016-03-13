@@ -9785,6 +9785,7 @@ MonoBehaviour:
   particalFolder: {fileID: 1018819300}
   audioSpectrum: {fileID: 1185792453}
   uiCamera: {fileID: 1733011343}
+  leapCamera: {fileID: 2103916440}
 --- !u!4 &1108012744
 Transform:
   m_ObjectHideFlags: 0

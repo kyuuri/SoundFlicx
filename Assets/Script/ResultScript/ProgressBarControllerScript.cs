@@ -7,6 +7,11 @@ public class ProgressBarControllerScript : MonoBehaviour {
 
 	public AudioSource confirm;
 	public AudioSource selectB;
+
+	public UnityEngine.UI.Image loadingPicture;
+	public GameObject particle;
+	public GameObject leapCamera;
+
 	private bool next = false;
 	private float delay = 0;
 	private string str = "SongSelection";
@@ -33,6 +38,8 @@ public class ProgressBarControllerScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		controller = new Leap.Controller ();
+		particle.active = true;
+		leapCamera.active = true;
 		state = Status_State.DONE;
 		Done_LoadingBar.gameObject.SetActive (true);
 		Done_LoadingBar_Background.gameObject.SetActive (true);
@@ -69,6 +76,9 @@ public class ProgressBarControllerScript : MonoBehaviour {
 		}
 
 		if (delay >= 0.4f) {
+			particle.active = false;
+			leapCamera.active = false;
+			loadingPicture.gameObject.active = true;
 			UnityEngine.Application.LoadLevel (str);
 		}
 	}
