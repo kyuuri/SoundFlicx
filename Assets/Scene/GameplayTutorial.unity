@@ -3315,10 +3315,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1430229340}
   m_RootOrder: 9
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -60, y: 190}
-  m_SizeDelta: {x: 240, y: 240}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -140, y: -135}
+  m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &22203348
 MonoBehaviour:
@@ -32558,7 +32558,7 @@ Camera:
   m_GameObject: {fileID: 738645204}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0.019607844}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -39136,6 +39136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   images: {fileID: 22203346}
+  judgeText: {fileID: 492003608}
 --- !u!1 &962707033
 GameObject:
   m_ObjectHideFlags: 0
