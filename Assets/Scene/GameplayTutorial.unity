@@ -39136,6 +39136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   images: {fileID: 22203346}
+  judgeText: {fileID: 492003608}
 --- !u!1 &962707033
 GameObject:
   m_ObjectHideFlags: 0
