@@ -29,7 +29,7 @@ public class Tutorial : MonoBehaviour {
 	private readonly float DELAY = 0.2f;
 	void Awake(){
 		spriteList = new List<Sprite>();
-		for(int i=1 ;i<19;i++){
+		for(int i=1 ;i<44;i++){
 			Sprite temp = (Sprite.Create(Resources.Load ("Tutorial/" + i) as Texture2D,new Rect(0, 0, 512,512), new Vector2(0, 0),100.0f));
 			Debug.Log (temp);
 			spriteList.Add (temp);
@@ -45,8 +45,8 @@ public class Tutorial : MonoBehaviour {
 		phaseNumber = 0;
 		timeStart = new float[]{ 0, 4, 8, 12, 20, 28, 32, 38, 48, 54, 64, 70, 88, 90, 92, 94 };
 		timeEnd = new float[]{ 4, 8, 12, 16, 24, 32, 38, 40, 54, 56, 70, 72, 90, 92, 94, 98 };
-		loopPictureNumber = new int[]{ 1, 1, 5, 2, 1, 1, 5, 1 };
-		isSingle = new bool[]{ true, true, false, false, true, true, false, true };
+		loopPictureNumber = new int[]{ 1, 1, 5, 2, 1, 1, 5, 1, 12, 1, 7, 1, 1, 1, 1, 1 };
+		isSingle = new bool[]{ true, true, false, false, true, true, false, true, false, true, false, true, true, true, true, true };
 		picture = images.GetComponent<Image> ().sprite;
 		rect = images.GetComponent<RectTransform> ();
 //		images.GetComponent<UnityEngine.UI.Image> ().sprite = spriteList [0];
