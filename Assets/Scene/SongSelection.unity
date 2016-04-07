@@ -137,6 +137,8 @@ MonoBehaviour:
   Hard_LoadingBar: {fileID: 1896988974}
   currentAmount: 0
   progressBarSpeed: 55
+  difficultyBar: {fileID: 695550561}
+  progressBar: {fileID: 1361815456}
   panel: {fileID: 1728113899}
   speedPanel: {fileID: 1623757549}
   difficultyPanel: {fileID: 695550558}
@@ -9049,6 +9051,7 @@ GameObject:
   - 224: {fileID: 695550558}
   - 222: {fileID: 695550560}
   - 114: {fileID: 695550559}
+  - 114: {fileID: 695550561}
   m_Layer: 5
   m_Name: DificultyPanel
   m_TagString: Untagged
@@ -9110,6 +9113,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 695550557}
+--- !u!114 &695550561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 695550557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8556d084b471534cbf51622025633f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Easy_TextLevel: {fileID: 181001244}
+  Normal_TextLevel: {fileID: 580040875}
+  Hard_TextLevel: {fileID: 601614151}
+  Easy_NumLevel: {fileID: 2141368431}
+  Normal_NumLevel: {fileID: 1998215006}
+  Hard_NumLevel: {fileID: 1148699489}
+  Easy_LoadingBar: {fileID: 131302310}
+  Normal_LoadingBar: {fileID: 1833374847}
+  Hard_LoadingBar: {fileID: 1896988974}
 --- !u!1 &771398377
 GameObject:
   m_ObjectHideFlags: 0
@@ -13444,15 +13467,15 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1361815451}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bbadb9de57b07a4299a25e39ffbe603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadingBar: {fileID: 0}
-  TextLevel: {fileID: 0}
+  LoadingBar: {fileID: 1181476748}
+  TextLevel: {fileID: 941969342}
   currentAmount: 0
-  speed: 0
+  speed: 55
 --- !u!1 &1425805518
 GameObject:
   m_ObjectHideFlags: 0

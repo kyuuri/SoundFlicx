@@ -59,21 +59,8 @@ public class SongSelectionController : MonoBehaviour {
 
 	public ParticleSystem[] parBox = new ParticleSystem[4];
 
-
-	public Transform LoadingBar;
-	public Transform TextLevel;
-	public Transform Easy_TextLevel;
-	public Transform Normal_TextLevel;
-	public Transform Hard_TextLevel;
-	public Transform Easy_NumLevel;
-	public Transform Normal_NumLevel;
-	public Transform Hard_NumLevel;
-	public Transform Easy_LoadingBar;
-	public Transform Normal_LoadingBar;
-	public Transform Hard_LoadingBar;
-	[SerializeField] private float currentAmount;
-	[SerializeField] private float progressBarSpeed;
-
+	public DifficultyBarController difficultyBar;
+	public RadialProcessBarScript progressBar;
 
 	public RectTransform panel;
 	public RectTransform speedPanel;
@@ -328,7 +315,7 @@ public class SongSelectionController : MonoBehaviour {
 	public void showSpeed (){
 		isWait = true;
 		layerState = Layers.SPEED_LAYER;
-		currentAmount = 0;
+		progressBar.ResetAmount ();
 		selectedSong ();
 		speedPanel.position = Vector3.Slerp(destination, speedPanelPosition, 5);
 		difficultyPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
@@ -358,7 +345,7 @@ public class SongSelectionController : MonoBehaviour {
 	public void showDifficulty(){
 		isWait = true;
 		layerState = Layers.DIFFICULTY_LAYER;
-		currentAmount = 0;
+		progressBar.ResetAmount ();
 		speedPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
 		difficultyPanel.position = Vector3.Slerp(destination, difficultyPanelPosition, 5);
 		StartCoroutine(TestCoroutine());
@@ -455,62 +442,53 @@ public class SongSelectionController : MonoBehaviour {
 				isFlicking = true;
 				this.selectedListRight ();
 				selectSound.Play ();
-				currentAmount = 0;
+				progressBar.GetAmount ();
 			}
 			if (isSwipeLeft(leftHand)|| Input.GetKeyDown(KeyCode.LeftArrow)) {
 				isFlicking = true;
 				this.selectedListLeft ();
 				selectSound.Play ();
-				currentAmount = 0;
+				progressBar.ResetAmount ();
 			}
 		} else if (layerState == Layers.SPEED_LAYER) {
-			Debug.Log ("Speed");
 			if (isSwipeRight (rightHand) || Input.GetKeyDown(KeyCode.RightArrow)) {
 				isFlicking = true;
 				this.speedUp ();
 				selectSound.Play ();
-				currentAmount = 0;
+				progressBar.ResetAmount ();
 			}
 			if (isSwipeLeft (leftHand) || Input.GetKeyDown(KeyCode.LeftArrow)) {
 				isFlicking = true;
 				this.speedDown ();
 				selectSound.Play ();
-				currentAmount = 0;
+				progressBar.ResetAmount ();
 			}
 
 		} else {
-			Debug.Log ("Else");
-
 			if (isSwipeRight(rightHand) || Input.GetKeyDown(KeyCode.RightArrow)) {
 				isFlicking = true;
 				this.increaseLevel ();
 				selectSound.Play ();
-				currentAmount = 0;
+				progressBar.ResetAmount ();
 			}
 			if (isSwipeLeft(leftHand) || Input.GetKeyDown(KeyCode.LeftArrow)) {
 				isFlicking = true;
 				this.decreaseLevel ();
 				selectSound.Play ();
-				currentAmount = 0;
+				progressBar.ResetAmount ();
 			}
 			if (level == 1) {
-				Easy_LoadingBar.gameObject.SetActive (true);
-				Normal_LoadingBar.gameObject.SetActive (false);
-				Hard_LoadingBar.gameObject.SetActive (false);
+				difficultyBar.SelectDifficulty (level);
 				for (int i = 0; i < 4; i++) {
 					parBox [i].startColor = Color.green;
 				}
 			} else if (level == 2) {
-				Easy_LoadingBar.gameObject.SetActive (false);
-				Normal_LoadingBar.gameObject.SetActive (true);
-				Hard_LoadingBar.gameObject.SetActive (false);
+				difficultyBar.SelectDifficulty (level);
 				for (int i = 0; i < 4; i++) {
 					parBox [i].startColor = Color.yellow;
 				}
 			} else {
-				Easy_LoadingBar.gameObject.SetActive (false);
-				Normal_LoadingBar.gameObject.SetActive (false);
-				Hard_LoadingBar.gameObject.SetActive (true);
+				difficultyBar.SelectDifficulty (level);
 				for (int i = 0; i < 4; i++) {
 					parBox [i].startColor = Color.red;
 				}
@@ -521,8 +499,9 @@ public class SongSelectionController : MonoBehaviour {
 
 	private void FillProgressBar(Hand hand){
 
-		if (currentAmount >= 100) {
-			TextLevel.GetComponent<Text> ().text = "Done!";
+		if (progressBar.GetAmount() >= 100) {
+			progressBar.SetText ("Done!!");
+
 			if (!GetComponent<AudioSource> ().isPlaying) {
 				GetComponent<AudioSource> ().Play ();
 			}
@@ -557,12 +536,9 @@ public class SongSelectionController : MonoBehaviour {
 						Vector3 pos = parBox [i].transform.position;
 						parBox [i].transform.position = new Vector3 (pos.x - 8.5f, pos.y, pos.z);
 					}
+						
+					difficultyBar.SelectDifficulty (2);
 
-
-
-					Easy_LoadingBar.gameObject.SetActive (false);
-					Normal_LoadingBar.gameObject.SetActive (true);
-					Hard_LoadingBar.gameObject.SetActive (false);
 					for (int i = 0; i < 4; i++) {
 						parBox [i].gameObject.active = true;
 						parBox [i].startColor = Color.yellow;
@@ -570,13 +546,14 @@ public class SongSelectionController : MonoBehaviour {
 
 					string temp = descriptionList [indexColorChange];
 					List<string> eachLine = new List<string>();
-					eachLine.AddRange(
-						temp.Split(","[0]) );
-					Easy_NumLevel.GetComponent<Text>().text = "Lv. " + eachLine [3];
+					eachLine.AddRange(temp.Split(","[0]) );
 
-					Normal_NumLevel.GetComponent<Text>().text = "Lv. " + eachLine [4];
-
-					Hard_NumLevel.GetComponent<Text>().text = "Lv. " + eachLine [5];
+					difficultyBar.SetTextLevel (eachLine [3], eachLine [4], eachLine [5]);
+//					Easy_NumLevel.GetComponent<Text>().text = "Lv. " + eachLine [3];
+//
+//					Normal_NumLevel.GetComponent<Text>().text = "Lv. " + eachLine [4];
+//
+//					Hard_NumLevel.GetComponent<Text>().text = "Lv. " + eachLine [5];
 				}
 			} else if (layerState == Layers.DIFFICULTY_LAYER) {
 				showSpeed (); 
@@ -591,55 +568,17 @@ public class SongSelectionController : MonoBehaviour {
 		} else if (hand.GrabStrength == 1 || Input.GetKey( KeyCode.Space ) ) {
 			if (!isWait) {
 				isGrab = true;
-				currentAmount += progressBarSpeed * Time.deltaTime;
-				if (layerState == Layers.DIFFICULTY_LAYER) {
-
-					TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
-				} else {
-					TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
-				}
+				progressBar.IncreaseAmount ();
 			}
 		} else {
 			isGrab = false;
-			if(currentAmount <= 0){
-				if (layerState == Layers.DIFFICULTY_LAYER) {
-					if (level == 1) {
-						Easy_TextLevel.GetComponent<Text> ().text = "EASY";
-						Normal_TextLevel.GetComponent<Text> ().text = "NORMAL";
-						Hard_TextLevel.GetComponent<Text> ().text = "HARD";
-					} else if (level == 2) {
-						Easy_TextLevel.GetComponent<Text> ().text = "EASY";
-						Normal_TextLevel.GetComponent<Text> ().text = "NORMAL";
-						Hard_TextLevel.GetComponent<Text> ().text = "HARD";
-					} else {
-						Easy_TextLevel.GetComponent<Text> ().text = "EASY";
-						Normal_TextLevel.GetComponent<Text> ().text = "NORMAL";
-						Hard_TextLevel.GetComponent<Text> ().text = "HARD";
-					}
-					TextLevel.GetComponent<Text> ().text = "Grab !";
-				} else {
-					TextLevel.GetComponent<Text> ().text = "Grab !";
-				}
+			if(progressBar.GetAmount() <= 0){
+				progressBar.SetText ("Grap !");
 
-			} else if (currentAmount > 0) {
-				if (layerState == Layers.DIFFICULTY_LAYER) {
-					//					if (level == 1) {
-					//						Easy_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
-					//					} else if (level == 2) {
-					//						Normal_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
-					//					} else {
-					//						Hard_TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
-					//					}
-					TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
-				} else {
-					TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString () + "%";
-				}
-				currentAmount -= progressBarSpeed * Time.deltaTime * 2;
+			} else if (progressBar.GetAmount() > 0) {
+				progressBar.DecreaseAmount ();
 			}
 		}
-
-		LoadingBar.GetComponent<UnityEngine.UI.Image> ().fillAmount = currentAmount / 100;
-
 	}
 
 	private void ManageCancelMotion (Hand rightHand, Hand leftHand){
