@@ -36,5 +36,24 @@ public class RadialProcessBarScript : MonoBehaviour {
 		LoadingBar.GetComponent<UnityEngine.UI.Image> ().fillAmount = currentAmount / 100;
 	}
 
+	public float GetAmount(){
+		return currentAmount;
+	}
 
+	public void SetAmount(float amount){
+		currentAmount = amount;
+	}
+
+	public void IncreaseAmount(){
+		currentAmount += speed * Time.deltaTime;
+		TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString();
+	}
+
+	public void DecreaseAmount(){
+		currentAmount -= speed * Time.deltaTime;
+	}
+
+	private void UpdateLoadingBar(){
+		LoadingBar.GetComponent<UnityEngine.UI.Image> ().fillAmount = currentAmount / 100;
+	}
 }
