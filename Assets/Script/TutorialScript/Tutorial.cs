@@ -58,6 +58,7 @@ public class Tutorial : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		float timePass = TimerScript.timePass;
+		Debug.Log (timePass);
 		Debug.Log ("Phase Number=" + phaseNumber + " image Number=" + imageNumber);
 		if (timePass >= timeStart [phaseNumber] && timePass < timeEnd [phaseNumber] - DELAY) {
 			ScaleUp ();
