@@ -54,7 +54,7 @@ public class NoteRenderer : MonoBehaviour {
 			songName = "The_Clear_Blue_Sky";
 			GlobalData.selectedTrack.offset = -0.0f;
 		}
-		TextAsset asset = Resources.Load (songName + "Midi") as TextAsset;
+		TextAsset asset = Resources.Load ("Tracks/" + songName + "Midi") as TextAsset;
 		Stream strm = new MemoryStream (asset.bytes);
 		BinaryReader br = new BinaryReader (strm);
 		//midi = new MidiFile ("Assets/Resources/" + songName + "Midi.bytes");
