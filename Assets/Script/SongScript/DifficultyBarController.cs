@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class DifficultyBarController : MonoBehaviour {
@@ -37,6 +38,15 @@ public class DifficultyBarController : MonoBehaviour {
 			Normal_LoadingBar.gameObject.SetActive (false);
 			Hard_LoadingBar.gameObject.SetActive (true);
 		}
+	}
+
+	public void SetTextLevel(string easyLevel, string normalLevel, string hardLevel){
+
+		Easy_NumLevel.GetComponent<Text>().text = "Lv. " + easyLevel;
+
+		Normal_NumLevel.GetComponent<Text>().text = "Lv. " + normalLevel;
+
+		Hard_NumLevel.GetComponent<Text>().text = "Lv. " + hardLevel;
 	}
 }
 
