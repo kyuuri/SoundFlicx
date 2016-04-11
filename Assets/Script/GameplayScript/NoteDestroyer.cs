@@ -70,10 +70,8 @@ public class NoteDestroyer : MonoBehaviour {
 							note.NoteState = NoteDescription.NoteHitState.MISSED;
 							JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
 							JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
-							Debug.Log ("miss 11111");
 						}
 						if (note.Length > 0 && note.NoteState != NoteDescription.NoteHitState.MISSED) {
-							Debug.Log ("miss 22222");
 							if (side == "R") {
 								bool miss = false;
 								if (CheckReleaseLongNoteEndPoint (note)) {
