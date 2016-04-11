@@ -19,6 +19,10 @@ public class ParticleTimer : MonoBehaviour {
 			Application.LoadLevel ("SongSelection");
 		}
 
+		if (Input.GetKeyDown ("k") && Input.GetKeyDown ("l")) {
+			Application.LoadLevel ("ResultScene");
+		}
+
 		if (TimerScript.timePass > 13.9) {
 			if (!fastParticle.isPlaying) {
 				fastParticle.Play ();
