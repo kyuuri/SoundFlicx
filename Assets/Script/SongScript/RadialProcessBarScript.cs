@@ -11,30 +11,42 @@ public class RadialProcessBarScript : MonoBehaviour {
 	[SerializeField] private float currentAmount;
 	[SerializeField] private float speed;
 
-
 	// Use this for initialization
 	void Start () {
-		controller = new Leap.Controller ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		Frame frame = controller.Frame ();
-		Hand hand = frame.Hands.Rightmost;
 
-		if (currentAmount >= 100) {
-			TextLevel.GetComponent<Text>().text = "Done!";
+	public float GetAmount(){
+		return currentAmount;
+	}
 
-		}else if (hand.GrabStrength > 0.7) {
-			currentAmount += speed * Time.deltaTime;
-			TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString();
-		} else {
-			if(currentAmount > 0)
-				currentAmount -= speed * Time.deltaTime;	
-		}
+	public void ResetAmount(){
+		currentAmount = 0;
+	}
 
+	public void SetAmount(float amount){
+		currentAmount = amount;
+	}
+
+	public void IncreaseAmount(){
+		currentAmount += speed * Time.deltaTime;
+		this.SetText ();
+		UpdateLoadingBar ();
+	}
+
+	public void DecreaseAmount(){
+		currentAmount -= speed * Time.deltaTime * 2;
+		this.SetText ();
+		UpdateLoadingBar ();
+	}
+
+	public void SetText(string text){
+		TextLevel.GetComponent<Text>().text = text;
+	}
+
+	public void SetText(){
+		TextLevel.GetComponent<Text> ().text = ((int)currentAmount).ToString() + "%";
+	}
+	private void UpdateLoadingBar(){
 		LoadingBar.GetComponent<UnityEngine.UI.Image> ().fillAmount = currentAmount / 100;
 	}
-
-
 }

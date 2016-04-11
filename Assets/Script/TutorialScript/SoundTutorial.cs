@@ -20,7 +20,7 @@ public class SoundTutorial : MonoBehaviour {
 		offset = GlobalData.selectedTrack.offset;
 		string songName = GlobalData.selectedTrack.songName;
 
-		baseSource.clip = Resources.Load (songName + "Audio.mp3") as AudioClip;
+		baseSource.clip = Resources.Load ("Tracks/"+ songName + "Audio.mp3") as AudioClip;
 	}
 
 	void Update () {
