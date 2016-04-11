@@ -159,6 +159,7 @@ public class LineRTiltChecker : MonoBehaviour {
 							if (!note.EachComboAdded [j]) {
 								if (TimerScript.timePass >= note.EachComboTime [j]) {
 									ApplyHit ();
+									JudgeScript.Instance.StoreJudge (judge);
 									note.EachComboAdded [j] = true;
 								}
 							}
