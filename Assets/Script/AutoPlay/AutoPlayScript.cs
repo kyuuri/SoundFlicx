@@ -11,8 +11,21 @@ public class AutoPlayScript : MonoBehaviour {
 	private List<NoteDescription> rightTiltNotes;
 	private List<NoteDescription> leftTiltNotes;
 
+	private List<NoteDescription>[] hitNotes;
+
 	private List<NoteDescription> notes;
 	private List<NoteDescription> tiltNotes;
+
+	public float percent = 100.0f;
+
+	//100 ALL perfect
+
+	//85 Level MX
+	//77 Level 5
+	//69 Level 4
+	//61 Level 3
+	//53 Level 2
+	//45 Level 1
 
 	public LineHitChecker b1;
 	public LineHitChecker b2;
@@ -34,6 +47,28 @@ public class AutoPlayScript : MonoBehaviour {
 		allnotes = NoteRenderer.allnotes;
 		rightTiltNotes = NoteRenderer.rightTiltNotes[0];
 		leftTiltNotes = NoteRenderer.leftTiltNotes[0];
+
+		hitNotes = new List<NoteDescription>[6];
+		hitNotes[0] = new List<NoteDescription> ();
+		hitNotes[1] = new List<NoteDescription> ();
+		hitNotes[2] = new List<NoteDescription> ();
+		hitNotes[3] = new List<NoteDescription> ();
+		hitNotes[4] = new List<NoteDescription> ();
+		hitNotes[5] = new List<NoteDescription> ();
+	}
+
+	private float RamdomValue(){
+		return (float) ((0.4 * Random.value * (100 - percent) / 100.0f) * Mathf.Pow (-1, Random.Range (0, 2)));
+	}
+
+	private bool CheckHitNote(int index, NoteDescription note){
+		for(int i = 0 ; i < hitNotes[index].Count ; i++){
+			NoteDescription other = hitNotes [index] [i];
+			if (note.NoteID == other.NoteID) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	// Update is called once per frame
@@ -47,10 +82,20 @@ public class AutoPlayScript : MonoBehaviour {
 					if (note.Length > 0 && TimerScript.timePass >= note.HitTime + note.Length - 0.07f) {
 						KeyUp (i);
 					}
-					if (note.Length > 0 && TimerScript.timePass >= note.HitTime - 0.035f && TimerScript.timePass < note.HitTime + note.Length - 0.075f) {
-						KeyDown (i);
-					} else if (TimerScript.timePass >= note.HitTime - 0.035f) {
-						KeyDown (i);
+					if (note.Length > 0 && TimerScript.timePass >= note.HitTime - 0.035f + RamdomValue () && TimerScript.timePass < note.HitTime + note.Length - 0.075f) {
+						if (!CheckHitNote(i, note) || TimerScript.timePass < note.HitTime + note.Length - 0.075f) {
+							KeyDown (i);
+							if (!CheckHitNote (i, note)) {
+								hitNotes [i].Add (note);
+							}
+							break;
+						}
+					} else if (TimerScript.timePass >= note.HitTime - 0.035f + RamdomValue ()) {
+						if (!CheckHitNote(i, note)) {
+							KeyDown (i);
+							hitNotes [i].Add (note);
+							break;
+						}
 					} else if (note.IsFlick && TimerScript.timePass > note.HitTime) {
 						KeyUp (i);
 					} else {
@@ -92,7 +137,7 @@ public class AutoPlayScript : MonoBehaviour {
 		}
 
 		if (tiltNotes.Count != 0) {
-			if (TimerScript.timePass >= note.HitTime - 0.05f && TimerScript.timePass < note.HitTime + note.Length - 0.01f) {
+			if (TimerScript.timePass >= note.HitTime - 0.05f + RamdomValue() * 10 && TimerScript.timePass < note.HitTime + note.Length - 0.01f) {
 				TiltKeyDown (note);
 			}
 		}

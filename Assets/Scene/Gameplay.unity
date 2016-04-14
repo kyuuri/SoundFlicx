@@ -30893,6 +30893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOn: 1
+  percent: 100
   b1: {fileID: 59650012}
   b2: {fileID: 807245682}
   b3: {fileID: 362337771}
