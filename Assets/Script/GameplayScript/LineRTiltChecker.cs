@@ -50,15 +50,27 @@ public class LineRTiltChecker : MonoBehaviour {
 //		}
 	}
 
+	public void KeyRToR(){
+		laneState = LaneTiltState.R2RTILT;
+	}
+
+	public void KeyRToL(){
+		laneState = LaneTiltState.R2LTILT;
+	}
+
+	public void KeyRIDLE(){
+		laneState = LaneTiltState.IDLE;
+	}
+
 	// Update is called once per frame
 	void Update () {
 
 		//Vector3 pos = lineChecker.transform.position;
 		if (Input.GetKey(key2R)) {
-			laneState = LaneTiltState.R2RTILT;
+			KeyRToR ();
 		}
 		else if(Input.GetKey(key2L)){
-			laneState = LaneTiltState.R2LTILT;
+			KeyRToL ();
 		}
 
 		notes = NoteRenderer.rightTiltNotes [0];
@@ -68,7 +80,7 @@ public class LineRTiltChecker : MonoBehaviour {
 		CheckTimeTilt ();
 
 		if (Input.GetKeyUp(key2L) || Input.GetKeyUp(key2R)) {
-			laneState = LaneTiltState.IDLE;
+			KeyRIDLE ();
 		}
 	}
 
