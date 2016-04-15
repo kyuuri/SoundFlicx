@@ -22,7 +22,8 @@ public class SongSelectionController : MonoBehaviour {
 	{
 		NORMAL_LAYER = 0,
 		SPEED_LAYER = 1,
-		DIFFICULTY_LAYER = 2
+		DIFFICULTY_LAYER = 2,
+		MODE_LAYER = 3
 	};
 
 	public AudioSource selectSound;
@@ -65,6 +66,7 @@ public class SongSelectionController : MonoBehaviour {
 	public RectTransform panel;
 	public RectTransform speedPanel;
 	public RectTransform difficultyPanel;
+	public RectTransform modePanel;
 
 
 	public Text speedNumber;
@@ -75,6 +77,7 @@ public class SongSelectionController : MonoBehaviour {
 	private Vector3 destination = new Vector3(1000,1000,1000);
 	private Vector3 speedPanelPosition;
 	private Vector3 difficultyPanelPosition;
+	private Vector3 modePanelPosition;
 
 	// 1 easy 2 normal 3 hard
 	private int level = 2;
@@ -161,6 +164,7 @@ public class SongSelectionController : MonoBehaviour {
 		speedPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
 		difficultyPanelPosition = difficultyPanel.position;
 		difficultyPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
+		modePanelPosition = modePanel.position;
 
 
 		delayTrack = 0.0f;
@@ -347,13 +351,23 @@ public class SongSelectionController : MonoBehaviour {
 		layerState = Layers.DIFFICULTY_LAYER;
 		progressBar.ResetAmount ();
 		speedPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
-		difficultyPanel.position = Vector3.Slerp(destination, difficultyPanelPosition, 5);
+		modePanel.position = Vector3.Slerp(destination, difficultyPanelPosition, 5);
 		StartCoroutine(TestCoroutine());
 
 	}
 
 	public void backFromDifficulty(){
 		difficultyPanel.position = Vector3.Slerp (difficultyPanel.position, destination,5);
+	}
+
+	public void showMode(){
+		isWait = true;
+		layerState = Layers.DIFFICULTY_LAYER;
+		progressBar.ResetAmount ();
+		speedPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
+		difficultyPanel.position = Vector3.Slerp(destination, difficultyPanelPosition, 5);
+		StartCoroutine(TestCoroutine());
+
 	}
 
 	IEnumerator TestCoroutine() {
@@ -464,7 +478,7 @@ public class SongSelectionController : MonoBehaviour {
 				progressBar.ResetAmount ();
 			}
 
-		} else {
+		} else if (layerState == Layers.DIFFICULTY_LAYER){
 			if (isSwipeRight(rightHand) || Input.GetKeyDown(KeyCode.RightArrow)) {
 				isFlicking = true;
 				this.increaseLevel ();

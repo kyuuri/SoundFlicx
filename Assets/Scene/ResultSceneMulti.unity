@@ -10791,7 +10791,7 @@ GameObject:
   - 82: {fileID: 743326245}
   - 114: {fileID: 743326247}
   m_Layer: 0
-  m_Name: GameController
+  m_Name: GameControllerForLeap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12681,7 +12681,7 @@ GameObject:
   - 222: {fileID: 874363947}
   - 114: {fileID: 874363946}
   m_Layer: 5
-  m_Name: NumGood
+  m_Name: NumGood2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16244,7 +16244,7 @@ GameObject:
   - 222: {fileID: 1177793730}
   - 114: {fileID: 1177793729}
   m_Layer: 5
-  m_Name: NumMiss
+  m_Name: NumMiss2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17896,7 +17896,7 @@ GameObject:
   - 222: {fileID: 1273003139}
   - 114: {fileID: 1273003138}
   m_Layer: 5
-  m_Name: NumMaxCombo
+  m_Name: NumMaxCombo2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21278,7 +21278,7 @@ GameObject:
   - 222: {fileID: 1386002065}
   - 114: {fileID: 1386002064}
   m_Layer: 5
-  m_Name: NumAcc
+  m_Name: NumAcc2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21501,7 +21501,7 @@ GameObject:
   - 222: {fileID: 1469416515}
   - 114: {fileID: 1469416514}
   m_Layer: 5
-  m_Name: NumFantastic
+  m_Name: NumFantastic2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21647,7 +21647,7 @@ GameObject:
   - 222: {fileID: 1646133012}
   - 114: {fileID: 1646133011}
   m_Layer: 5
-  m_Name: NumFinalScore
+  m_Name: NumFinalScore2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21869,7 +21869,7 @@ GameObject:
   - 222: {fileID: 1822938685}
   - 114: {fileID: 1822938684}
   m_Layer: 5
-  m_Name: StrRank
+  m_Name: StrRank2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22166,6 +22166,7 @@ GameObject:
   m_Component:
   - 224: {fileID: 1932527487}
   - 114: {fileID: 1932527486}
+  - 114: {fileID: 1932527488}
   m_Layer: 5
   m_Name: GameController
   m_TagString: Untagged
@@ -22212,6 +22213,35 @@ RectTransform:
   m_AnchoredPosition: {x: 288, y: 75}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1932527488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1932527485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a101f8731c0fc48ef8cc5d4754020610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  songName: {fileID: 816883871}
+  difficulty: {fileID: 1047053796}
+  finalScore: {fileID: 431519741}
+  fantastic: {fileID: 1476497345}
+  great: {fileID: 1909992770}
+  good: {fileID: 82766393}
+  miss: {fileID: 354385786}
+  maxCombo: {fileID: 706032}
+  rank: {fileID: 2096402068}
+  accuracy: {fileID: 981494715}
+  finalScore2: {fileID: 1646133011}
+  fantastic2: {fileID: 1469416514}
+  great2: {fileID: 2085202608}
+  good2: {fileID: 874363946}
+  miss2: {fileID: 1177793729}
+  maxCombo2: {fileID: 1273003138}
+  rank2: {fileID: 1822938684}
+  accuracy2: {fileID: 1386002064}
 --- !u!1 &1956425627
 GameObject:
   m_ObjectHideFlags: 0
@@ -22478,6 +22508,7 @@ GameObject:
   - 4: {fileID: 2081223013}
   - 114: {fileID: 2081223012}
   - 114: {fileID: 2081223011}
+  - 114: {fileID: 2081223014}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -22529,6 +22560,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!114 &2081223014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2081223010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a101f8731c0fc48ef8cc5d4754020610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  songName: {fileID: 0}
+  difficulty: {fileID: 0}
+  finalScore: {fileID: 0}
+  fantastic: {fileID: 0}
+  great: {fileID: 0}
+  good: {fileID: 0}
+  miss: {fileID: 0}
+  maxCombo: {fileID: 0}
+  rank: {fileID: 0}
+  accuracy: {fileID: 0}
+  finalScore2: {fileID: 0}
+  fantastic2: {fileID: 0}
+  great2: {fileID: 0}
+  good2: {fileID: 0}
+  miss2: {fileID: 0}
+  maxCombo2: {fileID: 0}
+  rank2: {fileID: 0}
+  accuracy2: {fileID: 0}
 --- !u!1 &2085202606
 GameObject:
   m_ObjectHideFlags: 0
@@ -22540,7 +22600,7 @@ GameObject:
   - 222: {fileID: 2085202609}
   - 114: {fileID: 2085202608}
   m_Layer: 5
-  m_Name: NumGreat
+  m_Name: NumGreat2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
