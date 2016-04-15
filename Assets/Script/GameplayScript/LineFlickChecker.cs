@@ -15,6 +15,8 @@ public class LineFlickChecker : MonoBehaviour {
 	private float score;
 	private List<NoteDescription> laneFlickNotes;
 
+	private float flickCount = 0;
+
 	public LaneFlickState laneState = LaneFlickState.NONE;
 
 	void Start () {
@@ -25,19 +27,36 @@ public class LineFlickChecker : MonoBehaviour {
 	void Update () {
 		Vector3 pos = flickChecker.transform.position;
 		if (Input.GetKeyDown(key)) {
-			//Debug.Log (key);
-			Vector3 hidePosition = new Vector3 (firstPosition.x, firstPosition.y + 3.2f, 0);
-			flickChecker.transform.localPosition = hidePosition;
-
-			laneState = LaneFlickState.Flick;
+			KeyFlick ();
 		}
-		else if(!Input.GetKeyDown(key) || Input.GetKeyUp (key)){
-			Vector3 hidePosition = new Vector3 (firstPosition.x, firstPosition.y - 3.2f, 0);
-			flickChecker.transform.localPosition = hidePosition;
-			laneState = LaneFlickState.NONE;
+		//else if(!Input.GetKeyDown(key) || Input.GetKeyUp (key)){
+		else if(Input.GetKeyUp (key) || flickCount >= 0.06f){
+			KeyNone ();
 		}
 		CheckFlick ();
+
+		if (laneState == LaneFlickState.Flick) {
+			flickCount += Time.deltaTime;
+		}
 	}
+
+	public void KeyFlick(){
+		//Debug.Log (key);
+		Vector3 hidePosition = new Vector3 (firstPosition.x, firstPosition.y + 3.2f, 0);
+		flickChecker.transform.localPosition = hidePosition;
+
+		laneState = LaneFlickState.Flick;
+	}
+
+	public void KeyNone(){
+		flickCount = 0;
+
+		Vector3 hidePosition = new Vector3 (firstPosition.x, firstPosition.y - 3.2f, 0);
+		flickChecker.transform.localPosition = hidePosition;
+
+		laneState = LaneFlickState.NONE;
+	}
+
 
 	private float CalculateFlickPercentage (float hitDeltaTime, NoteDescription note){
 		//250 max

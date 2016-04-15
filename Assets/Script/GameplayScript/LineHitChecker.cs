@@ -28,6 +28,8 @@ public class LineHitChecker : MonoBehaviour {
 	private float delayDraw = 0.4f;
 	private float counterDraw = 0;
 
+	private int countHold = 0;
+
 	public LaneHitState laneState = LaneHitState.NONE;
 
 	void Start () {
@@ -68,38 +70,16 @@ public class LineHitChecker : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown(key)) {
-			release = false;
-			//Debug.Log (key);
-
-			lineChecker.transform.localScale = initScale;
-
-			Vector3 scale = transform.localScale;
-			transform.localScale = new Vector3(scale.x, scale.y, 1);
-
-			isShrinking = false;
-			isDrawing = true;
-
-			counterShrink = 0;
-			counterDraw = 0;
-
-			//Vector3 hidePosition = new Vector3 (firstPosition.x, firstPosition.y + 2.7f, 0);
-			//lineChecker.transform.localPosition = hidePosition;
-
-			laneState = LaneHitState.HIT;
+			KeyDown ();
 		}
 		else if(Input.GetKeyUp (key)){
-			release = true;
-			isShrinking = true;
-			//isDrawing = false;
-			//Vector3 hidePosition = new Vector3 (firstPosition.x, firstPosition.y - 2.7f, 0);
-			//lineChecker.transform.localPosition = hidePosition;
-			laneState = LaneHitState.NONE;
+			KeyUp ();
 		}
 			
 		CheckPress ();
 
 		if (Input.GetKey(key)) {
-			laneState = LaneHitState.HOLD;
+			KeyHold ();
 		}
 
 		if (counterDraw >= delayDraw) {
@@ -118,6 +98,46 @@ public class LineHitChecker : MonoBehaviour {
 			counterShrink += Time.deltaTime;
 			ShrinkEffect ();
 		}
+	}
+
+	public void KeyHold(){
+		laneState = LaneHitState.HOLD;
+	}
+
+	public void KeyDown(){
+		countHold++;
+		release = false;
+		//Debug.Log (key);
+
+		lineChecker.transform.localScale = initScale;
+
+		Vector3 scale = transform.localScale;
+		transform.localScale = new Vector3(scale.x, scale.y, 1);
+
+		isShrinking = false;
+		isDrawing = true;
+
+		counterShrink = 0;
+		counterDraw = 0;
+
+		//Vector3 hidePosition = new Vector3 (firstPosition.x, firstPosition.y + 2.7f, 0);
+		//lineChecker.transform.localPosition = hidePosition;
+
+		laneState = LaneHitState.HIT;
+
+		if (countHold >= 5) {
+			KeyHold ();
+		}
+	}
+
+	public void KeyUp(){
+		countHold = 0;
+		release = true;
+		isShrinking = true;
+		//isDrawing = false;
+		//Vector3 hidePosition = new Vector3 (firstPosition.x, firstPosition.y - 2.7f, 0);
+		//lineChecker.transform.localPosition = hidePosition;
+		laneState = LaneHitState.NONE;
 	}
 
 	private float CalculatePercentage (float hitDeltaTime, NoteDescription note){

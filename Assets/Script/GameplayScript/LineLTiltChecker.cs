@@ -40,6 +40,19 @@ public class LineLTiltChecker : MonoBehaviour {
 		controller = new Leap.Controller ();
 	}
 
+	public void KeyLToR(){
+		laneState = LaneTiltState.L2RTILT;
+	}
+
+	public void KeyLToL(){
+		laneState = LaneTiltState.L2LTILT;
+	}
+
+	public void KeyLIDLE(){
+		laneState = LaneTiltState.IDLE;
+	}
+		
+
 	// Update is called once per frame
 	void Update () {
 
@@ -48,12 +61,12 @@ public class LineLTiltChecker : MonoBehaviour {
 			//Vector3 hidePosition = new Vector3 (firstPosition.x, firstPosition.y + 2.7f, 0);
 			//lineChecker.transform.localPosition = hidePosition;
 
-			laneState = LaneTiltState.L2RTILT;
+			KeyLToR ();
 		}
 		else if(Input.GetKey(key2L)){
 			//Vector3 hidePosition = new Vector3 (firstPosition.x, firstPosition.y - 2.7f, 0);
 			//lineChecker.transform.localPosition = hidePosition;
-			laneState = LaneTiltState.L2LTILT;
+			KeyLToL();
 		}
 
 		notes = NoteRenderer.leftTiltNotes [0];
@@ -63,7 +76,7 @@ public class LineLTiltChecker : MonoBehaviour {
 		CheckTimeTilt ();
 
 		if (Input.GetKeyUp(key2L) || Input.GetKeyUp(key2R)) {
-			laneState = LaneTiltState.IDLE;
+			KeyLIDLE ();
 		}
 	}
 

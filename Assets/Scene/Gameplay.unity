@@ -30868,7 +30868,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &718351872
 Transform:
   m_ObjectHideFlags: 0
@@ -30893,6 +30893,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOn: 1
+  percent: 100
+  b1: {fileID: 59650012}
+  b2: {fileID: 807245682}
+  b3: {fileID: 362337771}
+  b4: {fileID: 189494410}
+  f1: {fileID: 29167602}
+  f2: {fileID: 1273135098}
+  rt: {fileID: 477805081}
+  lt: {fileID: 460541423}
 --- !u!1 &727322406
 GameObject:
   m_ObjectHideFlags: 0
