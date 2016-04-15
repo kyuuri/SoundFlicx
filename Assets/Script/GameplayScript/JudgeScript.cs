@@ -6,8 +6,11 @@ public class JudgeScript : MonoBehaviour {
 
 	public enum Judge {FANTASTIC = 100, GREAT = 50, GOOD = 10, MISS = 0}
 
+	public ResultSubmitter resultSubmitter;
+	public ComboScript comboScript;
+
 	public Text judgeText;
-	public static JudgeScript Instance { get; private set;}
+	//public static JudgeScript Instance { get; private set;}
 
 	private Vector3 pos;
 	private bool isJumping = false;
@@ -15,7 +18,7 @@ public class JudgeScript : MonoBehaviour {
 	private int limit = 4;
 
 	void Awake(){
-		Instance = this;
+		//Instance = this;
 	}
 
 	void Start () {
@@ -46,25 +49,14 @@ public class JudgeScript : MonoBehaviour {
 			judgeText.color = Color.white;
 		}
 		if (judge == Judge.MISS) {
-			ComboScript.Instance.MissCombo ();
+			comboScript.MissCombo ();
 		}
 		count = 0;
 		isJumping = true;
 	}
 
 	public void StoreJudge (Judge judge){
-		if (judge == Judge.FANTASTIC) {
-			GlobalData.result.fantastic += 1;
-		}
-		else if (judge == Judge.GREAT) {
-			GlobalData.result.great += 1;
-		}
-		else if (judge == Judge.GOOD) {
-			GlobalData.result.good += 1;
-		}
-		else if (judge == Judge.MISS) {
-			GlobalData.result.miss += 1;
-		}
+		resultSubmitter.SubmitJudge (judge);
 	}
 
 	private void Jump(){

@@ -5,6 +5,8 @@ public class LineHitChecker : MonoBehaviour {
 
 	public enum LaneHitState {NONE, HIT, HOLD} //0, 1, 2
 
+	public PlayInformation playInformation;
+
 	public Transform lineChecker;
 	public ParticleSystem hitParticle;
 
@@ -151,7 +153,7 @@ public class LineHitChecker : MonoBehaviour {
 			} else { // Bad
 				judge = JudgeScript.Judge.GOOD;
 			}
-			JudgeScript.Instance.ApplyJudge (judge);
+			playInformation.judgeScript.ApplyJudge (judge);
 			note.NoteState = NoteDescription.NoteHitState.HIT;
 		}
 		return (int)judge;
@@ -160,7 +162,7 @@ public class LineHitChecker : MonoBehaviour {
 	public void CheckPress(){
 		if (laneState == LaneHitState.HIT) {
 			float hitTime = TimerScript.timePass;
-			laneNotes = NoteRenderer.allnotes [laneNumber];
+			laneNotes = playInformation.noteRenderer.allnotes [laneNumber];
 
 			for (int i = 0; i < laneNotes.Count; i++) {
 				NoteDescription note = laneNotes [i];
@@ -173,7 +175,7 @@ public class LineHitChecker : MonoBehaviour {
 							DestroyNote (note);
 						}
 						ApplyHit ();
-						JudgeScript.Instance.StoreJudge (judge);
+						playInformation.judgeScript.StoreJudge (judge);
 						break;
 					}
 				} else {
@@ -183,7 +185,7 @@ public class LineHitChecker : MonoBehaviour {
 			}
 		} else if (laneState == LaneHitState.HOLD) {
 			
-			laneNotes = NoteRenderer.allnotes [laneNumber];
+			laneNotes = playInformation.noteRenderer.allnotes [laneNumber];
 
 			for (int i = 0; i < laneNotes.Count; i++) {
 				NoteDescription note = laneNotes [i];
@@ -236,16 +238,16 @@ public class LineHitChecker : MonoBehaviour {
 
 	private void ApplyScore (float score){
 		if (score != 0) {
-			ScoreScript.Instance.addScore(score);
+			playInformation.scoreScript.addScore(score);
 		}
 	}
 
 	private void ApplyJudge (JudgeScript.Judge judge){
-		JudgeScript.Instance.ApplyJudge (judge);
+		playInformation.judgeScript.ApplyJudge (judge);
 	}
 
 	private void ApplyCombo (){
-		ComboScript.Instance.ApplyCombo (1);
+		playInformation.comboScript.ApplyCombo (1);
 	}
 
 	private void ApplyHit(){

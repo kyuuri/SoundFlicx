@@ -4,6 +4,8 @@ using Leap;
 using System.Collections.Generic;
 
 public class TiltVisualizerController : MonoBehaviour {
+
+	public NoteRenderer noteRenderer;
 	
 	public GameObject rTilt;
 	public GameObject lTilt;
@@ -27,11 +29,11 @@ public class TiltVisualizerController : MonoBehaviour {
 
 		List<NoteDescription> rightTiltNote = null;
 		List<NoteDescription> leftTiltNote = null;
-		if (NoteRenderer.rightTiltNotes [0] != null) {
-			rightTiltNote = NoteRenderer.rightTiltNotes [0];
+		if (noteRenderer.rightTiltNotes [0] != null) {
+			rightTiltNote = noteRenderer.rightTiltNotes [0];
 		}
-		if (NoteRenderer.leftTiltNotes [0] != null) {
-			leftTiltNote = NoteRenderer.leftTiltNotes [0];
+		if (noteRenderer.leftTiltNotes [0] != null) {
+			leftTiltNote = noteRenderer.leftTiltNotes [0];
 		}
 		Vector3 rTiltPos = new Vector3(0,rTilt.transform.position.y,rTilt.transform.position.z);
 		Vector3 lTiltPos = new Vector3(0,lTilt.transform.position.y,lTilt.transform.position.z);

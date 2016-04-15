@@ -5,6 +5,8 @@ public class LineFlickChecker : MonoBehaviour {
 
 	public enum LaneFlickState {NONE, Flick} //0, 1
 
+	public PlayInformation playInformation;
+
 	public Transform flickChecker;
 	public ParticleSystem hitParticle;
 
@@ -70,7 +72,7 @@ public class LineFlickChecker : MonoBehaviour {
 			} else { // Bad
 				judge = JudgeScript.Judge.GOOD;
 			}
-			JudgeScript.Instance.ApplyJudge (judge);
+			playInformation.judgeScript.ApplyJudge (judge);
 			note.NoteState = NoteDescription.NoteHitState.HIT;
 		}
 		return (int)judge;
@@ -79,7 +81,7 @@ public class LineFlickChecker : MonoBehaviour {
 	public void CheckFlick(){
 		if (laneState == LaneFlickState.Flick) {
 			float hitTime = TimerScript.timePass;
-			laneFlickNotes = NoteRenderer.allnotes [laneNumber];
+			laneFlickNotes = playInformation.noteRenderer.allnotes [laneNumber];
 
 			for (int i = 0; i < laneFlickNotes.Count; i++) {
 				NoteDescription note = laneFlickNotes [i];
@@ -92,7 +94,7 @@ public class LineFlickChecker : MonoBehaviour {
 							DestroyNote (note);
 						}
 						ApplyHit ();
-						JudgeScript.Instance.StoreJudge (judge);
+						playInformation.judgeScript.StoreJudge (judge);
 						break;
 					}
 				} else {
@@ -125,16 +127,16 @@ public class LineFlickChecker : MonoBehaviour {
 
 	private void ApplyScore (float score){
 		if (score != 0) {
-			ScoreScript.Instance.addScore(score);
+			playInformation.scoreScript.addScore(score);
 		}
 	}
 
 	private void ApplyJudge (JudgeScript.Judge judge){
-		JudgeScript.Instance.ApplyJudge (judge);
+		playInformation.judgeScript.ApplyJudge (judge);
 	}
 
 	private void ApplyCombo (){
-		ComboScript.Instance.ApplyCombo (1);
+		playInformation.comboScript.ApplyCombo (1);
 	}
 
 	private void ApplyHit(){

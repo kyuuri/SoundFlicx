@@ -6,7 +6,11 @@ public class CameraRotation : MonoBehaviour {
 
 	public static Vector3 rotateVector;
 
+	public NoteRenderer noteRenderer;
+
 	private bool rotate = false;
+
+	public Camera gameCamera;
 
 	public Transform par;
 	public Transform otherPar;
@@ -35,9 +39,9 @@ public class CameraRotation : MonoBehaviour {
 	void Update () {
 		rotate = false;
 
-		allLeftTilt = NoteRenderer.leftTiltNotes[0];
+		allLeftTilt = noteRenderer.leftTiltNotes[0];
 
-		allRightTilt = NoteRenderer.rightTiltNotes[0];
+		allRightTilt = noteRenderer.rightTiltNotes[0];
 
 		float angle = 0;
 
@@ -59,9 +63,9 @@ public class CameraRotation : MonoBehaviour {
 
 			if (cal != 0) {
 				if (note.TiltAngle < 0) {
-					cal += parInitPos.x;
+					cal += (parInitPos.x - gameCamera.transform.position.x);
 				} else if (note.TiltAngle > 0) {
-					cal -= parInitPos.x;
+					cal -= (parInitPos.x - gameCamera.transform.position.x);
 				} else {
 					cal = -cal;
 				}
@@ -87,9 +91,9 @@ public class CameraRotation : MonoBehaviour {
 
 			if (cal != 0) {
 				if (note.TiltAngle < 0) {
-					cal += parInitPos.x;
+					cal += (parInitPos.x - gameCamera.transform.position.x);
 				} else if (note.TiltAngle > 0) {
-					cal -= parInitPos.x;
+					cal -= (parInitPos.x - gameCamera.transform.position.x);
 				} else {
 					cal = -cal;
 				}
@@ -148,7 +152,7 @@ public class CameraRotation : MonoBehaviour {
 		if (note.TiltAngle < -0.1f || note.TiltAngle > 0.1f) {
 
 			// pos = (del pos / del time) * (@time-time1 ) + pos1
-			x = (diffPos / length) * (currentTime - hitTime) + parInitPos.x;
+			x = (diffPos / length) * (currentTime - hitTime) + (parInitPos.x - gameCamera.transform.position.x);
 
 			if (note.TiltAngle > 0) {
 				x = -x;
@@ -156,7 +160,7 @@ public class CameraRotation : MonoBehaviour {
 			return x;
 
 		} else if (note.TiltAngle >= -0.1f && note.TiltAngle <= 0.1f){
-			return note.NoteObject.transform.position.x;
+			return note.NoteObject.transform.position.x - gameCamera.transform.position.x;
 		}
 
 		return 0.0f;

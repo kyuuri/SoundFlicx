@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 public class SFController : MonoBehaviour {
 
+	public NoteRenderer noteRenderer;
+
 	public HandController handController;
 	private Leap.Controller controller;
 	private HandModel left;
@@ -305,8 +307,8 @@ public class SFController : MonoBehaviour {
 		float deltaTilt = 0.05f;
 		float holdTilt = 0.8f;
 
-		List<NoteDescription> rightTiltNote = NoteRenderer.rightTiltNotes[0];
-		List<NoteDescription> leftTiltNote = NoteRenderer.leftTiltNotes[0];
+		List<NoteDescription> rightTiltNote = noteRenderer.rightTiltNotes[0];
+		List<NoteDescription> leftTiltNote = noteRenderer.leftTiltNotes[0];
 	
 
 		if (hands.Count == 0) {

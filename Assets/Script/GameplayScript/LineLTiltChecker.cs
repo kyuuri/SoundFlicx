@@ -6,6 +6,9 @@ public class LineLTiltChecker : MonoBehaviour {
 
 	public enum LaneTiltState {IDLE, L2RTILT, L2LTILT} //0, 1, 2
 
+	public Camera gameCamera;
+	public PlayInformation playInformation;
+
 	public GameObject lTilt;
 	private Leap.Controller controller;
 
@@ -69,7 +72,7 @@ public class LineLTiltChecker : MonoBehaviour {
 			KeyLToL();
 		}
 
-		notes = NoteRenderer.leftTiltNotes [0];
+		notes = playInformation.noteRenderer.leftTiltNotes [0];
 
 		UpdateTiltVisual ();
 		CheckTilt ();
@@ -87,7 +90,7 @@ public class LineLTiltChecker : MonoBehaviour {
 			if (hitDeltaTime < 160) { // Fantastic
 				judge = JudgeScript.Judge.FANTASTIC;
 			}
-			JudgeScript.Instance.ApplyJudge (judge);
+			playInformation.judgeScript.ApplyJudge (judge);
 			note.NoteState = NoteDescription.NoteHitState.HIT;
 		}
 		return (int)judge;
@@ -118,7 +121,7 @@ public class LineLTiltChecker : MonoBehaviour {
 				if (note.NoteState == NoteDescription.NoteHitState.READY) {
 					score = CalculatePercentage (hitDeltaTime, note);
 					ApplyHit ();
-					JudgeScript.Instance.StoreJudge (judge);
+					playInformation.judgeScript.StoreJudge (judge);
 					note.NoteState = NoteDescription.NoteHitState.HIT;
 					//free hit
 
@@ -161,7 +164,7 @@ public class LineLTiltChecker : MonoBehaviour {
 						if (!note.EachComboAdded [j]) {
 							if (TimerScript.timePass >= note.EachComboTime [j]) {
 								ApplyHit ();
-								JudgeScript.Instance.StoreJudge (judge);
+								playInformation.judgeScript.StoreJudge (judge);
 								note.EachComboAdded [j] = true;
 							}
 						}
@@ -199,16 +202,16 @@ public class LineLTiltChecker : MonoBehaviour {
 
 	private void ApplyScore (float score){
 		if (score != 0) {
-			ScoreScript.Instance.addScore(score);
+			playInformation.scoreScript.addScore(score);
 		}
 	}
 
 	private void ApplyJudge (JudgeScript.Judge judge){
-		JudgeScript.Instance.ApplyJudge (judge);
+		playInformation.judgeScript.ApplyJudge (judge);
 	}
 
 	private void ApplyCombo (){
-		ComboScript.Instance.ApplyCombo (1);
+		playInformation.comboScript.ApplyCombo (1);
 	}
 
 	private void ApplyHit(){
@@ -236,7 +239,7 @@ public class LineLTiltChecker : MonoBehaviour {
 			x = (diffPos / length) * (currentTime - hitTime) + parInitPos.x;
 
 			if (note.TiltAngle < 0) {
-				x = -x;
+				x = 2 * gameCamera.transform.position.x - x;
 			}
 
 			bool move = false;

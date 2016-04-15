@@ -6,6 +6,9 @@ using WindowsInput;
 public class AutoPlayScript : MonoBehaviour {
 
 	public static AutoPlayScript Instance { get; private set;}
+
+	public NoteRenderer noteRenderer;
+
 	public bool isOn = true;
 	private List<NoteDescription>[] allnotes;
 	private List<NoteDescription> rightTiltNotes;
@@ -44,9 +47,9 @@ public class AutoPlayScript : MonoBehaviour {
 	}
 
 	void Start () {
-		allnotes = NoteRenderer.allnotes;
-		rightTiltNotes = NoteRenderer.rightTiltNotes[0];
-		leftTiltNotes = NoteRenderer.leftTiltNotes[0];
+		allnotes = noteRenderer.allnotes;
+		rightTiltNotes = noteRenderer.rightTiltNotes[0];
+		leftTiltNotes = noteRenderer.leftTiltNotes[0];
 
 		hitNotes = new List<NoteDescription>[6];
 		hitNotes[0] = new List<NoteDescription> ();
@@ -88,13 +91,11 @@ public class AutoPlayScript : MonoBehaviour {
 							if (!CheckHitNote (i, note)) {
 								hitNotes [i].Add (note);
 							}
-							break;
 						}
 					} else if (TimerScript.timePass >= note.HitTime - 0.035f + RamdomValue ()) {
 						if (!CheckHitNote(i, note)) {
 							KeyDown (i);
 							hitNotes [i].Add (note);
-							break;
 						}
 					} else if (note.IsFlick && TimerScript.timePass > note.HitTime) {
 						KeyUp (i);
@@ -137,7 +138,7 @@ public class AutoPlayScript : MonoBehaviour {
 		}
 
 		if (tiltNotes.Count != 0) {
-			if (TimerScript.timePass >= note.HitTime - 0.05f + RamdomValue() * 10 && TimerScript.timePass < note.HitTime + note.Length - 0.01f) {
+			if (TimerScript.timePass >= note.HitTime - 0.05f && TimerScript.timePass < note.HitTime + note.Length - 0.01f) {
 				TiltKeyDown (note);
 			}
 		}
