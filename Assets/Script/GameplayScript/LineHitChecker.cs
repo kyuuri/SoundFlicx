@@ -176,6 +176,9 @@ public class LineHitChecker : MonoBehaviour {
 						}
 						ApplyHit ();
 						playInformation.judgeScript.StoreJudge (judge);
+						if (note.ContainItem) {
+							playInformation.itemController.GetItem ();
+						}
 						break;
 					}
 				} else {

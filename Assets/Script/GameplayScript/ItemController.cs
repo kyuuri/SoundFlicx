@@ -32,10 +32,13 @@ public class ItemController : MonoBehaviour {
 		float x = Random.value * 100.0f;
 
 		if (IsSkillFree()) {
+			//18 30 30 22
 			if (x <= 18) {
 				AddSkill (1);
-			} else{
-				AddSkill(Random.Range(2,5));
+			} else if (x <= 40) {
+				AddSkill (4);
+			} else {
+				AddSkill(Random.Range(2,4));
 			}
 			UpdateSkillArr ();
 		}

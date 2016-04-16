@@ -7,5 +7,6 @@ public class PlayInformation : MonoBehaviour {
 	public ComboScript comboScript;
 	public JudgeScript judgeScript;
 	public ScoreScript scoreScript;
+	public ItemController itemController;
 
 }
