@@ -238,7 +238,7 @@ public class NoteRenderer : MonoBehaviour {
 
 		for (float i = 0; i < lastHitNoteTime + 20.0f; i += bar) {
 			GameObject barObject = Instantiate (Resources.Load ("BarIndicator")) as GameObject;;
-			barObject.transform.position = new Vector3 (0, 0.03f, lanePosition [0].position.z - 13f + Runner.speed * (i - TimerScript.delay));
+			barObject.transform.position = new Vector3 (gameCamera.transform.position.x, 0.03f, lanePosition [0].position.z - 13f + Runner.speed * (i - TimerScript.delay));
 			bars.Add (barObject);
 		}
 
