@@ -6,6 +6,8 @@ public class ItemController : MonoBehaviour {
 
 	public enum SkillEffector {NONE, REFLECT, MIST_NEAR, MIST_FAR, MIST_BLIND}
 
+
+	public EffectorController otherEffector;
 	public RawImage[] slotImages = new RawImage[3];
 	public ParticleSystem[] particles = new ParticleSystem[3];
 
@@ -19,7 +21,6 @@ public class ItemController : MonoBehaviour {
 		skills [1] = SkillEffector.NONE;
 		skills [2] = SkillEffector.NONE;
 
-		slotImages [0].SetNativeSize ();
 		textures = new Texture[5];
 
 		for (int i = 0; i < textures.Length; i++) {
@@ -68,6 +69,8 @@ public class ItemController : MonoBehaviour {
 					}
 				}
 				UpdateSkillArr ();
+
+				otherEffector.ActivateEffect ((SkillEffector)usingSkill, level);
 				break;
 			}
 		}

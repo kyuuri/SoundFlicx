@@ -70,6 +70,21 @@ public class EffectorController : MonoBehaviour {
 		return cloudDown.gameObject.active || cloudUp.gameObject.active || cloudBlind.gameObject.active;
 	}
 
+	public void ActivateEffect(ItemController.SkillEffector skill, int level){
+		if (skill == ItemController.SkillEffector.MIST_NEAR) {
+			ActivateCloudDown (level);
+		}
+		else if (skill == ItemController.SkillEffector.MIST_FAR) {
+			ActivateCloudUp (level);
+		}
+		else if (skill == ItemController.SkillEffector.MIST_BLIND) {
+			ActivateCloudBlind (level);
+		}
+		else if (skill == ItemController.SkillEffector.REFLECT) {
+			//ActivateCloudBlind (level);
+		}
+	}
+
 	private void HideOtherCamera(){
 		if (otherLaneCamera != null) {
 			otherLaneCamera.gameObject.active = false;
@@ -84,7 +99,7 @@ public class EffectorController : MonoBehaviour {
 		}
 	}
 
-	public void ActivateCloudDown(int level){
+	private void ActivateCloudDown(int level){
 		if (level < 1 || level > 3) return;
 		downTime = (level + 1) * 4.0f;
 		cloudDown.transform.localScale = initScaleCloudDown * Mathf.Pow(1.45f, (level - 1));
@@ -102,7 +117,7 @@ public class EffectorController : MonoBehaviour {
 		}
 	}
 
-	public void ActivateCloudUp(int level){
+	private void ActivateCloudUp(int level){
 		if (level < 1 || level > 3) return;
 		upTime = (level + 1) * 4.0f;
 		cloudUp.transform.localScale = initScaleCloudUp * Mathf.Pow(1.6f, (level - 1));
@@ -120,7 +135,7 @@ public class EffectorController : MonoBehaviour {
 		}
 	}
 
-	public void ActivateCloudBlind(int level){
+	private void ActivateCloudBlind(int level){
 		if (level < 1 || level > 3) return;
 		blindTime = (level + 1) * 2.5f;
 		cloudBlind.transform.localScale = initScaleCloudBlind * Mathf.Pow(1.3f, (level - 1));
@@ -138,7 +153,7 @@ public class EffectorController : MonoBehaviour {
 		}
 	}
 
-	void LevelUp(){
-		cloudBlind.transform.localScale *= 1.3f; 
-	}
+//	void LevelUp(){
+//		cloudBlind.transform.localScale *= 1.3f; 
+//	}
 }
