@@ -29,32 +29,6 @@ public class EffectorController : MonoBehaviour {
 	}
 
 	void Update () {
-		if (Input.GetKeyDown ("1")) {
-			//ActivateCloudUp (1);
-			//ActivateCloudDown (1);
-			ActivateCloudBlind (1);
-		}
-//		if (Input.GetKeyDown ("2")) {
-//			//ActivateCloudUp (2);
-//			//ActivateCloudDown (2);
-//			ActivateCloudBlind (2);
-//		}
-//		if (Input.GetKeyDown ("3")) {
-//			//ActivateCloudUp (3);
-//			//ActivateCloudDown (3);
-//			ActivateCloudBlind (3);
-//		}
-//		if (Input.GetKeyDown ("4")) {
-//			ActivateCloudUp (1);
-//			ActivateCloudDown (1);
-//			ActivateCloudBlind (1);
-//		}
-
-//		if (Input.GetKeyDown ("h")) {
-//			LevelUp ();
-//		}
-
-
 		if (IsEffected ()) {
 			HideOtherCamera ();
 		} else {
@@ -101,6 +75,7 @@ public class EffectorController : MonoBehaviour {
 
 	private void ActivateCloudDown(int level){
 		if (level < 1 || level > 3) return;
+		counterDown = 0;
 		downTime = (level + 1) * 4.0f;
 		cloudDown.transform.localScale = initScaleCloudDown * Mathf.Pow(1.45f, (level - 1));
 		cloudDown.gameObject.active = true;
@@ -119,6 +94,7 @@ public class EffectorController : MonoBehaviour {
 
 	private void ActivateCloudUp(int level){
 		if (level < 1 || level > 3) return;
+		counterUp = 0;
 		upTime = (level + 1) * 4.0f;
 		cloudUp.transform.localScale = initScaleCloudUp * Mathf.Pow(1.6f, (level - 1));
 		cloudUp.gameObject.active = true;
@@ -137,6 +113,7 @@ public class EffectorController : MonoBehaviour {
 
 	private void ActivateCloudBlind(int level){
 		if (level < 1 || level > 3) return;
+		counterBlind = 0;
 		blindTime = (level + 1) * 2.5f;
 		cloudBlind.transform.localScale = initScaleCloudBlind * Mathf.Pow(1.3f, (level - 1));
 		cloudBlind.gameObject.active = true;

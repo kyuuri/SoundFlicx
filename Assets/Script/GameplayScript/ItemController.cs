@@ -6,7 +6,7 @@ public class ItemController : MonoBehaviour {
 
 	public enum SkillEffector {NONE, REFLECT, MIST_NEAR, MIST_FAR, MIST_BLIND}
 
-
+	public int playerNumber;
 	public EffectorController otherEffector;
 	public RawImage[] slotImages = new RawImage[3];
 	public ParticleSystem[] particles = new ParticleSystem[3];
@@ -26,6 +26,15 @@ public class ItemController : MonoBehaviour {
 		for (int i = 0; i < textures.Length; i++) {
 			textures[i] = Resources.Load ("Effector/skill" + (int)(i)) as Texture;
 		}
+	}
+
+	public bool HasSkill(){
+		for (int i = 0; i < skills.Length; i++) {
+			if ((int)skills [i] != 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void GetItem(){
@@ -81,12 +90,14 @@ public class ItemController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown("6")){
-			GetItem ();
-		}
+		if (playerNumber == 1) {
+			if (Input.GetKeyDown ("6")) {
+				GetItem ();
+			}
 
-		if(Input.GetKeyDown("7")){
-			UseItem ();
+			if (Input.GetKeyDown ("space")) {
+				UseItem ();
+			}
 		}
 
 		UpdateImage ();
