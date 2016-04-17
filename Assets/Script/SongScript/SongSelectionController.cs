@@ -92,6 +92,8 @@ public class SongSelectionController : MonoBehaviour {
 
 	private Layers layerState;
 
+	private bool isNormalState = true;
+
 	//Move Panel
 	private float startTime;
 	private Vector3 startMarker;
@@ -163,10 +165,7 @@ public class SongSelectionController : MonoBehaviour {
 		}
 		buttonList [0].GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);
 
-		for (int i = 0; i < 4; i++) {
-			parBox [i].gameObject.active = false;
-			parBox [i].startColor = new Color (236/255.0f,213/255.0f,92/255.0f);
-		}
+		disableParBox ();
 
 		if (buttonList.Count >= 1) {
 			//			Debug.Log (buttonList.Count+" = "+indexColorChange);
@@ -263,9 +262,7 @@ public class SongSelectionController : MonoBehaviour {
 			loadingImage.color = new Color (loadingImage.color.r, loadingImage.color.g, loadingImage.color.b, 1);
 			leapCamera.SetActive (false);
 			secondCamera.gameObject.SetActive (false);
-			for (int i = 0; i < 4; i++) {
-				parBox [i].gameObject.active = false;
-			}
+			disableParBox ();
 			if (isSolo) {
 				UnityEngine.Application.LoadLevel ("Gameplay");
 			} else {
@@ -364,28 +361,9 @@ public class SongSelectionController : MonoBehaviour {
 		StartCoroutine(TestCoroutine());
 	}
 
-	public void speedUp(){
-		if (speed <= 3.5) {
-			speed += 0.5f;
-			speedNumber.text = string.Format("{0:0.0}", speed);
-		}
-	}
-
-	public void speedDown(){
-		if (speed >= 1) {
-			speed -= 0.5f;
-
-			speedNumber.text = string.Format("{0:0.0}", speed);
-		}
-	}
-
-	public void backFromSpeed(){
-		speedPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
-		difficultyPanel.position = Vector3.Slerp(destination, difficultyPanelPosition, 5);
-	}
-
 	public void showDifficulty(){
 		isWait = true;
+		isNormalState = false;
 		layerState = Layers.DIFFICULTY_LAYER;
 		progressBar.ResetAmount ();
 		speedPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
@@ -394,10 +372,6 @@ public class SongSelectionController : MonoBehaviour {
 		difficultyPanel.position = Vector3.Slerp(destination, difficultyPanelPosition, 5);
 		StartCoroutine(TestCoroutine());
 
-	}
-
-	public void backFromDifficulty(){
-		difficultyPanel.position = Vector3.Slerp (difficultyPanel.position, destination,5);
 	}
 
 	public void showMode(){
@@ -421,7 +395,48 @@ public class SongSelectionController : MonoBehaviour {
 		modePanel.position = Vector3.Slerp (modePanel.position, destination,5);
 		botLvPanel.position = Vector3.Slerp (destination, botPanelPosition, 5);
 		StartCoroutine(TestCoroutine());
+	}
 
+	private void backFromSpeed(){
+		showDifficulty ();
+	}
+
+	private void backFromDifficulty(){
+		disableParBox ();
+		if (isSolo) {
+			showMode ();
+		} else {
+			showBot ();
+		}
+	}
+
+	private void backFromBot(){
+		showMode ();
+	}
+
+	private void backFromMode(){
+		isNormalState = true;
+		difficultyPanel.position = Vector3.Slerp (difficultyPanel.position, destination,5);
+		speedPanel.position = Vector3.Slerp (speedPanel.position, destination,5);
+		botLvPanel.position = Vector3.Slerp (botPanelPosition, destination, 5);
+		modePanel.position = Vector3.Slerp(modePanelPosition, destination, 5);
+	}
+
+
+
+	public void speedUp(){
+		if (speed <= 3.5) {
+			speed += 0.5f;
+			speedNumber.text = string.Format("{0:0.0}", speed);
+		}
+	}
+
+	public void speedDown(){
+		if (speed >= 1) {
+			speed -= 0.5f;
+
+			speedNumber.text = string.Format("{0:0.0}", speed);
+		}
 	}
 
 	public void botLvUp(){
@@ -659,15 +674,17 @@ public class SongSelectionController : MonoBehaviour {
 				}
 			} else if (layerState == Layers.MODE_LAYER){
 				if (isSolo) {
+					
+					if (isNormalState) {
+						for (int i = 0; i < 4; i++) {
+							Vector3 pos = parBox [i].transform.position;
+							parBox [i].transform.position = new Vector3 (pos.x - 8.5f, pos.y, pos.z);
+						}
+					}
 					showDifficulty ();
 
-					for (int i = 0; i < 4; i++) {
-						Vector3 pos = parBox [i].transform.position;
-						parBox [i].transform.position = new Vector3 (pos.x - 8.5f, pos.y, pos.z);
-					}
-
 					difficultyBar.SelectDifficulty (2);
-
+					level = 2;
 					for (int i = 0; i < 4; i++) {
 						parBox [i].gameObject.active = true;
 						parBox [i].startColor = Color.yellow;
@@ -682,14 +699,17 @@ public class SongSelectionController : MonoBehaviour {
 					showBot ();
 				}
 			} else if(layerState == Layers.BOT_LAYER){
-				showDifficulty ();
-				for (int i = 0; i < 4; i++) {
-					Vector3 pos = parBox [i].transform.position;
-					parBox [i].transform.position = new Vector3 (pos.x - 8.5f, pos.y, pos.z);
+				
+				if (isNormalState) {
+					for (int i = 0; i < 4; i++) {
+						Vector3 pos = parBox [i].transform.position;
+						parBox [i].transform.position = new Vector3 (pos.x - 8.5f, pos.y, pos.z);
+					}
 				}
+				showDifficulty ();
 
 				difficultyBar.SelectDifficulty (2);
-
+				level = 2;
 				for (int i = 0; i < 4; i++) {
 					parBox [i].gameObject.active = true;
 					parBox [i].startColor = Color.yellow;
@@ -727,10 +747,11 @@ public class SongSelectionController : MonoBehaviour {
 	}
 
 	private void ManageCancelMotion (Hand rightHand, Hand leftHand){
-		if (isSwipeRight (rightHand) && isSwipeLeft (leftHand)) {
+		if ((isSwipeRight (rightHand) && isSwipeLeft (leftHand))||Input.GetKeyDown(KeyCode.Escape) ) {
 			cancel_isFlicking = true;
-			if (layerState == Layers.DIFFICULTY_LAYER) {
-				backFromDifficulty ();
+			if (layerState == Layers.MODE_LAYER) {
+				Debug.Log ("Normal Mode");
+				backFromMode ();
 				layerState = Layers.NORMAL_LAYER;
 
 				for (int i = 0; i < buttonList.Count; i++) {
@@ -746,16 +767,31 @@ public class SongSelectionController : MonoBehaviour {
 					Vector3 pos = parBox [i].transform.position;
 					parBox [i].gameObject.active = false;
 					parBox [i].transform.position = new Vector3 (pos.x + 8.5f, pos.y, pos.z);
-					parBox [i].startColor = new Color (236/255.0f,213/255.0f,92/255.0f);
+					parBox [i].startColor = new Color (236 / 255.0f, 213 / 255.0f, 92 / 255.0f);
 
 				}
 
 			} else if (layerState == Layers.SPEED_LAYER) {
 				backFromSpeed ();
 				layerState = Layers.DIFFICULTY_LAYER;
-			} else {
-
+			} else if (layerState == Layers.DIFFICULTY_LAYER) {
+				backFromDifficulty ();
+				if (isSolo) {
+					layerState = Layers.MODE_LAYER;
+				}else{
+					layerState = Layers.BOT_LAYER;
+				}
+			} else if (layerState == Layers.BOT_LAYER) {
+				backFromBot ();
+				layerState = Layers.MODE_LAYER;
 			}
+		}
+	}
+
+	private void disableParBox(){
+		for (int i = 0; i < 4; i++) {
+			parBox [i].startColor = new Color (236/255.0f,213/255.0f,92/255.0f);
+			parBox [i].gameObject.active = false;
 		}
 	}
 
