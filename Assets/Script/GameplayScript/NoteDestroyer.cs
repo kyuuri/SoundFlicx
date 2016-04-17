@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class NoteDestroyer : MonoBehaviour {
 
+	public PlayInformation playInformation;
+
 	public LineHitChecker[] lineCheckers = new LineHitChecker[4];
 	public LineRTiltChecker rTiltChecker;
 	public LineLTiltChecker lTiltChecker;
@@ -14,12 +16,12 @@ public class NoteDestroyer : MonoBehaviour {
 
 
 	void Update () {
-		allnotes = NoteRenderer.allnotes;
-		rightTiltNotes = NoteRenderer.rightTiltNotes;
-		leftTiltNotes = NoteRenderer.leftTiltNotes;
+		allnotes = playInformation.noteRenderer.allnotes;
+		rightTiltNotes = playInformation.noteRenderer.rightTiltNotes;
+		leftTiltNotes = playInformation.noteRenderer.leftTiltNotes;
 
 		for (int i = 0; i < allnotes.Length; i++) {
-			laneNotes = NoteRenderer.allnotes[i];
+			laneNotes = playInformation.noteRenderer.allnotes[i];
 			if (laneNotes.Count > 0) {
 				NoteDescription note = laneNotes [0];
 				if (!note.IsLTilt && !note.IsRTilt) {
@@ -28,16 +30,16 @@ public class NoteDestroyer : MonoBehaviour {
 					if (OutRange (deltaTime)) {
 						if (note.NoteState == NoteDescription.NoteHitState.READY) {
 							note.NoteState = NoteDescription.NoteHitState.MISSED;
-							JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
-							JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
+							playInformation.judgeScript.ApplyJudge (JudgeScript.Judge.MISS);
+							playInformation.judgeScript.StoreJudge (JudgeScript.Judge.MISS);
 						}
 						if (note.Length > 0 && note.NoteState != NoteDescription.NoteHitState.MISSED) {
 							if (CheckReleaseLongNoteEndPoint (note)) {
 								//nothing
 							} else if (lineCheckers [i].laneState != LineHitChecker.LaneHitState.HOLD) {
 								note.NoteState = NoteDescription.NoteHitState.MISSED;
-								JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
-								JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
+								playInformation.judgeScript.ApplyJudge (JudgeScript.Judge.MISS);
+								playInformation.judgeScript.StoreJudge (JudgeScript.Judge.MISS);
 							}
 						}
 						if (DestroyNote (note)) {
@@ -68,8 +70,8 @@ public class NoteDestroyer : MonoBehaviour {
 					} else {
 						if (note.NoteState == NoteDescription.NoteHitState.READY) {
 							note.NoteState = NoteDescription.NoteHitState.MISSED;
-							JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
-							JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
+							playInformation.judgeScript.ApplyJudge (JudgeScript.Judge.MISS);
+							playInformation.judgeScript.StoreJudge (JudgeScript.Judge.MISS);
 						}
 						if (note.Length > 0 && note.NoteState != NoteDescription.NoteHitState.MISSED) {
 							if (side == "R") {
@@ -86,8 +88,8 @@ public class NoteDestroyer : MonoBehaviour {
 
 								if (miss) {
 									note.NoteState = NoteDescription.NoteHitState.MISSED;
-									JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
-									JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
+									playInformation.judgeScript.ApplyJudge (JudgeScript.Judge.MISS);
+									playInformation.judgeScript.StoreJudge (JudgeScript.Judge.MISS);
 								}
 							} else {
 								bool miss = false;
@@ -103,8 +105,8 @@ public class NoteDestroyer : MonoBehaviour {
 
 								if (miss) {
 									note.NoteState = NoteDescription.NoteHitState.MISSED;
-									JudgeScript.Instance.ApplyJudge (JudgeScript.Judge.MISS);
-									JudgeScript.Instance.StoreJudge (JudgeScript.Judge.MISS);
+									playInformation.judgeScript.ApplyJudge (JudgeScript.Judge.MISS);
+									playInformation.judgeScript.StoreJudge (JudgeScript.Judge.MISS);
 								}
 							}
 
@@ -164,7 +166,7 @@ public class NoteDestroyer : MonoBehaviour {
 	}
 
 	private void CheckDestroyBar(){
-		List<GameObject> bars = NoteRenderer.bars;
+		List<GameObject> bars = playInformation.noteRenderer.bars;
 		if (bars.Count > 0) {
 			GameObject bar = bars [0];
 			if (bar.transform.position.z - transform.position.z < -0.5f) {

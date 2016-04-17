@@ -11,7 +11,7 @@ public class FlickNoteAnimation : MonoBehaviour {
 	void Start() {
 		rend = GetComponent<Renderer>();
 		rend.enabled = true;
-		changeInterval = 60.0f / songbpm / 5;
+		changeInterval = 60.0f / GlobalData.selectedTrack.bpm / 5;
 	}
 
 	void Update() {

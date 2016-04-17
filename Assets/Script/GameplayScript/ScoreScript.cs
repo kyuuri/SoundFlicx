@@ -5,12 +5,14 @@ using UnityEngine.UI;
 public class ScoreScript : MonoBehaviour {
 
 	public Text scoreText;
-	public static ScoreScript Instance { get; private set;}
+	//public static ScoreScript Instance { get; private set;}
+
+	public ResultSubmitter resultSubmitter;
 
 	private float score = 0;
 
 	void Awake(){
-		Instance = this;
+		//Instance = this;
 	}
 
 	void Start () {
@@ -26,18 +28,14 @@ public class ScoreScript : MonoBehaviour {
 	public void setScore(float sc){
 		score = sc;
 		scoreText.text = score + "";
-		if (score > GlobalData.result.score) {
-			GlobalData.result.score = score;
-		}
+		resultSubmitter.SubmitScore (sc);
 	}
 
 	public void addScore(float sc){
 		score += sc;
 		scoreText.text = score + "";
 
-		if (score > GlobalData.result.score) {
-			GlobalData.result.score = score;
-		}
+		resultSubmitter.SubmitScore (score);
 	}
 
 }

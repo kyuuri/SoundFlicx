@@ -32,7 +32,7 @@ public class Tutorial : MonoBehaviour {
 		spriteList = new List<Sprite>();
 		for(int i=1 ;i<46;i++){
 			Sprite temp = (Sprite.Create(Resources.Load ("Tutorial/" + i) as Texture2D,new Rect(0, 0, 512,512), new Vector2(0, 0),100.0f));
-			Debug.Log (temp);
+			//Debug.Log (temp);
 			spriteList.Add (temp);
 		}
 	}
@@ -58,8 +58,7 @@ public class Tutorial : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		float timePass = TimerScript.timePass;
-		Debug.Log (timePass);
-		Debug.Log ("Phase Number=" + phaseNumber + " image Number=" + imageNumber);
+
 		if (timePass >= timeStart [phaseNumber] && timePass < timeEnd [phaseNumber] - DELAY) {
 			ScaleUp ();
 			if (isSingle[phaseNumber]) {
@@ -118,7 +117,7 @@ public class Tutorial : MonoBehaviour {
 
 	private void ShowPictureSingle(){
 		if (!isImageChange) {
-			Debug.Log ("Change SingleImage");
+			//Debug.Log ("Change SingleImage");
 			images.GetComponent<UnityEngine.UI.Image> ().sprite = spriteList [imageNumber];
 			isImageChange = true;
 		}

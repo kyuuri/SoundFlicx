@@ -5,7 +5,9 @@ using UnityEngine.UI;
 public class ComboScript : MonoBehaviour {
 
 	public Text comboText;
-	public static ComboScript Instance { get; private set;}
+	//public static ComboScript Instance { get; private set;}
+
+	public ResultSubmitter resultSubmitter;
 
 	private Vector3 scale;
 	private bool isShrinking = false;
@@ -15,7 +17,7 @@ public class ComboScript : MonoBehaviour {
 	private int combo = 0;
 
 	void Awake(){
-		Instance = this;
+		//Instance = this;
 	}
 
 	void Start () {
@@ -41,9 +43,8 @@ public class ComboScript : MonoBehaviour {
 		comboText.text = combo + "";
 		isShrinking = true;
 		count = 0;
-		if (combo > GlobalData.result.maxCombo) {
-			GlobalData.result.maxCombo = combo;
-		}
+
+		resultSubmitter.SubmitCombo (combo);
 	}
 
 	private void Shrink(){

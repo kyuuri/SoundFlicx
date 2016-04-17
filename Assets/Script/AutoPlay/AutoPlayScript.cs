@@ -6,6 +6,9 @@ using WindowsInput;
 public class AutoPlayScript : MonoBehaviour {
 
 	public static AutoPlayScript Instance { get; private set;}
+
+	public PlayInformation playInformation;
+
 	public bool isOn = true;
 	private List<NoteDescription>[] allnotes;
 	private List<NoteDescription> rightTiltNotes;
@@ -17,6 +20,7 @@ public class AutoPlayScript : MonoBehaviour {
 	private List<NoteDescription> tiltNotes;
 
 	public float percent = 100.0f;
+	public float level = 0;
 
 	//100 ALL perfect
 
@@ -44,9 +48,9 @@ public class AutoPlayScript : MonoBehaviour {
 	}
 
 	void Start () {
-		allnotes = NoteRenderer.allnotes;
-		rightTiltNotes = NoteRenderer.rightTiltNotes[0];
-		leftTiltNotes = NoteRenderer.leftTiltNotes[0];
+		allnotes = playInformation.noteRenderer.allnotes;
+		rightTiltNotes = playInformation.noteRenderer.rightTiltNotes[0];
+		leftTiltNotes = playInformation.noteRenderer.leftTiltNotes[0];
 
 		hitNotes = new List<NoteDescription>[6];
 		hitNotes[0] = new List<NoteDescription> ();
@@ -88,13 +92,11 @@ public class AutoPlayScript : MonoBehaviour {
 							if (!CheckHitNote (i, note)) {
 								hitNotes [i].Add (note);
 							}
-							break;
 						}
 					} else if (TimerScript.timePass >= note.HitTime - 0.035f + RamdomValue ()) {
 						if (!CheckHitNote(i, note)) {
 							KeyDown (i);
 							hitNotes [i].Add (note);
-							break;
 						}
 					} else if (note.IsFlick && TimerScript.timePass > note.HitTime) {
 						KeyUp (i);
@@ -109,6 +111,7 @@ public class AutoPlayScript : MonoBehaviour {
 			CheckTilt("R");
 			CheckTilt("L");
 
+			CheckItem ();
 		}
 	}
 
@@ -137,17 +140,20 @@ public class AutoPlayScript : MonoBehaviour {
 		}
 
 		if (tiltNotes.Count != 0) {
-			if (TimerScript.timePass >= note.HitTime - 0.05f + RamdomValue() * 10 && TimerScript.timePass < note.HitTime + note.Length - 0.01f) {
+			if (TimerScript.timePass >= note.HitTime - 0.05f && TimerScript.timePass < note.HitTime + note.Length - 0.01f) {
 				TiltKeyDown (note);
 			}
 		}
-		//else {
-		//	TiltKeyUp (note);
-		//}
+	}
 
-//		if (side == "R") {
-//			Debug.Log (note.ToString());
-//		}
+	void CheckItem(){
+		if (level <= 1) {
+			if (playInformation.itemController.HasSkill ()) {
+				playInformation.itemController.UseItem ();
+			}
+		} else {
+			//TODO 
+		}
 	}
 
 	void TiltKeyDown (NoteDescription note){

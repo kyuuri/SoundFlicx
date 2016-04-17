@@ -18,6 +18,7 @@ public class NoteDescription : MonoBehaviour {
 	private bool isLTilt;
 	private float tiltAngle; // -1 to left, 0 idle, 1 to right.
 	private bool startOrEnd;
+	private bool containItem;
 
 	private int addedCombo; // default = 0 (combo that has been added)
 	private float[] eachComboTime;
@@ -108,6 +109,11 @@ public class NoteDescription : MonoBehaviour {
 	public bool StartOrEnd{
 		get { return startOrEnd;}
 		set { startOrEnd = value;}
+	}
+
+	public bool ContainItem{
+		get { return containItem;}
+		set { containItem = value;}
 	}
 
 	public float[] EachComboTime{

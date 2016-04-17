@@ -3394,6 +3394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d818b47aabf9b1448d3cc364a21ccfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playInformation: {fileID: 67041788}
   flickChecker: {fileID: 29167601}
   hitParticle: {fileID: 1627651298}
   laneNumber: 5
@@ -3472,11 +3473,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0beb7e0af134d384a9b28567a04fde1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playInformation: {fileID: 67041788}
   lineChecker: {fileID: 1235703606}
   hitParticle: {fileID: 2121546828}
   laneNumber: 0
   key: q
   laneState: 0
+--- !u!1 &67041786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 67041787}
+  - 114: {fileID: 67041788}
+  m_Layer: 0
+  m_Name: PlayInformation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &67041787
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 67041786}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 124781743}
+  m_RootOrder: 39
+--- !u!114 &67041788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 67041786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93ae33c4fadd7f748a003a60775a225f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteRenderer: {fileID: 2114299854}
+  comboScript: {fileID: 1040790713}
+  judgeScript: {fileID: 1875950432}
+  scoreScript: {fileID: 2024195274}
 --- !u!1 &71581348
 GameObject:
   m_ObjectHideFlags: 0
@@ -3504,6 +3549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d7f3ed79a923424cb3fe37e2690ef16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noteRenderer: {fileID: 2114299854}
   handController: {fileID: 338817852}
   maxAngle: 45
   offsetDegrees: 25
@@ -5363,6 +5409,8 @@ Transform:
   - {fileID: 425359993}
   - {fileID: 718351872}
   - {fileID: 1207841991}
+  - {fileID: 67041787}
+  - {fileID: 144062850}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!114 &124781744
@@ -5405,6 +5453,46 @@ Transform:
   - {fileID: 187065053}
   m_Father: {fileID: 1182926473}
   m_RootOrder: 16
+--- !u!1 &144062849
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 144062850}
+  - 114: {fileID: 144062851}
+  m_Layer: 0
+  m_Name: ResultSubmitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &144062850
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 144062849}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 124781743}
+  m_RootOrder: 40
+--- !u!114 &144062851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 144062849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97ba9f61f12fb3f41b5f8525a5aef626, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerNumber: 1
 --- !u!1 &162369747
 GameObject:
   m_ObjectHideFlags: 0
@@ -5448,6 +5536,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76caf413691f46c45ad011df91f3f7bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noteRenderer: {fileID: 2114299854}
+  gameCamera: {fileID: 124781742}
   par: {fileID: 136121163}
   otherPar: {fileID: 829321666}
 --- !u!92 &162369750
@@ -8746,6 +8836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0beb7e0af134d384a9b28567a04fde1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playInformation: {fileID: 67041788}
   lineChecker: {fileID: 1397277050}
   hitParticle: {fileID: 2019166969}
   laneNumber: 3
@@ -14911,6 +15002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0beb7e0af134d384a9b28567a04fde1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playInformation: {fileID: 67041788}
   lineChecker: {fileID: 1497499108}
   hitParticle: {fileID: 408708987}
   laneNumber: 2
@@ -18155,6 +18247,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccb40cf7d3eb5d84ebc2d40cbea712af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCamera: {fileID: 124781742}
+  playInformation: {fileID: 67041788}
   lTilt: {fileID: 1287631935}
   lineChecker: {fileID: 0}
   particleObj: {fileID: 829321666}
@@ -21233,6 +21327,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b25d3e878f09647831cb47ea279489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCamera: {fileID: 124781742}
+  playInformation: {fileID: 67041788}
   rTilt: {fileID: 1060470601}
   lineChecker: {fileID: 0}
   particleObj: {fileID: 136121163}
@@ -30960,7 +31056,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855ec0d77c22ce146bc7a630a1ca3ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noteRenderer: {fileID: 0}
   isOn: 1
+  percent: 100
+  b1: {fileID: 0}
+  b2: {fileID: 0}
+  b3: {fileID: 0}
+  b4: {fileID: 0}
+  f1: {fileID: 0}
+  f2: {fileID: 0}
+  rt: {fileID: 0}
+  lt: {fileID: 0}
 --- !u!1 &727322406
 GameObject:
   m_ObjectHideFlags: 0
@@ -37494,6 +37600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0beb7e0af134d384a9b28567a04fde1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playInformation: {fileID: 67041788}
   lineChecker: {fileID: 1623064511}
   hitParticle: {fileID: 471592708}
   laneNumber: 1
@@ -43778,6 +43885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   comboText: {fileID: 88675408}
+  resultSubmitter: {fileID: 144062851}
 --- !u!1 &1045935710
 GameObject:
   m_ObjectHideFlags: 0
@@ -54804,6 +54912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d818b47aabf9b1448d3cc364a21ccfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playInformation: {fileID: 67041788}
   flickChecker: {fileID: 1273135097}
   hitParticle: {fileID: 735517798}
   laneNumber: 4
@@ -61103,6 +61212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37a9d9ca5bf24c64fa1413e2ffd258e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playInformation: {fileID: 67041788}
   lineCheckers:
   - {fileID: 59650012}
   - {fileID: 807245682}
@@ -61287,6 +61397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f91ec018d182f44da613ed17ee281b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noteRenderer: {fileID: 2114299854}
   rTilt: {fileID: 1060470601}
   lTilt: {fileID: 1287631935}
 --- !u!1 &1420085590
@@ -77360,6 +77471,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76caf413691f46c45ad011df91f3f7bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noteRenderer: {fileID: 2114299854}
+  gameCamera: {fileID: 124781742}
   par: {fileID: 136121163}
   otherPar: {fileID: 829321666}
 --- !u!92 &1592918388
@@ -91649,6 +91762,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15eefab904500bc48b8f4f57a16791d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resultSubmitter: {fileID: 144062851}
+  comboScript: {fileID: 1040790713}
   judgeText: {fileID: 492003610}
 --- !u!1 &1887163343
 GameObject:
@@ -96506,6 +96621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1479414793}
+  resultSubmitter: {fileID: 144062851}
 --- !u!4 &2024195275
 Transform:
   m_ObjectHideFlags: 0
@@ -101223,6 +101339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bdcc42a7eebb1c4c9ea51c60b0fb5cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCamera: {fileID: 124781742}
   lanePosition:
   - {fileID: 1381843307}
   - {fileID: 548244000}
@@ -101231,6 +101348,9 @@ MonoBehaviour:
   outLanePosition:
   - {fileID: 1887163344}
   - {fileID: 114587721}
+  rightTilting: 0
+  leftTilting: 0
+  bars: []
 --- !u!1 &2114707063
 GameObject:
   m_ObjectHideFlags: 0

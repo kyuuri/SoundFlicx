@@ -6,14 +6,16 @@ using System.IO;
 
 public class NoteRenderer : MonoBehaviour {
 
+	public Camera gameCamera;
+
 	public Transform[] lanePosition = new Transform[4];
 	public Transform[] outLanePosition = new Transform[2]; // 0 left, 1 right
-	public static List<NoteDescription>[] allnotes = new List<NoteDescription>[6];
-	public static List<NoteDescription>[] rightTiltNotes = new List<NoteDescription>[1];
-	public static List<NoteDescription>[] leftTiltNotes = new List<NoteDescription>[1];
-	public static bool rightTilting = false;
-	public static bool leftTilting = false;
-	public static List<GameObject> bars;
+	public List<NoteDescription>[] allnotes = new List<NoteDescription>[6];
+	public List<NoteDescription>[] rightTiltNotes = new List<NoteDescription>[1];
+	public List<NoteDescription>[] leftTiltNotes = new List<NoteDescription>[1];
+	public bool rightTilting = false;
+	public bool leftTilting = false;
+	public List<GameObject> bars;
 
 	private float lastHitNoteTime = 0;
 
@@ -34,14 +36,17 @@ public class NoteRenderer : MonoBehaviour {
 		bars = new List<GameObject>();
 
 		//InvokeRepeating("GenTestNote", 0.3f, 0.46875f);
-		GenerateNoteFromMidi("");
-		GlobalData.result = new ResultScore ();
-		GenerateBarIndicator ();
+		//GenerateNoteFromMidi("");
+		//GlobalData.result = new ResultScore ();
+		//GenerateBarIndicator ();
 	}
 
 	// Use this for initialization
 	void Start() {
-
+		GenerateNoteFromMidi("");
+		GlobalData.result = new ResultScore ();
+		GlobalData.result2 = new ResultScore ();
+		GenerateBarIndicator ();
 	}
 
 	void GenerateNoteFromMidi(string midiPath){
@@ -97,9 +102,9 @@ public class NoteRenderer : MonoBehaviour {
 				note = Instantiate (Resources.Load ("FlickNote")) as GameObject;
 				noteDescription.NoteObject = note;
 				if (noteDescription.Lane <= 1) {
-					note.transform.position = new Vector3 (0.46f, 0.35f, lanePosition [0].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay) - 1.586f/2.7f); //1.586f
+					note.transform.position = new Vector3 (gameCamera.transform.position.x + 0.46f, 0.35f, lanePosition [0].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay) - 1.586f/2.7f); //1.586f
 				} else {
-					note.transform.position = new Vector3 (-0.46f, 0.35f, lanePosition [3].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay) - 1.586f/2.7f);
+					note.transform.position = new Vector3 (gameCamera.transform.position.x - 0.46f, 0.35f, lanePosition [3].position.z - 13f + Runner.speed * (noteDescription.HitTime - TimerScript.delay) - 1.586f/2.7f);
 					note.transform.rotation = Quaternion.Euler(-90.0f,270.0f,-270.0f);
 				}
 			}
@@ -233,7 +238,7 @@ public class NoteRenderer : MonoBehaviour {
 
 		for (float i = 0; i < lastHitNoteTime + 20.0f; i += bar) {
 			GameObject barObject = Instantiate (Resources.Load ("BarIndicator")) as GameObject;;
-			barObject.transform.position = new Vector3 (0, 0.03f, lanePosition [0].position.z - 13f + Runner.speed * (i - TimerScript.delay));
+			barObject.transform.position = new Vector3 (gameCamera.transform.position.x, 0.03f, lanePosition [0].position.z - 13f + Runner.speed * (i - TimerScript.delay));
 			bars.Add (barObject);
 		}
 
