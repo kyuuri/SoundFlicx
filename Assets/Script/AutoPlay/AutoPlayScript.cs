@@ -149,11 +149,35 @@ public class AutoPlayScript : MonoBehaviour {
 	void CheckItem(){
 		if (level <= 1) {
 			if (playInformation.itemController.HasSkill ()) {
-				playInformation.itemController.UseItem ();
+				ItemController.SkillEffector[] skills = playInformation.itemController.GetItems ();
+				if (playInformation.itemController.PeekFirstItem () != ItemController.SkillEffector.REFLECT) {
+					playInformation.itemController.UseItem ();
+				}
+
+				if (playInformation.effector.IsEffected ()) {
+					int index = SearchReflect (skills);
+					if (index > 0) {
+						for (int i = -1; i < index; i++) {
+							playInformation.itemController.UseItem ();
+						}
+					}
+				}
+
+
+
 			}
 		} else {
 			//TODO 
 		}
+	}
+
+	private int SearchReflect(ItemController.SkillEffector[] skills){
+		for (int i = skills.Length - 1; i >= 0; i--) {
+			if ((int)skills [i] == 1) {
+				return i;
+			}
+		}
+		return 0;
 	}
 
 	void TiltKeyDown (NoteDescription note){

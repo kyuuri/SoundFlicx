@@ -55,7 +55,7 @@ public class EffectorController : MonoBehaviour {
 			ActivateCloudBlind (level);
 		}
 		else if (skill == ItemController.SkillEffector.REFLECT) {
-			//ActivateCloudBlind (level);
+			//ActivateReflect ();
 		}
 	}
 

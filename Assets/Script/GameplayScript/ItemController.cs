@@ -37,6 +37,19 @@ public class ItemController : MonoBehaviour {
 		return false;
 	}
 
+	public SkillEffector[] GetItems(){
+		return skills;
+	}
+
+	public SkillEffector PeekFirstItem(){
+		for (int i = skills.Length - 1; i >= 0; i--) {
+			if ((int)skills [i] != 0) {
+				return skills [i];
+			}
+		}
+		return SkillEffector.NONE;
+	}
+
 	public void GetItem(){
 		float x = Random.value * 100.0f;
 
@@ -64,18 +77,23 @@ public class ItemController : MonoBehaviour {
 				skills [i] = SkillEffector.NONE;
 				slotImages [i].texture = textures[0];
 				level = 1;
+				if (particles [i] != null) {
+					particles [i].Play ();
+				}
 
 				if (i - 1 >= 0) {
 					if (usingSkill != 1 && usingSkill == (int)skills [i - 1]) {
 						skills [i-1] = SkillEffector.NONE;
 						slotImages [i-1].texture = textures[0];
 						level = 2;
+						particles [i-1].Play ();
 
 						if (i - 2 >= 0) {
 							if (usingSkill == (int)skills [i - 2]) {
 								skills [i-2] = SkillEffector.NONE;
 								slotImages [i-2].texture = textures[0];
 								level = 3;
+								particles [i-2].Play ();
 							}
 						}
 					}

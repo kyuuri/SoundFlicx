@@ -8,5 +8,6 @@ public class PlayInformation : MonoBehaviour {
 	public JudgeScript judgeScript;
 	public ScoreScript scoreScript;
 	public ItemController itemController;
+	public EffectorController effector;
 
 }
