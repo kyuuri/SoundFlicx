@@ -17,6 +17,7 @@ public class SFController : MonoBehaviour {
 
 	private bool isRflicking = false;
 	private bool isLflicking = false;
+	private bool isSkilling = false;
 
 	private float flickDelay = 0.18f;
 
@@ -50,8 +51,6 @@ public class SFController : MonoBehaviour {
 		HandList hands = frame.Hands;
 
 		HandList previousHands = previousFrame.Hands;
-
-
 
 		if (hands.IsEmpty) {
 			InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_Q);
@@ -100,6 +99,11 @@ public class SFController : MonoBehaviour {
 			CheckPressing (hands, previousHands);
 		}
 		CheckTilt (hands, previousHands);
+
+		if (CheckSkillMotion (hands)) {
+			isSkilling = true; 
+
+		}
 	}
 
 
@@ -488,6 +492,24 @@ public class SFController : MonoBehaviour {
 				} else {
 					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);				}
 			}
+		}
+	}
+
+	private bool CheckSkillMotion(HandList hands){
+		Hand leftHand = hands.Leftmost;
+		Hand rightHand = hands.Rightmost;
+		float rHandSpeed = rightHand.PalmVelocity.y;
+		float lHandSpeed = leftHand.PalmVelocity.y;
+
+		if (!isSkilling) {
+			float speed = 500;
+
+			return leftHand.PalmVelocity.y > speed && rightHand.PalmVelocity.y > speed;
+		} else {
+			if (rHandSpeed < 0 && lHandSpeed < 0) {
+				isSkilling = false;
+			}
+			return false;	
 		}
 	}
 
