@@ -10,6 +10,8 @@ public static class GlobalData {
 	public static ResultScore result2 = new ResultScore();
 	public static List <string> descriptionList = new List<string> ();
 	public static int songIndex;
+	public static bool isVersus = false;
+	public static int botLv = 3;
 	public static float speed = 1.0f;
 	public static string[] textFile = new string[] {
 		"Tutorial,Tutorial,120,0,0,0,-0.075",

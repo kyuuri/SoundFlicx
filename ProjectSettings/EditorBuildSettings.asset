@@ -15,3 +15,5 @@ EditorBuildSettings:
     path: Assets/Scene/ResultScene.unity
   - enabled: 1
     path: Assets/Scene/GameplayTutorial.unity
+  - enabled: 1
+    path: Assets/Scene/GameplayVSMode.unity
