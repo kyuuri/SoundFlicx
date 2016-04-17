@@ -9,6 +9,7 @@ public class AutoPlayScript : MonoBehaviour {
 
 	public PlayInformation playInformation;
 
+	public bool isAutoTest = false;
 	public bool isOn = true;
 	private List<NoteDescription>[] allnotes;
 	private List<NoteDescription> rightTiltNotes;
@@ -20,7 +21,9 @@ public class AutoPlayScript : MonoBehaviour {
 	private List<NoteDescription> tiltNotes;
 
 	public float percent = 100.0f;
-	public float level = 0;
+	public int level = 0;
+
+	private float[] levelPercent = { 0, 46, 54, 62, 70, 78, 86, 100};
 
 	//100 ALL perfect
 
@@ -42,6 +45,9 @@ public class AutoPlayScript : MonoBehaviour {
 	public LineRTiltChecker rt;
 	public LineLTiltChecker lt;
 
+	private float holdTime;
+	private float holdTimeCounter;
+
 
 	void Awake(){
 		Instance = this;
@@ -51,6 +57,11 @@ public class AutoPlayScript : MonoBehaviour {
 		allnotes = playInformation.noteRenderer.allnotes;
 		rightTiltNotes = playInformation.noteRenderer.rightTiltNotes[0];
 		leftTiltNotes = playInformation.noteRenderer.leftTiltNotes[0];
+
+		if(!isAutoTest){
+			level = GlobalData.botLv;
+			percent = levelPercent [level];
+		}
 
 		hitNotes = new List<NoteDescription>[6];
 		hitNotes[0] = new List<NoteDescription> ();
@@ -112,6 +123,7 @@ public class AutoPlayScript : MonoBehaviour {
 			CheckTilt("L");
 
 			CheckItem ();
+			CheckPercentOnEffect ();
 		}
 	}
 
@@ -149,25 +161,103 @@ public class AutoPlayScript : MonoBehaviour {
 	void CheckItem(){
 		if (level <= 1) {
 			if (playInformation.itemController.HasSkill ()) {
-				ItemController.SkillEffector[] skills = playInformation.itemController.GetItems ();
-				if (playInformation.itemController.PeekFirstItem () != ItemController.SkillEffector.REFLECT) {
-					playInformation.itemController.UseItem ();
-				}
+				playInformation.itemController.UseItem ();
+			}
 
-				if (playInformation.effector.IsEffected ()) {
-					int index = SearchReflect (skills);
-					if (index > 0) {
-						for (int i = -1; i < index; i++) {
+			if (playInformation.effector.IsEffected ()) {
+
+				ItemController.SkillEffector[] skills = playInformation.itemController.GetItems ();
+				int index = SearchReflect (skills);
+				if (index > -1) {
+					for (int i = skills.Length - 1; i >= 0; i--) {
+						if ((int)skills [i] == 0) {
+							continue;
+						}
+						else if ((int)skills [i] != 1) {
 							playInformation.itemController.UseItem ();
+						}
+						else if ((int)skills [i] == 1) {
+							playInformation.itemController.UseItem ();
+							break;
 						}
 					}
 				}
-
-
-
-			}
+			} 
 		} else {
-			//TODO 
+			ItemController.SkillEffector[] skills = playInformation.itemController.GetItems ();
+			//always reflect
+			if (playInformation.effector.IsEffected ()) {
+				int index = SearchReflect (skills);
+				if (index > -1) {
+					for (int i = skills.Length - 1; i >= 0; i--) {
+						if ((int)skills [i] == 0) {
+							continue;
+						}
+						else if ((int)skills [i] != 1) {
+							playInformation.itemController.UseItem ();
+						}
+						else if ((int)skills [i] == 1) {
+							playInformation.itemController.UseItem ();
+							break;
+						}
+					}
+				}
+			} 
+
+			//3 slot
+			if ((int)skills [2] != 0) {
+				if (SearchReflect (skills) > -1) {
+					if ((int)skills [0] == 1 && (int)skills [1] == 1) {
+						playInformation.itemController.UseItem ();
+						// waste reflect;
+					}
+				}	
+			}
+
+			if (holdTimeCounter >= holdTime) {
+				holdTime = Random.value * 13 + 3;
+				holdTimeCounter = 0;
+
+				int numItem = Random.Range (0,4);
+
+				for (int i = 0; i < numItem; i++) {
+					if ((int)playInformation.itemController.PeekFirstItem () != 1) {
+						playInformation.itemController.UseItem ();
+					}
+				}
+			}
+			holdTimeCounter += Time.deltaTime;
+		}
+	}
+
+	void CheckPercentOnEffect(){
+		if(!isAutoTest){
+			if (playInformation.effector.IsEffected ()) {
+				int downlvl = playInformation.effector.downLevel;
+				int uplvl = playInformation.effector.upLevel;
+				int blindlvl = playInformation.effector.blindLevel;
+				float dec = 0;
+
+				// 2 4 7
+				if (downlvl == 3)
+					dec += 7;
+				else
+					dec += downlvl * 2;
+				
+				// 2 4 7
+				if (uplvl == 3)
+					dec += 7;
+				else
+					dec += uplvl * 2;
+
+
+				// 2.5 5 8
+				dec += blindlvl * 2.5f;
+				if (blindlvl == 3)
+					dec += 0.5f;
+
+				percent = levelPercent [level] - dec;
+			}
 		}
 	}
 
@@ -177,7 +267,7 @@ public class AutoPlayScript : MonoBehaviour {
 				return i;
 			}
 		}
-		return 0;
+		return -1;
 	}
 
 	void TiltKeyDown (NoteDescription note){

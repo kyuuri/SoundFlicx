@@ -9,6 +9,10 @@ public class EffectorController : MonoBehaviour {
 	public ParticleSystem cloudDown;
 	public ParticleSystem cloudUp;
 	public ParticleSystem cloudBlind;
+	public ParticleSystem reflect1;
+	public ParticleSystem reflect2;
+
+	public EffectorController otherEffector;
 
 	private Vector3 initScaleCloudDown;
 	private Vector3 initScaleCloudUp;
@@ -22,10 +26,26 @@ public class EffectorController : MonoBehaviour {
 	private float upTime;
 	private float blindTime;
 
+	public int downLevel = 0;
+	public int upLevel = 0;
+	public int blindLevel = 0;
+
 	void Start(){
 		initScaleCloudDown = cloudDown.transform.localScale;
 		initScaleCloudUp = cloudUp.transform.localScale;
 		initScaleCloudBlind = cloudBlind.transform.localScale;
+
+		downLevel = 0;
+		upLevel = 0;
+		blindLevel = 0;
+			
+		counterDown = 0;
+		counterUp = 0;
+		counterBlind = 0;
+
+		downTime = 0;
+		upTime = 0;
+		blindTime = 0;
 	}
 
 	void Update () {
@@ -55,7 +75,7 @@ public class EffectorController : MonoBehaviour {
 			ActivateCloudBlind (level);
 		}
 		else if (skill == ItemController.SkillEffector.REFLECT) {
-			//ActivateReflect ();
+			ActivateReflect ();
 		}
 	}
 
@@ -75,9 +95,10 @@ public class EffectorController : MonoBehaviour {
 
 	private void ActivateCloudDown(int level){
 		if (level < 1 || level > 3) return;
+		downLevel = level;
 		counterDown = 0;
-		downTime = (level + 1) * 4.0f;
-		cloudDown.transform.localScale = initScaleCloudDown * Mathf.Pow(1.45f, (level - 1));
+		downTime = (level + 1) * 3.5f;
+		cloudDown.transform.localScale = initScaleCloudDown * Mathf.Pow(1.40f, (level - 1));
 		cloudDown.gameObject.active = true;
 	}
 
@@ -88,15 +109,17 @@ public class EffectorController : MonoBehaviour {
 			if (counterDown >= downTime) {
 				cloudDown.gameObject.active = false;
 				counterDown = 0;
+				downLevel = 0;
 			}
 		}
 	}
 
 	private void ActivateCloudUp(int level){
 		if (level < 1 || level > 3) return;
+		upLevel = level;
 		counterUp = 0;
-		upTime = (level + 1) * 4.0f;
-		cloudUp.transform.localScale = initScaleCloudUp * Mathf.Pow(1.6f, (level - 1));
+		upTime = (level + 1) * 3.5f;
+		cloudUp.transform.localScale = initScaleCloudUp * Mathf.Pow(1.55f, (level - 1));
 		cloudUp.gameObject.active = true;
 	}
 
@@ -107,15 +130,17 @@ public class EffectorController : MonoBehaviour {
 			if (counterUp >= upTime) {
 				cloudUp.gameObject.active = false;
 				counterUp = 0;
+				upLevel = 0;
 			}
 		}
 	}
 
 	private void ActivateCloudBlind(int level){
 		if (level < 1 || level > 3) return;
+		blindLevel = level;
 		counterBlind = 0;
-		blindTime = (level + 1) * 2.5f;
-		cloudBlind.transform.localScale = initScaleCloudBlind * Mathf.Pow(1.3f, (level - 1));
+		blindTime = (level + 1) * 2.2f;
+		cloudBlind.transform.localScale = initScaleCloudBlind * Mathf.Pow(1.2f, (level - 1));
 		cloudBlind.gameObject.active = true;
 	}
 
@@ -126,7 +151,31 @@ public class EffectorController : MonoBehaviour {
 			if (counterBlind >= blindTime) {
 				cloudBlind.gameObject.active = false;
 				counterBlind = 0;
+				blindLevel = 0;
 			}
+		}
+	}
+
+	private void ActivateReflect (){
+		reflect1.Play ();
+		reflect2.Play ();
+		reflect1.startLifetime = reflect1.startLifetime;
+		reflect2.startLifetime = reflect2.startLifetime;
+
+		if (otherEffector.IsEffected ()) {
+			if (otherEffector.downLevel > 0) {
+				ActivateEffect (ItemController.SkillEffector.MIST_NEAR, otherEffector.downLevel);
+			}
+			if (otherEffector.upLevel > 0) {
+				ActivateEffect (ItemController.SkillEffector.MIST_FAR, otherEffector.upLevel);
+			}
+			if (otherEffector.blindLevel > 0) {
+				ActivateEffect (ItemController.SkillEffector.MIST_BLIND, otherEffector.blindLevel);
+			}
+
+			otherEffector.cloudDown.gameObject.active = false;
+			otherEffector.cloudUp.gameObject.active = false;
+			otherEffector.cloudBlind.gameObject.active = false;
 		}
 	}
 
