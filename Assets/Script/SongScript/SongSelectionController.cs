@@ -266,7 +266,11 @@ public class SongSelectionController : MonoBehaviour {
 			for (int i = 0; i < 4; i++) {
 				parBox [i].gameObject.active = false;
 			}
-			UnityEngine.Application.LoadLevel("Gameplay");
+			if (isSolo) {
+				UnityEngine.Application.LoadLevel ("Gameplay");
+			} else {
+				UnityEngine.Application.LoadLevel ("GameplayVSMode");
+			}
 		}
 
 		if (delayTrack >= 0.5f && !currentSong.isPlaying) {
@@ -489,6 +493,8 @@ public class SongSelectionController : MonoBehaviour {
 		GlobalData.selectedTrack = track;
 
 		GlobalData.speed = speed;
+		GlobalData.botLv = botLv;
+		GlobalData.isVersus = !isSolo;
 
 		goingNext = true;
 	}
