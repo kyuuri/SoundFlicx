@@ -551,26 +551,26 @@ public class SongSelectionController : MonoBehaviour {
 
 
 		if (layerState == Layers.NORMAL_LAYER) {
-			if (isSwipeRight (rightHand) || Input.GetKeyDown (KeyCode.RightArrow)) {
+			if (isSwipeRight (rightHand,leftHand) || Input.GetKeyDown (KeyCode.RightArrow)) {
 				isFlicking = true;
 				this.selectedListRight ();
 				selectSound.Play ();
 				progressBar.GetAmount ();
 			}
-			if (isSwipeLeft (leftHand) || Input.GetKeyDown (KeyCode.LeftArrow)) {
+			if (isSwipeLeft (rightHand,leftHand) || Input.GetKeyDown (KeyCode.LeftArrow)) {
 				isFlicking = true;
 				this.selectedListLeft ();
 				selectSound.Play ();
 				progressBar.ResetAmount ();
 			}
 		}else if (layerState == Layers.MODE_LAYER){
-			if (isSwipeRight (rightHand) || Input.GetKeyDown(KeyCode.RightArrow)) {
+			if (isSwipeRight (rightHand,leftHand) || Input.GetKeyDown(KeyCode.RightArrow)) {
 				isFlicking = true;
 				this.versusMode ();
 				selectSound.Play ();
 				progressBar.ResetAmount ();
 			}
-			if (isSwipeLeft (leftHand) || Input.GetKeyDown(KeyCode.LeftArrow)) {
+			if (isSwipeLeft (rightHand,leftHand) || Input.GetKeyDown(KeyCode.LeftArrow)) {
 				isFlicking = true;
 				this.singleMode ();
 				selectSound.Play ();
@@ -578,26 +578,26 @@ public class SongSelectionController : MonoBehaviour {
 			}
 			
 		}else if(layerState == Layers.BOT_LAYER){
-			if (isSwipeRight (rightHand) || Input.GetKeyDown(KeyCode.RightArrow)) {
+			if (isSwipeRight (rightHand,leftHand) || Input.GetKeyDown(KeyCode.RightArrow)) {
 				isFlicking = true;
 				this.botLvUp ();
 				selectSound.Play ();
 				progressBar.ResetAmount ();
 			}
-			if (isSwipeLeft (leftHand) || Input.GetKeyDown(KeyCode.LeftArrow)) {
+			if (isSwipeLeft (rightHand,leftHand) || Input.GetKeyDown(KeyCode.LeftArrow)) {
 				isFlicking = true;
 				this.botLvDown ();
 				selectSound.Play ();
 				progressBar.ResetAmount ();
 			}
 		}else if (layerState == Layers.SPEED_LAYER) {
-			if (isSwipeRight (rightHand) || Input.GetKeyDown(KeyCode.RightArrow)) {
+			if (isSwipeRight (rightHand,leftHand) || Input.GetKeyDown(KeyCode.RightArrow)) {
 				isFlicking = true;
 				this.speedUp ();
 				selectSound.Play ();
 				progressBar.ResetAmount ();
 			}
-			if (isSwipeLeft (leftHand) || Input.GetKeyDown(KeyCode.LeftArrow)) {
+			if (isSwipeLeft (rightHand,leftHand) || Input.GetKeyDown(KeyCode.LeftArrow)) {
 				isFlicking = true;
 				this.speedDown ();
 				selectSound.Play ();
@@ -605,13 +605,13 @@ public class SongSelectionController : MonoBehaviour {
 			}
 
 		} else if (layerState == Layers.DIFFICULTY_LAYER){
-			if (isSwipeRight(rightHand) || Input.GetKeyDown(KeyCode.RightArrow)) {
+			if (isSwipeRight(rightHand,leftHand) || Input.GetKeyDown(KeyCode.RightArrow)) {
 				isFlicking = true;
 				this.increaseLevel ();
 				selectSound.Play ();
 				progressBar.ResetAmount ();
 			}
-			if (isSwipeLeft(leftHand) || Input.GetKeyDown(KeyCode.LeftArrow)) {
+			if (isSwipeLeft(rightHand,leftHand) || Input.GetKeyDown(KeyCode.LeftArrow)) {
 				isFlicking = true;
 				this.decreaseLevel ();
 				selectSound.Play ();
@@ -795,15 +795,39 @@ public class SongSelectionController : MonoBehaviour {
 		}
 	}
 
+	private bool isSwipeRight(Hand rHand, Hand lHand){
+		float speed = 120;
+		float rYaw = rHand.Direction.Yaw * offset;
+		float lYaw = lHand.Direction.Yaw * offset;
+		if (rYaw > 1.2f && rHand.PalmVelocity.x > speed) {
+			return true;
+		} else if (lYaw > 1.2f && lHand.PalmVelocity.x > speed) {
+			return true;
+		}
+		return false;
+	}
+
+	private bool isSwipeLeft(Hand rHand, Hand lHand){
+		float speed = 120;
+		float rYaw = rHand.Direction.Yaw * offset * -1;
+		float lYaw = lHand.Direction.Yaw * offset * -1;
+		if(rYaw > 1.2f && rHand.PalmVelocity.x < -speed){
+			return true;	
+		} else if(lYaw > 1.2f && lHand.PalmVelocity.x < -speed){
+			return true;	
+		}
+		return false;
+	}
+
 	private bool isSwipeRight(Hand hand){
 		float speed = 120;
 		float yaw = hand.Direction.Yaw * offset;
-		return yaw > 1.2f && hand.PalmVelocity.x > speed && hand.IsRight;
+		return yaw > 1.2f && hand.PalmVelocity.x > speed;
 	}
 
 	private bool isSwipeLeft(Hand hand){
 		float speed = 120;
 		float yaw = hand.Direction.Yaw * offset * -1;
-		return yaw > 1.2f && hand.PalmVelocity.x < -speed && hand.IsLeft;
-	}		
+		return yaw > 1.2f && hand.PalmVelocity.x < -speed;
+	}
 }
