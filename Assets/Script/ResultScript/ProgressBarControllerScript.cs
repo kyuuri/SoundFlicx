@@ -32,6 +32,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 	private ResultScore resultScore;
 	private Track track;
 	private PlayerInfo[] players;
+	private string fileName;
 
 	[SerializeField] private float doneButton_Amount;
 	[SerializeField] private float retryButton_Amount;
@@ -52,7 +53,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 	void Start () {
 		resultScore = GlobalData.result;
 		track = GlobalData.selectedTrack;
-
+		fileName = "/" + track.songName;
 		controller = new Leap.Controller ();
 		particle.active = true;
 		leapCamera.active = true;
@@ -210,16 +211,16 @@ public class ProgressBarControllerScript : MonoBehaviour {
 		return false;
 	}
 	public void Load(){
-		if (File.Exists (Application.persistentDataPath + ("/" + track.songName))) {
+		if (File.Exists (Application.persistentDataPath + fileName)) {
 			BinaryFormatter bf = new BinaryFormatter ();
-			FileStream file = File.Open (Application.persistentDataPath + ("/" + track.songName), FileMode.Open);
+			FileStream file = File.Open (Application.persistentDataPath + fileName, FileMode.Open);
 			LeaderBoard data = (LeaderBoard)bf.Deserialize (file);
 			file.Close ();
 
 			players = data.players;
 		} else {
 			BinaryFormatter bf = new BinaryFormatter ();
-			FileStream file = File.Create (Application.persistentDataPath + ("/" + track.songName));
+			FileStream file = File.Create (Application.persistentDataPath + fileName);
 
 			LeaderBoard data = new LeaderBoard ();
 			InitData (ref data);

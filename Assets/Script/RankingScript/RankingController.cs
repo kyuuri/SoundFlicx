@@ -11,6 +11,7 @@ public class RankingController : MonoBehaviour {
 	private Track track;
 	public Transform rankPanel;
 	public GameObject rankLine;
+	private string fileName;
 
 	void Awake(){
 		System.Environment.SetEnvironmentVariable ("MONO_REFLECTION_SERIALIZER", "yes");
@@ -19,6 +20,7 @@ public class RankingController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		track = GlobalData.selectedTrack;
+		fileName = "/" + track.songName;
 		Load ();
 		if (players != null) {
 			for (int i = 0; i < 10; i++) {
@@ -80,7 +82,7 @@ public class RankingController : MonoBehaviour {
 		
 	public void Save () {
 		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream file = File.Create (Application.persistentDataPath + ("/"+track.songName));
+		FileStream file = File.Create (Application.persistentDataPath + fileName);
 
 		LeaderBoard data = new LeaderBoard ();
 		data.players = players;
@@ -93,9 +95,9 @@ public class RankingController : MonoBehaviour {
 	}
 
 	public void Load(){
-		if (File.Exists (Application.persistentDataPath + ("/" + track.songName))) {
+		if (File.Exists (Application.persistentDataPath + fileName)) {
 			BinaryFormatter bf = new BinaryFormatter ();
-			FileStream file = File.Open (Application.persistentDataPath + ("/" + track.songName), FileMode.Open);
+			FileStream file = File.Open (Application.persistentDataPath + fileName, FileMode.Open);
 			LeaderBoard data = (LeaderBoard)bf.Deserialize (file);
 			file.Close ();
 

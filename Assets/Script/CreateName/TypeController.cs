@@ -25,7 +25,7 @@ public class TypeController : MonoBehaviour {
 	private PlayerInfo[] copyPlayers;
 	private PlayerInfo newPlayer;
 	public float score;
-
+	private string fileName;
 	private bool isSelected = false;
 
 	void Awake(){
@@ -39,6 +39,7 @@ public class TypeController : MonoBehaviour {
 		text.text = "";
 		track = GlobalData.selectedTrack;
 		result = GlobalData.result;
+		fileName = "/" + track.songName;
 		Load ();
 
 		newPlayer = new PlayerInfo ();
@@ -151,9 +152,9 @@ public class TypeController : MonoBehaviour {
 	}
 
 	public void Load(){
-		if (File.Exists (Application.persistentDataPath + ("/" + track.songName))) {
+		if (File.Exists (Application.persistentDataPath + fileName)) {
 			BinaryFormatter bf = new BinaryFormatter ();
-			FileStream file = File.Open (Application.persistentDataPath + ("/" + track.songName), FileMode.Open);
+			FileStream file = File.Open (Application.persistentDataPath + fileName, FileMode.Open);
 			LeaderBoard data = (LeaderBoard)bf.Deserialize (file);
 			file.Close ();
 
