@@ -641,7 +641,6 @@ public class SongSelectionController : MonoBehaviour {
 
 		if (progressBar.GetAmount() >= 100) {
 			progressBar.SetText ("Done!!");
-
 			if (!GetComponent<AudioSource> ().isPlaying) {
 				GetComponent<AudioSource> ().Play ();
 			}
@@ -749,6 +748,7 @@ public class SongSelectionController : MonoBehaviour {
 	private void ManageCancelMotion (Hand rightHand, Hand leftHand){
 		if ((isSwipeRight (rightHand) && isSwipeLeft (leftHand))||Input.GetKeyDown(KeyCode.Escape) ) {
 			cancel_isFlicking = true;
+			progressBar.ResetAmount ();
 			if (layerState == Layers.MODE_LAYER) {
 				Debug.Log ("Normal Mode");
 				backFromMode ();
