@@ -2,6 +2,9 @@
 using UnityEngine.UI;
 using System.Collections;
 using Leap;
+using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class ProgressBarControllerScript : MonoBehaviour {
 
@@ -25,6 +28,11 @@ public class ProgressBarControllerScript : MonoBehaviour {
 	private float timeDelay;
 	private bool isFlicking;
 	private float flickDelay = 0.4f;
+
+	private ResultScore resultScore;
+	private Track track;
+	private PlayerInfo[] players;
+
 	[SerializeField] private float doneButton_Amount;
 	[SerializeField] private float retryButton_Amount;
 	[SerializeField] private float progressBarSpeed;
@@ -36,7 +44,15 @@ public class ProgressBarControllerScript : MonoBehaviour {
 	};
 
 	// Use this for initialization
+	void Awake(){
+		System.Environment.SetEnvironmentVariable ("MONO_REFLECTION_SERIALIZER", "yes");
+	}
+
+	// Use this for initialization
 	void Start () {
+		resultScore = GlobalData.result;
+		track = GlobalData.selectedTrack;
+
 		controller = new Leap.Controller ();
 		particle.active = true;
 		leapCamera.active = true;
@@ -48,8 +64,10 @@ public class ProgressBarControllerScript : MonoBehaviour {
 
 		next = false;
 		delay = 0;
+
+		Load ();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		Frame frame = controller.Frame ();
@@ -81,6 +99,12 @@ public class ProgressBarControllerScript : MonoBehaviour {
 			loadingPicture.gameObject.active = true;
 			UnityEngine.Application.LoadLevel (str);
 		}
+
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			for (int i = 0; i < 10; i++) {
+				Debug.Log (players [i].name + " " + (players [i].score + ""));
+			}
+		}
 	}
 
 	private void FillDoneProgressBar(Hand hand){
@@ -90,8 +114,14 @@ public class ProgressBarControllerScript : MonoBehaviour {
 				confirm.Play ();
 			}
 			next = true;
-			str = "SongSelection";
-		} else if (hand.GrabStrength == 1||Input.GetKey("space")) {
+
+			if (resultScore.score > players [9].score) {
+				str = "Layout Groups";
+			} else {
+				str = "SongSelection"; 
+			}
+
+		} else if (hand.GrabStrength == 1	) {
 			doneButton_Amount += progressBarSpeed * Time.deltaTime;
 		} else {
 			if(doneButton_Amount > 0)
@@ -107,12 +137,8 @@ public class ProgressBarControllerScript : MonoBehaviour {
 				confirm.Play ();
 			}
 			next = true;
-			if (GlobalData.isVersus) {
-				str = "GameplayVSMode";
-			} else {
-				str = "Gameplay";
-			}
-		} else if (hand.GrabStrength == 1||Input.GetKey(KeyCode.Space)) {
+			str = "Gameplay";
+		} else if (hand.GrabStrength == 1) {
 			retryButton_Amount += progressBarSpeed * Time.deltaTime;
 		} else {
 			if(retryButton_Amount > 0)
@@ -124,7 +150,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 	private void CheckFlick(HandList hands){
 		Hand rightHand = hands.Rightmost;
 		Hand leftHand = hands.Leftmost;
-		if (isSwipeRight(rightHand)||Input.GetKeyDown(KeyCode.RightArrow)) {
+		if (isSwipeRight(rightHand)) {
 			if (!selectB.isPlaying) {
 				selectB.Play ();
 			}
@@ -135,7 +161,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 			state = Status_State.DONE;
 			isFlicking = true;
 		}
-		if (isSwipeLeft(leftHand)||Input.GetKeyDown(KeyCode.LeftArrow)) {
+		if (isSwipeLeft(leftHand)) {
 			if (!selectB.isPlaying) {
 				selectB.Play ();
 			}
@@ -159,5 +185,41 @@ public class ProgressBarControllerScript : MonoBehaviour {
 		float speed = 120;
 		float yaw = hand.Direction.Yaw * 5 * -1;
 		return yaw > 1.2f && hand.PalmVelocity.x < -speed;
+	}
+
+	public void Load(){
+		if (File.Exists (Application.persistentDataPath + ("/" + track.songName))) {
+			BinaryFormatter bf = new BinaryFormatter ();
+			FileStream file = File.Open (Application.persistentDataPath + ("/" + track.songName), FileMode.Open);
+			LeaderBoard data = (LeaderBoard)bf.Deserialize (file);
+			file.Close ();
+
+			players = data.players;
+		} else {
+			BinaryFormatter bf = new BinaryFormatter ();
+			FileStream file = File.Create (Application.persistentDataPath + ("/" + track.songName));
+
+			LeaderBoard data = new LeaderBoard ();
+			InitData (ref data);
+
+			players = data.players;
+			bf.Serialize (file, data);
+			file.Close ();
+		}
+	}
+
+	void InitData(ref LeaderBoard data){
+
+		for(int i = 0; i < 10; i++){
+			PlayerInfo player = new PlayerInfo();
+
+			player.name = "???";
+			player.score = 0;
+			player.ranking = "NaN";
+			player.accuracy = 0;
+			player.maxCombo = 0;
+			data.players[i] = player;
+		}
+
 	}
 }
