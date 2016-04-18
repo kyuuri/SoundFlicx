@@ -145,8 +145,8 @@ public class SongSelectionController : MonoBehaviour {
 		isSolo = true;
 
 		botLv = 3;
-		botStar4.color = new Color (0f, 0f, 0f, 0.5f);
-		botStar5.color = new Color (0f, 0f, 0f, 0.5f);
+		botStar4.color = new Color (0.2f, 0.2f, 0.2f, 1.0f);
+		botStar5.color = new Color (0.2f, 0.2f, 0.2f, 1.0f);
 		botStarArray = new UnityEngine.UI.Image[5];
 		botStarArray [0] = botStar1;
 		botStarArray [1] = botStar2;
@@ -448,7 +448,7 @@ public class SongSelectionController : MonoBehaviour {
 
 	public void botLvDown(){
 		if (botLv > 1) {
-			botStarArray [botLv - 1].color = new Color (0f, 0f, 0f, 1f);
+			botStarArray [botLv - 1].color = new Color (0.2f, 0.2f, 0.2f, 1.0f);//new Color (0f, 0f, 0f, 1f);
 			--botLv;
 		}
 	}

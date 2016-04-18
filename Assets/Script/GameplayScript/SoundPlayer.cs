@@ -31,7 +31,11 @@ public class SoundPlayer : MonoBehaviour {
 		}
 
 		if (!baseSource.isPlaying && isPlayed) { // song ends
-			Application.LoadLevel("ResultScene");
+			if (GlobalData.isVersus) {
+				Application.LoadLevel ("ResultSceneMulti");
+			} else {
+				Application.LoadLevel ("ResultScene");
+			}
 		}
 	}
 }

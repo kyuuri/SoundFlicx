@@ -140,7 +140,7 @@ public class EffectorController : MonoBehaviour {
 		blindLevel = level;
 		counterBlind = 0;
 		blindTime = (level + 1) * 2.2f;
-		cloudBlind.transform.localScale = initScaleCloudBlind * Mathf.Pow(1.2f, (level - 1));
+		cloudBlind.transform.localScale = initScaleCloudBlind * Mathf.Pow(1.3f, (level - 1));
 		cloudBlind.gameObject.active = true;
 	}
 
