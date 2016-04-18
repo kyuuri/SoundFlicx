@@ -1,11 +1,19 @@
 ﻿using UnityEngine;
+using Leap;
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Runtime.InteropServices;
 
 public class TypeController : MonoBehaviour {
+	[DllImport("user32.dll")]
+	public static extern bool SetCursorPos(int X, int Y);
+	[DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+	public static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
+
+	public Leap.Controller controller;
 
 	public Text text;
 	private PlayerInfo[] players;
@@ -18,12 +26,16 @@ public class TypeController : MonoBehaviour {
 	private PlayerInfo newPlayer;
 	public float score;
 
+	private bool isSelected = false;
+
 	void Awake(){
 		System.Environment.SetEnvironmentVariable ("MONO_REFLECTION_SERIALIZER", "yes");
 	}
 
 	// Use this for initialization
 	void Start () {
+		controller = new Leap.Controller ();
+
 		text.text = "";
 		track = GlobalData.selectedTrack;
 		result = GlobalData.result;
@@ -32,19 +44,32 @@ public class TypeController : MonoBehaviour {
 		newPlayer = new PlayerInfo ();
 	}
 	
-	// Update is called once per frame
 	void Update () {
+	// Update is called once per frame
+		Frame frame = controller.Frame ();
+		Hand hand = frame.Hands.Rightmost;
+
+		Vector position = hand.Fingers.FingerType(Finger.FingerType.TYPE_INDEX)[0].StabilizedTipPosition;
+		float screenWidth = UnityEngine.Screen.width;
+		float screenHeight = UnityEngine.Screen.height;
+
+		int posX = (int)(position.x * 4 + screenWidth / 2);
+		int posY = (int)(-position.y + screenHeight / 2) * 3;
+		SetCursorPos(posX,posY);
+
+		if (hand.IsValid) {
+			if (hand.PinchStrength > 0.9f && !isSelected) {
+				isSelected = true;
+				mouse_event (0x0002 | 0x0004, 0, posX, posY, 0);
+			} else if(hand.PinchStrength < 0.3f) {
+				isSelected = false;
+			}
+		}
+
 		if (Input.GetKeyDown (KeyCode.Space)) {
-//			InsertScore ();
+			//			InsertScore ();
 			Print(players);
 		}
-//		if (Input.GetKeyDown (KeyCode.S)) {
-//			string arr = "";
-//			for (int i = 0; i < 10; i++) {
-//				arr += testData [i] + " ";
-//			}
-//			Debug.Log (arr);
-//		}
 	}
 
 	public void AddText (string label){

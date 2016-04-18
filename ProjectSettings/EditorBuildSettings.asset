@@ -19,3 +19,7 @@ EditorBuildSettings:
     path: Assets/Scene/ResultScene.unity
   - enabled: 1
     path: Assets/Scene/ResultSceneMulti.unity
+  - enabled: 1
+    path: Assets/Scene/Layout Groups.unity
+  - enabled: 1
+    path: Assets/Scene/Ranking.unity
