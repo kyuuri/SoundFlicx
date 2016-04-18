@@ -67,7 +67,6 @@ public class TypeController : MonoBehaviour {
 		for (int i = 0; i < 10; i++) {
 			if (result.score > players [i].score) {
 //			if(score > testData[i]){
-				index = i;
 				int j = i;
 				while (j + 1 < 10) {
 					players [j + 1].name = copyPlayers[j].name;
@@ -84,15 +83,16 @@ public class TypeController : MonoBehaviour {
 //					Debug.Log (kok);
 					j++;
 				}
+				players[i].name = newPlayer.name;
+				players[i].score = newPlayer.score;
+				players[i].maxCombo = newPlayer.maxCombo;
+				players[i].accuracy = newPlayer.accuracy;
+				players[i].ranking = newPlayer.ranking;
+				//				Debug.Log (players [i].name + ", " + players [i].score + ", " + players [i].maxCombo + ", " + players [i].accuracy + ", " + players [i].ranking);
+				break;
 			}
 			//				testData [i] = score;
-			players[i].name = newPlayer.name;
-			players[i].score = newPlayer.score;
-			players[i].maxCombo = newPlayer.maxCombo;
-			players[i].accuracy = newPlayer.accuracy;
-			players[i].ranking = newPlayer.ranking;
-			//				Debug.Log (players [i].name + ", " + players [i].score + ", " + players [i].maxCombo + ", " + players [i].accuracy + ", " + players [i].ranking);
-			break;
+
 		}
 	}
 
