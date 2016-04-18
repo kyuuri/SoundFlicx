@@ -127,7 +127,7 @@ public class LineHitChecker : MonoBehaviour {
 
 		laneState = LaneHitState.HIT;
 
-		if (countHold >= 5) {
+		if (countHold >= 3) {
 			KeyHold ();
 		}
 	}

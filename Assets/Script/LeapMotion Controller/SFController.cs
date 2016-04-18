@@ -7,6 +7,18 @@ using System.Collections.Generic;
 public class SFController : MonoBehaviour {
 
 	public NoteRenderer noteRenderer;
+	public ItemController itemController;
+
+	public LineHitChecker b1;
+	public LineHitChecker b2;
+	public LineHitChecker b3;
+	public LineHitChecker b4;
+
+	public LineFlickChecker f1;
+	public LineFlickChecker f2;
+
+	public LineRTiltChecker rt;
+	public LineLTiltChecker lt;
 
 	public HandController handController;
 	private Leap.Controller controller;
@@ -53,6 +65,13 @@ public class SFController : MonoBehaviour {
 		HandList previousHands = previousFrame.Hands;
 
 		if (hands.IsEmpty) {
+//			b1.KeyUp ();
+//			b2.KeyUp ();
+//			b3.KeyUp ();
+//			b4.KeyUp ();
+//			f1.KeyNone ();
+//			f2.KeyNone ();
+
 			InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_Q);
 			InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_W);
 			InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_E);
@@ -63,10 +82,18 @@ public class SFController : MonoBehaviour {
 
 		if (hands.Count == 1) {
 			if (hands.Leftmost.IsLeft) {
+//				b3.KeyUp ();
+//				b4.KeyUp ();
+//				f2.KeyNone ();
+
 				InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_E);
 				InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_R);
 				InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_X);
 			} else {
+//				b1.KeyUp ();
+//				b2.KeyUp ();
+//				f1.KeyNone ();
+
 				InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_Q);
 				InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_W);
 				InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_Z);
@@ -78,11 +105,15 @@ public class SFController : MonoBehaviour {
 
 			if (isLflicking) {
 				LDelay += Time.deltaTime;
+//				b1.KeyUp ();
+//				b2.KeyUp ();
 				InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_Q);
 				InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_W);
 			}
 			if (isRflicking) {
 				RDelay += Time.deltaTime;
+//				b3.KeyUp ();
+//				b4.KeyUp ();
 				InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_E);
 				InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_R);
 			}
@@ -100,9 +131,12 @@ public class SFController : MonoBehaviour {
 		}
 		CheckTilt (hands, previousHands);
 
-		if (CheckSkillMotion (hands)) {
-			isSkilling = true; 
-
+		//versus
+		if (GlobalData.isVersus && itemController != null) {
+			if (CheckSkillMotion (hands)) {
+				isSkilling = true;
+				itemController.UseItem ();
+			}
 		}
 	}
 
@@ -127,6 +161,9 @@ public class SFController : MonoBehaviour {
 		if (!isLflicking) {
 			if (CheckPressingDistance (leftHand, previousLeftHand, 0, 0) && leftHand.IsLeft) {
 				if (!fingerStage [0]) {
+//					b1.KeyUp ();
+//					b1.KeyDown ();
+//					b1.KeyHold ();
 					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_Q);
 					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_Q);
 				}
@@ -134,6 +171,9 @@ public class SFController : MonoBehaviour {
 			}
 			if (CheckPressingDistance (leftHand, previousLeftHand, 1, 0) && leftHand.IsLeft) {
 				if (!fingerStage [1]) {
+//					b2.KeyUp ();
+//					b2.KeyDown ();
+//					b2.KeyHold ();
 					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_W);
 					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_W);
 				}
@@ -143,6 +183,9 @@ public class SFController : MonoBehaviour {
 		if (!isRflicking) {
 			if (CheckPressingDistance (rightHand, previousRightHand, 2, 0) && rightHand.IsRight) {
 				if (!fingerStage [2]) {
+//					b3.KeyUp ();
+//					b3.KeyDown ();
+//					b3.KeyHold ();
 					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_E);
 					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_E);
 					fingerStage [2] = true;
@@ -150,6 +193,9 @@ public class SFController : MonoBehaviour {
 			}
 			if (CheckPressingDistance (rightHand, previousRightHand, 3, 0) && rightHand.IsRight) {
 				if (!fingerStage [3]) {
+//					b4.KeyUp ();
+//					b4.KeyDown ();
+//					b4.KeyHold ();
 					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_R);
 					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_R);
 					fingerStage [3] = true;
@@ -160,6 +206,7 @@ public class SFController : MonoBehaviour {
 		if (CheckPressingDistance (leftHand, previousLeftHand, 0, 1) && leftHand.IsLeft) {
 			if (fingerStage [0]) {
 				//			Debug.Log ("Release  Q");
+//				b1.KeyUp ();
 				InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_Q);
 				fingerStage [0] = false;
 			}
@@ -167,6 +214,7 @@ public class SFController : MonoBehaviour {
 		if (CheckPressingDistance (leftHand, previousLeftHand, 1, 1) && leftHand.IsLeft) {
 			if (fingerStage [1]) {
 				//			Debug.Log ("Release W");
+//				b2.KeyUp ();
 				InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_W);
 				fingerStage [1] = false;
 			}
@@ -174,12 +222,14 @@ public class SFController : MonoBehaviour {
 		if (CheckPressingDistance (rightHand, previousRightHand, 2, 1) && rightHand.IsRight) {
 			if (fingerStage [2]) {
 				//			Debug.Log ("Release E");
+//				b3.KeyUp ();
 				InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_E);
 				fingerStage [2] = false;
 			}
 		}
 		if (CheckPressingDistance (rightHand, previousRightHand, 3, 1) && rightHand.IsRight) {
 			if (fingerStage [3]) {
+//				b4.KeyUp ();
 				//			Debug.Log ("Release R");
 				InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_R);
 				fingerStage [3] = false;
@@ -259,8 +309,10 @@ public class SFController : MonoBehaviour {
 
 		float speed = 128;
 
-		InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_X);
-		InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_Z);
+		f1.KeyNone ();
+		f2.KeyNone ();
+//		InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_X);
+//		InputSimulator.SimulateKeyUp(VirtualKeyCode.VK_Z);
 
 		if (!isRflicking) {
 			//		if (rightHandYaw > 1.5 && rightHand.PalmVelocity.x > speed) {
@@ -268,7 +320,8 @@ public class SFController : MonoBehaviour {
 			if (rightHand.PalmVelocity.x > speed && rightHand.IsRight) {
 //				Debug.Log ("right swipe");
 				//			Debug.Log(rightHandYaw);
-				InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_X);
+				f2.KeyFlick();
+//				InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_X);
 				isRflicking = true;
 				LDelay = 0;
 			}
@@ -279,7 +332,8 @@ public class SFController : MonoBehaviour {
 			if (leftHand.PalmVelocity.x < -speed && leftHand.IsLeft) {
 				//Debug.Log ("left swipe");
 				//			Debug.Log(leftHandYaw);
-				InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_Z);
+				f1.KeyFlick();
+//				InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_Z);
 				isLflicking = true;
 				RDelay = 0;
 			}
@@ -316,10 +370,12 @@ public class SFController : MonoBehaviour {
 	
 
 		if (hands.Count == 0) {
-			InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
-			InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
-			InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);
-			InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
+			rt.KeyRIDLE ();
+			lt.KeyLIDLE ();
+//			InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
+//			InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
+//			InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);
+//			InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
 //		} else if(false){
 //
 //			NoteDescription rNote = GetNote(rightTiltNote);
@@ -433,32 +489,38 @@ public class SFController : MonoBehaviour {
 		if (hand.IsRight && note.IsRTilt) {
 			if (note.TiltAngle == 0) {
 				if (rollDegrees > 35 || rollDegrees < 0) {
-					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
-					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
+					rt.KeyRIDLE ();
+//					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
+//					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
 				} else {
-					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_M);
+					rt.KeyRToR ();
+//					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_M);
 				}
 			} else if (note.TiltAngle < 0.1f) {
 				rightTiltDegrees = FindDegrees (note);
 //				Debug.Log (rollDegrees +  "       " + rightTiltDegrees);
 				if (rollDegrees > rightTiltDegrees - offsetDegrees && rollDegrees < rightTiltDegrees + offsetDegrees) {
 //				if (Mathf.Abs(rollDegrees-maxAngle)/2 > rightTiltDegrees - offsetDegrees && rollDegrees < rightTiltDegrees + offsetDegrees) {
-					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_N);
-					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
+					rt.KeyRToL();
+//					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_N);
+//					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
 //					Debug.Log (rollDegrees + " > " + (rightTiltDegrees - offsetDegrees) + "   ||    " + rollDegrees + " < " + (rightTiltDegrees + offsetDegrees));
 				} else {
 //					Debug.Log (rollDegrees + " < " + (rightTiltDegrees - offsetDegrees) + "   ||    " + rollDegrees + " > " + (rightTiltDegrees + offsetDegrees));
-					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
+					rt.KeyRIDLE();
+//					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
 				}
 			} else if (note.TiltAngle > 0.1f) {
 				rightTiltDegrees = FindDegrees (note) * -1;
 //					Debug.Log (rollDegrees - maxAngle);
 //				if (2*rollDegrees - maxAngle > rightTiltDegrees - offsetDegrees && 2*rollDegrees - maxAngle < rightTiltDegrees + offsetDegrees) {
 				if (rollDegrees - maxAngle > rightTiltDegrees - offsetDegrees && rollDegrees - maxAngle < rightTiltDegrees + offsetDegrees) {
-					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_M);
-					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
+					rt.KeyRToR ();
+//					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_M);
+//					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_N);
 				} else {
-					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
+					rt.KeyRIDLE ();
+//					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_M);
 				}
 			}
 		}
@@ -468,29 +530,36 @@ public class SFController : MonoBehaviour {
 			if(note.TiltAngle == 0){
 				if (rollDegrees > 35 || rollDegrees < 0) {
 //					Debug.Log (rollDegrees);
-					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);
-					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
+					lt.KeyLIDLE();
+//					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);
+//					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
 				} else {
-					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_V);
+					lt.KeyLToL ();
+//					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_V);
 				}
 			} else if (note.TiltAngle > 0.1f) {
 //				 if (note.TiltAngle > 0.1f) {
 				leftTiltDegrees = FindDegrees (note);
 				if (rollDegrees > leftTiltDegrees - offsetDegrees && rollDegrees < leftTiltDegrees + offsetDegrees) {
-					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_B);
-					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);
+					lt.KeyLToR ();
+//					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_B);
+//					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);
 				} else {
-					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
+					lt.KeyLIDLE();
+//					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
 				}
 			} else if (note.TiltAngle < 0.1f) {
 				leftTiltDegrees = FindDegrees (note)*-1;
 //				Debug.Log (rollDegrees - maxAngle +  "       " + leftTiltDegrees);
 //				if (2*rollDegrees - maxAngle > leftTiltDegrees - offsetDegrees && 2*rollDegrees - maxAngle < leftTiltDegrees + offsetDegrees) {
 				if (rollDegrees - maxAngle > leftTiltDegrees - offsetDegrees && rollDegrees - maxAngle < leftTiltDegrees + offsetDegrees) {
-					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_V);
-					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
+					lt.KeyLToL ();
+//					InputSimulator.SimulateKeyDown (VirtualKeyCode.VK_V);
+//					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_B);
 				} else {
-					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);				}
+					lt.KeyLIDLE();
+//					InputSimulator.SimulateKeyUp (VirtualKeyCode.VK_V);				
+				}
 			}
 		}
 	}
@@ -504,7 +573,7 @@ public class SFController : MonoBehaviour {
 		if (!isSkilling) {
 			float speed = 500;
 
-			return leftHand.PalmVelocity.y > speed && rightHand.PalmVelocity.y > speed;
+			return leftHand.PalmVelocity.y > speed || rightHand.PalmVelocity.y > speed;
 		} else {
 			if (rHandSpeed < 0 && lHandSpeed < 0) {
 				isSkilling = false;

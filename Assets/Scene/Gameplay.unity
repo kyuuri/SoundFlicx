@@ -3427,7 +3427,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &71581349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3439,7 +3439,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d7f3ed79a923424cb3fe37e2690ef16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noteRenderer: {fileID: 0}
+  noteRenderer: {fileID: 2114299854}
+  itemController: {fileID: 0}
+  b1: {fileID: 59650012}
+  b2: {fileID: 807245682}
+  b3: {fileID: 362337771}
+  b4: {fileID: 189494410}
+  f1: {fileID: 29167602}
+  f2: {fileID: 1273135098}
+  rt: {fileID: 477805081}
+  lt: {fileID: 460541423}
   handController: {fileID: 338817852}
   maxAngle: 45
   offsetDegrees: 25
@@ -5314,6 +5323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 124781743}
+  playerNumber: 1
 --- !u!1 &136121162
 GameObject:
   m_ObjectHideFlags: 0
@@ -30881,7 +30891,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &718351872
 Transform:
   m_ObjectHideFlags: 0
@@ -30905,9 +30915,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855ec0d77c22ce146bc7a630a1ca3ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noteRenderer: {fileID: 2114299854}
+  playInformation: {fileID: 0}
+  isAutoTest: 0
   isOn: 1
   percent: 100
+  level: 0
   b1: {fileID: 59650012}
   b2: {fileID: 807245682}
   b3: {fileID: 362337771}
@@ -74246,6 +74258,8 @@ MonoBehaviour:
   comboScript: {fileID: 1040790713}
   judgeScript: {fileID: 1875950432}
   scoreScript: {fileID: 2024195274}
+  itemController: {fileID: 0}
+  effector: {fileID: 0}
 --- !u!1 &1540381382
 GameObject:
   m_ObjectHideFlags: 0

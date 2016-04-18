@@ -11,9 +11,13 @@ public class ItemController : MonoBehaviour {
 	public RawImage[] slotImages = new RawImage[3];
 	public ParticleSystem[] particles = new ParticleSystem[3];
 
+	public AudioSource getSound;
+	public AudioSource useSound;
+
 	private SkillEffector[] skills;
 
 	private Texture[] textures;
+
 
 	void Start(){
 		skills = new SkillEffector[3];
@@ -62,6 +66,9 @@ public class ItemController : MonoBehaviour {
 			} else {
 				AddSkill(Random.Range(2,4));
 			}
+			if (getSound != null) {
+				getSound.Play ();
+			}
 			UpdateSkillArr ();
 		}
 	}
@@ -86,22 +93,30 @@ public class ItemController : MonoBehaviour {
 						skills [i-1] = SkillEffector.NONE;
 						slotImages [i-1].texture = textures[0];
 						level = 2;
-						particles [i-1].Play ();
+						if (particles [i - 1] != null) {
+							particles [i - 1].Play ();
+						}
 
 						if (i - 2 >= 0) {
 							if (usingSkill == (int)skills [i - 2]) {
 								skills [i-2] = SkillEffector.NONE;
 								slotImages [i-2].texture = textures[0];
 								level = 3;
-								particles [i-2].Play ();
+								if (particles [i - 2] != null) {
+									particles [i - 2].Play ();
+								}
 							}
 						}
 					}
 				}
-				UpdateSkillArr ();
-
-				otherEffector.ActivateEffect ((SkillEffector)usingSkill, level);
-				break;
+				if (level != 0) {
+					UpdateSkillArr ();
+					otherEffector.ActivateEffect ((SkillEffector)usingSkill, level);
+					if (useSound != null) {
+						useSound.Play ();
+					}
+					break;
+				}
 			}
 		}
 	}
