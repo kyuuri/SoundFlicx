@@ -641,6 +641,7 @@ public class SongSelectionController : MonoBehaviour {
 
 		if (progressBar.GetAmount() >= 100) {
 			progressBar.SetText ("Done!!");
+			cancel_isFlicking = true;
 			if (!GetComponent<AudioSource> ().isPlaying) {
 				GetComponent<AudioSource> ().Play ();
 			}
