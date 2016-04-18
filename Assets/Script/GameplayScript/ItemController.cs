@@ -10,6 +10,7 @@ public class ItemController : MonoBehaviour {
 	public EffectorController otherEffector;
 	public RawImage[] slotImages = new RawImage[3];
 	public ParticleSystem[] particles = new ParticleSystem[3];
+	public ParticleSystem[] particlesLevel = new ParticleSystem[3];
 
 	public AudioSource getSound;
 	public AudioSource useSound;
@@ -134,6 +135,9 @@ public class ItemController : MonoBehaviour {
 		}
 
 		UpdateImage ();
+		if (playerNumber == 1) {
+			UpdateAdjacent ();
+		}
 	}
 
 	void UpdateSkillArr(){
@@ -155,6 +159,24 @@ public class ItemController : MonoBehaviour {
 					slotImages [i].color = new Color (c.r, c.g, c.b, c.a + 0.075f);
 				}
 			}
+		}
+	}
+
+	void UpdateAdjacent (){
+		if ((int)skills [0] == (int)skills [1] && (int)skills [1] == (int)skills [2] && (int)skills [0] != 0 && (int)skills [0] != 1) {
+			particlesLevel [0].gameObject.active = true;
+			particlesLevel [1].gameObject.active = true;
+			particlesLevel [2].gameObject.active = true;
+		} else if ((int)skills [0] == (int)skills [1] && (int)skills [0] != 0 && (int)skills [0] != 1) {
+			particlesLevel [0].gameObject.active = true;
+			particlesLevel [1].gameObject.active = true;
+		} else if ((int)skills [1] == (int)skills [2] && (int)skills [1] != 0 && (int)skills [1] != 1) {
+			particlesLevel [1].gameObject.active = true;
+			particlesLevel [2].gameObject.active = true;
+		} else {
+			particlesLevel [0].gameObject.active = false;
+			particlesLevel [1].gameObject.active = false;
+			particlesLevel [2].gameObject.active = false;
 		}
 	}
 

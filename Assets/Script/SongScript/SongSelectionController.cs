@@ -335,7 +335,7 @@ public class SongSelectionController : MonoBehaviour {
 		nameList.Add (eachLine [0]);
 		button.composer.text = eachLine [1];
 		button.bpm.text = "BPM : "+eachLine [2];
-		Debug.Log (eachLine [0]);
+		//Debug.Log (eachLine [0]);
 		button.icon.GetComponent<UnityEngine.UI.Image> ().sprite = Sprite.Create(Resources.Load ("Tracks/" + eachLine [0] + "Image") as Texture2D,new Rect(0, 0, 256,256), new Vector2(0, 0),100.0f);
 		newButton.transform.SetParent (contentPanel);
 		RectTransform rect = newButton.GetComponent<RectTransform> ();
