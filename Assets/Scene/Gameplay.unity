@@ -61257,9 +61257,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f91ec018d182f44da613ed17ee281b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noteRenderer: {fileID: 2114299854}
-  rTilt: {fileID: 1060470601}
-  lTilt: {fileID: 1287631935}
 --- !u!1 &1420085590
 GameObject:
   m_ObjectHideFlags: 0
