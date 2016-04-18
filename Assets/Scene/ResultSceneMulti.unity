@@ -5763,10 +5763,10 @@ RectTransform:
   - {fileID: 126684742}
   - {fileID: 1979274297}
   - {fileID: 606371466}
-  - {fileID: 654777711}
   - {fileID: 816883870}
   - {fileID: 1047053795}
   - {fileID: 917860521}
+  - {fileID: 654777711}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_AnchorMin: {x: 0, y: 0}
@@ -10677,11 +10677,11 @@ RectTransform:
   m_LocalScale: {x: 1.0518292, y: 1.0518292, z: 1.0518292}
   m_Children: []
   m_Father: {fileID: 445956578}
-  m_RootOrder: 6
+  m_RootOrder: 9
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -169, y: -1}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &654777712
 CanvasRenderer:
@@ -14326,7 +14326,7 @@ RectTransform:
   m_LocalScale: {x: 0.13999999, y: 0.13999999, z: 0.13999999}
   m_Children: []
   m_Father: {fileID: 445956578}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 125, y: 131}
@@ -16088,7 +16088,7 @@ RectTransform:
   - {fileID: 2014544245}
   - {fileID: 1745742982}
   m_Father: {fileID: 445956578}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 3}
@@ -17832,7 +17832,7 @@ RectTransform:
   m_LocalScale: {x: 0.120000005, y: 0.120000005, z: 0.18000002}
   m_Children: []
   m_Father: {fileID: 445956578}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 249, y: 106}

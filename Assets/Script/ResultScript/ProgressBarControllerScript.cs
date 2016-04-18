@@ -91,7 +91,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 			}
 			next = true;
 			str = "SongSelection";
-		} else if (hand.GrabStrength == 1	) {
+		} else if (hand.GrabStrength == 1||Input.GetKey("space")) {
 			doneButton_Amount += progressBarSpeed * Time.deltaTime;
 		} else {
 			if(doneButton_Amount > 0)
@@ -107,8 +107,12 @@ public class ProgressBarControllerScript : MonoBehaviour {
 				confirm.Play ();
 			}
 			next = true;
-			str = "Gameplay";
-		} else if (hand.GrabStrength == 1) {
+			if (GlobalData.isVersus) {
+				str = "GameplayVSMode";
+			} else {
+				str = "Gameplay";
+			}
+		} else if (hand.GrabStrength == 1||Input.GetKey(KeyCode.Space)) {
 			retryButton_Amount += progressBarSpeed * Time.deltaTime;
 		} else {
 			if(retryButton_Amount > 0)
@@ -120,7 +124,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 	private void CheckFlick(HandList hands){
 		Hand rightHand = hands.Rightmost;
 		Hand leftHand = hands.Leftmost;
-		if (isSwipeRight(rightHand)) {
+		if (isSwipeRight(rightHand)||Input.GetKeyDown(KeyCode.RightArrow)) {
 			if (!selectB.isPlaying) {
 				selectB.Play ();
 			}
@@ -131,7 +135,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 			state = Status_State.DONE;
 			isFlicking = true;
 		}
-		if (isSwipeLeft(leftHand)) {
+		if (isSwipeLeft(leftHand)||Input.GetKeyDown(KeyCode.LeftArrow)) {
 			if (!selectB.isPlaying) {
 				selectB.Play ();
 			}

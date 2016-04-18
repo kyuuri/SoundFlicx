@@ -119,7 +119,7 @@ public class EffectorController : MonoBehaviour {
 		upLevel = level;
 		counterUp = 0;
 		upTime = (level + 1) * 3.5f;
-		cloudUp.transform.localScale = initScaleCloudUp * Mathf.Pow(1.55f, (level - 1));
+		cloudUp.transform.localScale = initScaleCloudUp * Mathf.Pow(1.58f, (level - 1));
 		cloudUp.gameObject.active = true;
 	}
 
