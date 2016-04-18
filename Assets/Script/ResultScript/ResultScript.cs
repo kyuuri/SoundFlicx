@@ -18,7 +18,6 @@ public class ResultScript : MonoBehaviour {
 	private ResultScore resultScore;
 	private Track track;
 
-	// Use this for initialization
 	void Start () {
 
 		resultScore = GlobalData.result;
@@ -63,7 +62,6 @@ public class ResultScript : MonoBehaviour {
 		} else if (ranking == "S" || ranking == "SS" || ranking == "SSS") {
 			rank.color =  new Color (255/255f, (200/255f), 0f,1f);
 		}
-
 	}
 
 	public void retry(){
@@ -71,11 +69,12 @@ public class ResultScript : MonoBehaviour {
 	}
 
 	public void done(){
-		UnityEngine.Application.LoadLevel("SongSelection");
+		UnityEngine.Application.LoadLevel ("SongSelection");
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 }
