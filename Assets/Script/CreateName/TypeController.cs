@@ -49,19 +49,23 @@ public class TypeController : MonoBehaviour {
 		Frame frame = controller.Frame ();
 		Hand hand = frame.Hands.Rightmost;
 
-		Vector position = hand.Fingers.FingerType(Finger.FingerType.TYPE_INDEX)[0].StabilizedTipPosition;
+//		Vector position = hand.Fingers.FingerType(Finger.FingerType.TYPE_INDEX)[0].StabilizedTipPosition;
+		Vector position = hand.Fingers.FingerType(Finger.FingerType.TYPE_INDEX)[0].Bone(Bone.BoneType.TYPE_METACARPAL).NextJoint;
 		float screenWidth = UnityEngine.Screen.width;
 		float screenHeight = UnityEngine.Screen.height;
 
+//		int posX = (int)(position.x * 4 + screenWidth / 2);
+//		int posY = (int)(-position.y + screenHeight / 2) * 3;
+
 		int posX = (int)(position.x * 4 + screenWidth / 2);
-		int posY = (int)(-position.y + screenHeight / 2) * 3;
+		int posY = (int)(-position.y + screenHeight / 2) * 4;
 		SetCursorPos(posX,posY);
 
 		if (hand.IsValid) {
 			if (hand.PinchStrength > 0.9f && !isSelected) {
 				isSelected = true;
 				mouse_event (0x0002 | 0x0004, 0, posX, posY, 0);
-			} else if(hand.PinchStrength < 0.3f) {
+			} else if(hand.PinchStrength < 0.5f) {
 				isSelected = false;
 			}
 		}
