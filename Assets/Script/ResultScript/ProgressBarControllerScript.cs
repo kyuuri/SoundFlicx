@@ -150,7 +150,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 	private void CheckFlick(HandList hands){
 		Hand rightHand = hands.Rightmost;
 		Hand leftHand = hands.Leftmost;
-		if (isSwipeRight(rightHand)) {
+		if (isSwipeRight(rightHand, leftHand)) {
 			if (!selectB.isPlaying) {
 				selectB.Play ();
 			}
@@ -161,7 +161,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 			state = Status_State.DONE;
 			isFlicking = true;
 		}
-		if (isSwipeLeft(leftHand)) {
+		if (isSwipeLeft(rightHand, leftHand)) {
 			if (!selectB.isPlaying) {
 				selectB.Play ();
 			}
@@ -175,18 +175,40 @@ public class ProgressBarControllerScript : MonoBehaviour {
 
 	}
 
-	private bool isSwipeRight(Hand hand){
+//	private bool isSwipeRight(Hand hand){
+//		float speed = 120;
+//		float yaw = hand.Direction.Yaw * 5;
+//		return yaw > 1.2f && hand.PalmVelocity.x > speed;
+//	}
+//
+//	private bool isSwipeLeft(Hand hand){
+//		float speed = 120;
+//		float yaw = hand.Direction.Yaw * 5 * -1;
+//		return yaw > 1.2f && hand.PalmVelocity.x < -speed;
+//	}
+	private bool isSwipeRight(Hand rHand, Hand lHand){
 		float speed = 120;
-		float yaw = hand.Direction.Yaw * 5;
-		return yaw > 1.2f && hand.PalmVelocity.x > speed;
+		float rYaw = rHand.Direction.Yaw * 5;
+		float lYaw = lHand.Direction.Yaw * 5;
+		if (rYaw > 1.2f && rHand.PalmVelocity.x > speed) {
+			return true;
+		} else if (lYaw > 1.2f && lHand.PalmVelocity.x > speed) {
+			return true;
+		}
+		return false;
 	}
 
-	private bool isSwipeLeft(Hand hand){
+	private bool isSwipeLeft(Hand rHand, Hand lHand){
 		float speed = 120;
-		float yaw = hand.Direction.Yaw * 5 * -1;
-		return yaw > 1.2f && hand.PalmVelocity.x < -speed;
+		float rYaw = rHand.Direction.Yaw * 5 * -1;
+		float lYaw = lHand.Direction.Yaw * 5 * -1;
+		if(rYaw > 1.2f && rHand.PalmVelocity.x < -speed){
+			return true;	
+		} else if(lYaw > 1.2f && lHand.PalmVelocity.x < -speed){
+			return true;	
+		}
+		return false;
 	}
-
 	public void Load(){
 		if (File.Exists (Application.persistentDataPath + ("/" + track.songName))) {
 			BinaryFormatter bf = new BinaryFormatter ();

@@ -21,10 +21,12 @@ public class RadialProcessBarScript : MonoBehaviour {
 
 	public void ResetAmount(){
 		currentAmount = 0;
+		UpdateLoadingBar ();
 	}
 
 	public void SetAmount(float amount){
 		currentAmount = amount;
+		UpdateLoadingBar ();
 	}
 
 	public void IncreaseAmount(){
