@@ -139,7 +139,7 @@ public class TypeController : MonoBehaviour {
 
 	public void Save () {
 		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream file = File.Create (Application.persistentDataPath + ("/" + track.songName));
+		FileStream file = File.Create (Application.persistentDataPath + fileName);
 
 		LeaderBoard data = new LeaderBoard ();
 		data.players = players;
