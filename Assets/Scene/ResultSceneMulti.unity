@@ -12526,6 +12526,7 @@ GameObject:
   - 4: {fileID: 743326246}
   - 82: {fileID: 743326245}
   - 114: {fileID: 743326247}
+  - 114: {fileID: 743326248}
   m_Layer: 0
   m_Name: GameControllerForLeap
   m_TagString: Untagged
@@ -12625,9 +12626,32 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 743326244}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8918460a3fbcc9b4eaee920242232960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  confirm: {fileID: 569839191}
+  selectB: {fileID: 840327243}
+  loadingPicture: {fileID: 654777713}
+  particle: {fileID: 86403104}
+  leapCamera: {fileID: 1860761247}
+  Done_LoadingBar: {fileID: 1750461280}
+  Retry_LoadingBar: {fileID: 2009726779}
+  Done_LoadingBar_Background: {fileID: 429015656}
+  Retry_LoadingBar_Background: {fileID: 1245125794}
+  doneButton_Amount: 0
+  retryButton_Amount: 0
+  progressBarSpeed: 55
+--- !u!114 &743326248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 743326244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba44e5c23ebdf40eeb156ae5b0f1c440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   confirm: {fileID: 569839191}

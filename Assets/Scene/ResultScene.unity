@@ -10769,11 +10769,8 @@ MonoBehaviour:
   particle: {fileID: 86403104}
   leapCamera: {fileID: 1860761247}
   Done_LoadingBar: {fileID: 1750461280}
-  Retry_LoadingBar: {fileID: 2009726779}
   Done_LoadingBar_Background: {fileID: 429015656}
-  Retry_LoadingBar_Background: {fileID: 1245125794}
   doneButton_Amount: 0
-  retryButton_Amount: 0
   progressBarSpeed: 55
 --- !u!1 &776093541
 GameObject:
@@ -21262,7 +21259,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1979274297
 RectTransform:
   m_ObjectHideFlags: 0

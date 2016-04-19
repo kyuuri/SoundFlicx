@@ -21,9 +21,9 @@ public class ProgressBarControllerScript : MonoBehaviour {
 
 	private Leap.Controller controller;
 	public Transform Done_LoadingBar;
-	public Transform Retry_LoadingBar;
+//	public Transform Retry_LoadingBar;
 	public Transform Done_LoadingBar_Background;
-	public Transform Retry_LoadingBar_Background;
+//	public Transform Retry_LoadingBar_Background;
 	private Status_State state;
 	private float timeDelay;
 	private bool isFlicking;
@@ -34,14 +34,16 @@ public class ProgressBarControllerScript : MonoBehaviour {
 	private PlayerInfo[] players;
 	private string fileName;
 
-	[SerializeField] private float doneButton_Amount;
-	[SerializeField] private float retryButton_Amount;
+//	[SerializeField] private float doneButton_Amount;
+//	[SerializeField] private float retryButton_Amount;
+	public float doneButton_Amount;
+//	public float retryButton_Amount;
 	[SerializeField] private float progressBarSpeed;
 
 	private enum Status_State
 	{
-		DONE = 0,
-		RETRY = 1
+		DONE = 0
+//		RETRY = 1
 	};
 
 	// Use this for initialization
@@ -60,8 +62,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 		state = Status_State.DONE;
 		Done_LoadingBar.gameObject.SetActive (true);
 		Done_LoadingBar_Background.gameObject.SetActive (true);
-		Retry_LoadingBar.gameObject.SetActive (false);
-		Retry_LoadingBar_Background.gameObject.SetActive (false);
+
 
 		next = false;
 		delay = 0;
@@ -76,7 +77,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 		Hand hand = hands.Rightmost;
 
 		if (!isFlicking) {
-			CheckFlick (hands);
+//			CheckFlick (hands);
 		} else if (isFlicking) {
 			timeDelay += Time.deltaTime;
 		}
@@ -86,9 +87,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 		}
 		if (state == Status_State.DONE) {
 			FillDoneProgressBar (hand);
-		} else {
-			FillRetryProgressBar (hand);
-		}
+		} 
 
 		if (next) {
 			delay += Time.deltaTime;
@@ -113,7 +112,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 			if (resultScore.score > players [9].score) {
 				str = "Layout Groups";
 			} else {
-				str = "SongSelection"; 
+				str = "Ranking"; 
 			}
 
 		} else if (hand.GrabStrength == 1 || Input.GetKey(KeyCode.Space)) {
@@ -124,86 +123,30 @@ public class ProgressBarControllerScript : MonoBehaviour {
 		}
 		Done_LoadingBar.GetComponent<UnityEngine.UI.Image> ().fillAmount = doneButton_Amount / 100;
 	}
-
-	private void FillRetryProgressBar(Hand hand){
-
-		if (retryButton_Amount >= 100) {
-			if (!confirm.isPlaying) {
-				confirm.Play ();
-			}
-			next = true;
-			str = "Gameplay";
-		} else if (hand.GrabStrength == 1 || Input.GetKeyDown(KeyCode.Space)) {
-			retryButton_Amount += progressBarSpeed * Time.deltaTime;
-		} else {
-			if(retryButton_Amount > 0)
-				retryButton_Amount -= progressBarSpeed * Time.deltaTime*2;
-		}
-		Retry_LoadingBar.GetComponent<UnityEngine.UI.Image> ().fillAmount = retryButton_Amount / 100;
-	}
-
-	private void CheckFlick(HandList hands){
-		Hand rightHand = hands.Rightmost;
-		Hand leftHand = hands.Leftmost;
-		if (isSwipeRight(rightHand, leftHand) || Input.GetKeyDown(KeyCode.RightArrow)) {
-			if (!selectB.isPlaying) {
-				selectB.Play ();
-			}
-			Done_LoadingBar.gameObject.SetActive (true);
-			Done_LoadingBar_Background.gameObject.SetActive (true);
-			Retry_LoadingBar.gameObject.SetActive (false);
-			Retry_LoadingBar_Background.gameObject.SetActive (false);
-			state = Status_State.DONE;
-			isFlicking = true;
-		}
-		if (isSwipeLeft(rightHand, leftHand) || Input.GetKeyDown(KeyCode.LeftArrow)) {
-			if (!selectB.isPlaying) {
-				selectB.Play ();
-			}
-			Done_LoadingBar.gameObject.SetActive (false);
-			Done_LoadingBar_Background.gameObject.SetActive (false);
-			Retry_LoadingBar.gameObject.SetActive (true);
-			Retry_LoadingBar_Background.gameObject.SetActive (true);
-			state = Status_State.RETRY;
-			isFlicking = true;
-		}
-
-	}
-
-//	private bool isSwipeRight(Hand hand){
+		
+//	private bool isSwipeRight(Hand rHand, Hand lHand){
 //		float speed = 120;
-//		float yaw = hand.Direction.Yaw * 5;
-//		return yaw > 1.2f && hand.PalmVelocity.x > speed;
+//		float rYaw = rHand.Direction.Yaw * 5;
+//		float lYaw = lHand.Direction.Yaw * 5;
+//		if (rYaw > 1.2f && rHand.PalmVelocity.x > speed) {
+//			return true;
+//		} else if (lYaw > 1.2f && lHand.PalmVelocity.x > speed) {
+//			return true;
+//		}
+//		return false;
 //	}
 //
-//	private bool isSwipeLeft(Hand hand){
+//	private bool isSwipeLeft(Hand rHand, Hand lHand){
 //		float speed = 120;
-//		float yaw = hand.Direction.Yaw * 5 * -1;
-//		return yaw > 1.2f && hand.PalmVelocity.x < -speed;
+//		float rYaw = rHand.Direction.Yaw * 5 * -1;
+//		float lYaw = lHand.Direction.Yaw * 5 * -1;
+//		if(rYaw > 1.2f && rHand.PalmVelocity.x < -speed){
+//			return true;	
+//		} else if(lYaw > 1.2f && lHand.PalmVelocity.x < -speed){
+//			return true;	
+//		}
+//		return false;
 //	}
-	private bool isSwipeRight(Hand rHand, Hand lHand){
-		float speed = 120;
-		float rYaw = rHand.Direction.Yaw * 5;
-		float lYaw = lHand.Direction.Yaw * 5;
-		if (rYaw > 1.2f && rHand.PalmVelocity.x > speed) {
-			return true;
-		} else if (lYaw > 1.2f && lHand.PalmVelocity.x > speed) {
-			return true;
-		}
-		return false;
-	}
-
-	private bool isSwipeLeft(Hand rHand, Hand lHand){
-		float speed = 120;
-		float rYaw = rHand.Direction.Yaw * 5 * -1;
-		float lYaw = lHand.Direction.Yaw * 5 * -1;
-		if(rYaw > 1.2f && rHand.PalmVelocity.x < -speed){
-			return true;	
-		} else if(lYaw > 1.2f && lHand.PalmVelocity.x < -speed){
-			return true;	
-		}
-		return false;
-	}
 	public void Load(){
 		if (File.Exists (Application.persistentDataPath + fileName)) {
 			BinaryFormatter bf = new BinaryFormatter ();
