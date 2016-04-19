@@ -5,13 +5,13 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-using System.Runtime.InteropServices;
+//using System.Runtime.InteropServices;
 
 public class TypeController : MonoBehaviour {
-	[DllImport("user32.dll")]
-	public static extern bool SetCursorPos(int X, int Y);
-	[DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
-	public static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
+//	[DllImport("user32.dll")]
+//	public static extern bool SetCursorPos(int X, int Y);
+//	[DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+//	public static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
 
 	public Leap.Controller controller;
 
@@ -26,7 +26,7 @@ public class TypeController : MonoBehaviour {
 	private PlayerInfo newPlayer;
 	public float score;
 	private string fileName;
-	private bool isSelected = false;
+//	private bool isSelected = false;
 
 	void Awake(){
 		System.Environment.SetEnvironmentVariable ("MONO_REFLECTION_SERIALIZER", "yes");
@@ -46,35 +46,37 @@ public class TypeController : MonoBehaviour {
 	}
 	
 	void Update () {
+//		text.text += Input.inputString;
+
 	// Update is called once per frame
-		Frame frame = controller.Frame ();
-		Hand hand = frame.Hands.Rightmost;
+//		Frame frame = controller.Frame ();
+//		Hand hand = frame.Hands.Rightmost;
 
 //		Vector position = hand.Fingers.FingerType(Finger.FingerType.TYPE_INDEX)[0].StabilizedTipPosition;
-		Vector position = hand.Fingers.FingerType(Finger.FingerType.TYPE_INDEX)[0].Bone(Bone.BoneType.TYPE_METACARPAL).NextJoint;
-		float screenWidth = UnityEngine.Screen.width;
-		float screenHeight = UnityEngine.Screen.height;
+//		Vector position = hand.Fingers.FingerType(Finger.FingerType.TYPE_INDEX)[0].Bone(Bone.BoneType.TYPE_METACARPAL).NextJoint;
+//		float screenWidth = UnityEngine.Screen.width;
+//		float screenHeight = UnityEngine.Screen.height;
 
 //		int posX = (int)(position.x * 4 + screenWidth / 2);
 //		int posY = (int)(-position.y + screenHeight / 2) * 3;
 
-		int posX = (int)(position.x * 4 + screenWidth / 2);
-		int posY = (int)(-position.y + screenHeight / 2) * 4;
-		SetCursorPos(posX,posY);
+//		int posX = (int)(position.x * 4 + screenWidth / 2);
+//		int posY = (int)(-position.y + screenHeight / 2) * 4;
+//		SetCursorPos(posX,posY);
 
-		if (hand.IsValid) {
-			if (hand.PinchStrength > 0.9f && !isSelected) {
-				isSelected = true;
-				mouse_event (0x0002 | 0x0004, 0, posX, posY, 0);
-			} else if(hand.PinchStrength < 0.5f) {
-				isSelected = false;
-			}
-		}
+//		if (hand.IsValid) {
+//			if (hand.PinchStrength > 0.9f && !isSelected) {
+//				isSelected = true;
+//				mouse_event (0x0002 | 0x0004, 0, posX, posY, 0);
+//			} else if(hand.PinchStrength < 0.5f) {
+//				isSelected = false;
+//			}
+//		}
 
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			//			InsertScore ();
-			Print(players);
-		}
+//		if (Input.GetKeyDown (KeyCode.Space)) {
+//			//			InsertScore ();
+//			Print(players);
+//		}
 	}
 
 	public void AddText (string label){
@@ -122,7 +124,6 @@ public class TypeController : MonoBehaviour {
 				break;
 			}
 			//				testData [i] = score;
-
 		}
 	}
 
