@@ -242,13 +242,13 @@ public class AutoPlayScript : MonoBehaviour {
 				if (downlvl == 3)
 					dec += 9;
 				else
-					dec += downlvl * 2.5;
+					dec += downlvl * 2.5f;
 				
 				// 2 4 7
 				if (uplvl == 3)
 					dec += 9;
 				else
-					dec += uplvl * 2.5;
+					dec += uplvl * 2.5f;
 
 
 				// 2.5 5 8
