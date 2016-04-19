@@ -26,6 +26,7 @@ public class TypeController : MonoBehaviour {
 	private PlayerInfo newPlayer;
 	public float score;
 	private string fileName;
+	public AudioSource sound;
 //	private bool isSelected = false;
 
 	void Awake(){
@@ -80,6 +81,7 @@ public class TypeController : MonoBehaviour {
 	}
 
 	public void AddText (string label){
+		sound.Play ();
 		text.text = text.text + label;
 	}
 
