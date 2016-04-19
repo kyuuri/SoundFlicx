@@ -23,7 +23,7 @@ public class AutoPlayScript : MonoBehaviour {
 	public float percent = 100.0f;
 	public int level = 0;
 
-	private float[] levelPercent = { 0, 51, 60, 70, 79, 89, 100};
+	private float[] levelPercent = { 0, 51, 60, 70, 78, 86.5, 100};
 	//private float[] levelPercent = { 0, 47, 55, 63, 71, 79, 87, 100};
 	//100 ALL perfect
 
