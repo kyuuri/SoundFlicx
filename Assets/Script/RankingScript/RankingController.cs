@@ -56,6 +56,9 @@ public class RankingController : MonoBehaviour {
 		rank.ranking.text = player.ranking;
 		rank.score.text = player.score+"";
 		newRank.transform.SetParent (rankPanel);
+		RectTransform rect = newRank.GetComponent<RectTransform> ();
+		rect.localScale = new Vector3 (1, 1, 1);
+		rect.localPosition = new Vector3 (rect.position.x, rect.position.y, 0);
 	}
 //	private GameObject CreateButton(Mtemplate temp, string text){
 //
