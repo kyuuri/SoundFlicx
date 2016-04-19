@@ -649,9 +649,7 @@ public class SongSelectionController : MonoBehaviour {
 			if (layerState == Layers.NORMAL_LAYER) {
 
 				if (indexColorChange == 0) {
-					for (int i = 0; i < 4; i++) {
-						parBox [i].gameObject.active = false;
-					}
+					disableParBox ();
 					speed = 1;
 					loadingImage.color = new Color (loadingImage.color.r, loadingImage.color.g, loadingImage.color.b, 1);
 					secondCamera.gameObject.SetActive (false);
@@ -662,6 +660,12 @@ public class SongSelectionController : MonoBehaviour {
 					UnityEngine.Application.LoadLevel ("GameplayTutorial");
 				}
 				else {
+					if (isNormalState) {
+						for (int i = 0; i < 4; i++) {
+							Vector3 pos = parBox [i].transform.position;
+							parBox [i].transform.position = new Vector3 (pos.x - 8.5f, pos.y, pos.z);
+						}
+					}
 					showMode ();
 					contentPanel.localPosition = new Vector3 (contentPanel.localPosition.x - 180 + indexColorChange * 214.8f, contentPanel.localPosition.y);
 					for (int i = 0; i < buttonList.Count; i++) {
@@ -675,12 +679,12 @@ public class SongSelectionController : MonoBehaviour {
 			} else if (layerState == Layers.MODE_LAYER){
 				if (isSolo) {
 					
-					if (isNormalState) {
-						for (int i = 0; i < 4; i++) {
-							Vector3 pos = parBox [i].transform.position;
-							parBox [i].transform.position = new Vector3 (pos.x - 8.5f, pos.y, pos.z);
-						}
-					}
+//					if (isNormalState) {
+//						for (int i = 0; i < 4; i++) {
+//							Vector3 pos = parBox [i].transform.position;
+//							parBox [i].transform.position = new Vector3 (pos.x - 8.5f, pos.y, pos.z);
+//						}
+//					}
 					showDifficulty ();
 
 					difficultyBar.SelectDifficulty (2);
@@ -700,12 +704,12 @@ public class SongSelectionController : MonoBehaviour {
 				}
 			} else if(layerState == Layers.BOT_LAYER){
 				
-				if (isNormalState) {
-					for (int i = 0; i < 4; i++) {
-						Vector3 pos = parBox [i].transform.position;
-						parBox [i].transform.position = new Vector3 (pos.x - 8.5f, pos.y, pos.z);
-					}
-				}
+//				if (isNormalState) {
+//					for (int i = 0; i < 4; i++) {
+//						Vector3 pos = parBox [i].transform.position;
+//						parBox [i].transform.position = new Vector3 (pos.x - 8.5f, pos.y, pos.z);
+//					}
+//				}
 				showDifficulty ();
 
 				difficultyBar.SelectDifficulty (2);
