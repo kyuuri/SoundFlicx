@@ -53,7 +53,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 	void Start () {
 		resultScore = GlobalData.result;
 		track = GlobalData.selectedTrack;
-		fileName = "/" + track.songName;
+		fileName = "/" + track.songName + "_" + track.difficulty;
 		controller = new Leap.Controller ();
 		particle.active = true;
 		leapCamera.active = true;
@@ -100,12 +100,6 @@ public class ProgressBarControllerScript : MonoBehaviour {
 			loadingPicture.gameObject.active = true;
 			UnityEngine.Application.LoadLevel (str);
 		}
-
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			for (int i = 0; i < 10; i++) {
-				Debug.Log (players [i].name + " " + (players [i].score + ""));
-			}
-		}
 	}
 
 	private void FillDoneProgressBar(Hand hand){
@@ -122,7 +116,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 				str = "SongSelection"; 
 			}
 
-		} else if (hand.GrabStrength == 1	) {
+		} else if (hand.GrabStrength == 1 || Input.GetKey(KeyCode.Space)) {
 			doneButton_Amount += progressBarSpeed * Time.deltaTime;
 		} else {
 			if(doneButton_Amount > 0)
@@ -139,7 +133,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 			}
 			next = true;
 			str = "Gameplay";
-		} else if (hand.GrabStrength == 1) {
+		} else if (hand.GrabStrength == 1 || Input.GetKeyDown(KeyCode.Space)) {
 			retryButton_Amount += progressBarSpeed * Time.deltaTime;
 		} else {
 			if(retryButton_Amount > 0)
@@ -151,7 +145,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 	private void CheckFlick(HandList hands){
 		Hand rightHand = hands.Rightmost;
 		Hand leftHand = hands.Leftmost;
-		if (isSwipeRight(rightHand, leftHand)) {
+		if (isSwipeRight(rightHand, leftHand) || Input.GetKeyDown(KeyCode.RightArrow)) {
 			if (!selectB.isPlaying) {
 				selectB.Play ();
 			}
@@ -162,7 +156,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 			state = Status_State.DONE;
 			isFlicking = true;
 		}
-		if (isSwipeLeft(rightHand, leftHand)) {
+		if (isSwipeLeft(rightHand, leftHand) || Input.GetKeyDown(KeyCode.LeftArrow)) {
 			if (!selectB.isPlaying) {
 				selectB.Play ();
 			}
