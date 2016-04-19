@@ -23,7 +23,7 @@ public class AutoPlayScript : MonoBehaviour {
 	public float percent = 100.0f;
 	public int level = 0;
 
-	private float[] levelPercent = { 0, 55, 63, 71, 79, 87, 100};
+	private float[] levelPercent = { 0, 49, 60, 68, 76, 84, 100};
 	//private float[] levelPercent = { 0, 47, 55, 63, 71, 79, 87, 100};
 	//100 ALL perfect
 
@@ -140,7 +140,7 @@ public class AutoPlayScript : MonoBehaviour {
 			note = tiltNotes [i];
 			if (note.Length > 0) {
 				if (TimerScript.timePass > note.HitTime + note.Length - 0.02f) {
-					if (i + 2 < tiltNotes.Count - 1) {
+					if (i + 2 < tiltNotes.Count - 2) {
 						note = notes [i + 2];
 						if (note.Length == 0) {
 							continue;
@@ -240,19 +240,19 @@ public class AutoPlayScript : MonoBehaviour {
 
 				// 2 4 7
 				if (downlvl == 3)
-					dec += 7;
+					dec += 7 + 5;
 				else
-					dec += downlvl * 2;
+					dec += downlvl * 2 + 5;
 				
 				// 2 4 7
 				if (uplvl == 3)
-					dec += 7;
+					dec += 7+ 5;
 				else
-					dec += uplvl * 2;
+					dec += uplvl * 2 + 5;
 
 
 				// 2.5 5 8
-				dec += blindlvl * 2.5f;
+				dec += blindlvl * 2.5f + 6;
 				if (blindlvl == 3)
 					dec += 0.5f;
 
