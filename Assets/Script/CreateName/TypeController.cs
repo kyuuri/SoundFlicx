@@ -39,7 +39,7 @@ public class TypeController : MonoBehaviour {
 		text.text = "";
 		track = GlobalData.selectedTrack;
 		result = GlobalData.result;
-		fileName = "/" + track.songName;
+		fileName = "/" + track.songName + "_" + track.difficulty;
 		Load ();
 
 		newPlayer = new PlayerInfo ();

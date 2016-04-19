@@ -53,7 +53,7 @@ public class ProgressBarControllerScript : MonoBehaviour {
 	void Start () {
 		resultScore = GlobalData.result;
 		track = GlobalData.selectedTrack;
-		fileName = "/" + track.songName;
+		fileName = "/" + track.songName + "_" + track.difficulty;
 		controller = new Leap.Controller ();
 		particle.active = true;
 		leapCamera.active = true;
