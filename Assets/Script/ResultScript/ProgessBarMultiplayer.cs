@@ -117,7 +117,7 @@ public class ProgessBarMultiplayer : MonoBehaviour {
 				confirm.Play ();
 			}
 			next = true;
-			str = "Gameplay";
+			str = "GameplayVSMode";
 		} else if (hand.GrabStrength == 1 || Input.GetKey(KeyCode.Space)) {
 			retryButton_Amount += progressBarSpeed * Time.deltaTime;
 		} else {
