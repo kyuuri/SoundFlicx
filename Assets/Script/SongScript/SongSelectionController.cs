@@ -742,7 +742,7 @@ public class SongSelectionController : MonoBehaviour {
 		} else {
 			isGrab = false;
 			if(progressBar.GetAmount() <= 0){
-				progressBar.SetText ("Grap !");
+				progressBar.SetText ("Grab !");
 
 			} else if (progressBar.GetAmount() > 0) {
 				progressBar.DecreaseAmount ();
