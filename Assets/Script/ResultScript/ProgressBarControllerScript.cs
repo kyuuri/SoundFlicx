@@ -124,29 +124,6 @@ public class ProgressBarControllerScript : MonoBehaviour {
 		Done_LoadingBar.GetComponent<UnityEngine.UI.Image> ().fillAmount = doneButton_Amount / 100;
 	}
 		
-//	private bool isSwipeRight(Hand rHand, Hand lHand){
-//		float speed = 120;
-//		float rYaw = rHand.Direction.Yaw * 5;
-//		float lYaw = lHand.Direction.Yaw * 5;
-//		if (rYaw > 1.2f && rHand.PalmVelocity.x > speed) {
-//			return true;
-//		} else if (lYaw > 1.2f && lHand.PalmVelocity.x > speed) {
-//			return true;
-//		}
-//		return false;
-//	}
-//
-//	private bool isSwipeLeft(Hand rHand, Hand lHand){
-//		float speed = 120;
-//		float rYaw = rHand.Direction.Yaw * 5 * -1;
-//		float lYaw = lHand.Direction.Yaw * 5 * -1;
-//		if(rYaw > 1.2f && rHand.PalmVelocity.x < -speed){
-//			return true;	
-//		} else if(lYaw > 1.2f && lHand.PalmVelocity.x < -speed){
-//			return true;	
-//		}
-//		return false;
-//	}
 	public void Load(){
 		if (File.Exists (Application.persistentDataPath + fileName)) {
 			BinaryFormatter bf = new BinaryFormatter ();
