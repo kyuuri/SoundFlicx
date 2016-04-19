@@ -86,9 +86,14 @@ public class TypeController : MonoBehaviour {
 	}
 
 	public void DeleteLabel(){
-		Debug.Log (text.text.Length);
+		sound.Play ();
 		if(text.text.Length>0)
 			text.text = text.text.Remove (text.text.Length-1);
+	}
+
+	public void ClearText(){
+		sound.Play ();
+		text.text = "";
 	}
 
 	public void InsertScore(){
