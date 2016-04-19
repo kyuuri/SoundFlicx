@@ -27,6 +27,8 @@ public class TypeController : MonoBehaviour {
 	public float score;
 	private string fileName;
 	public AudioSource sound;
+	private float delayScene;
+	private bool goingNext;
 //	private bool isSelected = false;
 
 	void Awake(){
@@ -36,7 +38,8 @@ public class TypeController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		controller = new Leap.Controller ();
-
+		goingNext = false;
+		delayScene = 0f;
 		text.text = "";
 		track = GlobalData.selectedTrack;
 		result = GlobalData.result;
@@ -78,6 +81,16 @@ public class TypeController : MonoBehaviour {
 //			//			InsertScore ();
 //			Print(players);
 //		}
+
+
+
+		if (goingNext) {
+			delayScene += Time.deltaTime;
+		}
+
+		if (delayScene >= 0.5f) {
+			UnityEngine.Application.LoadLevel ("Ranking");
+		}
 	}
 
 	public void AddText (string label){
@@ -135,14 +148,17 @@ public class TypeController : MonoBehaviour {
 	}
 
 	public void ChangeScene(){
-		newPlayer.name = text.text;
-		newPlayer.score = result.score;
-		newPlayer.ranking = result.getRank();
-		newPlayer.accuracy = result.getAccuracy ();
-		newPlayer.maxCombo = result.maxCombo;
-		InsertScore ();
-		Save ();
-		UnityEngine.Application.LoadLevel ("Ranking");
+		if (!goingNext) {
+			goingNext = true;
+			sound.Play ();
+			newPlayer.name = text.text;
+			newPlayer.score = result.score;
+			newPlayer.ranking = result.getRank ();
+			newPlayer.accuracy = result.getAccuracy ();
+			newPlayer.maxCombo = result.maxCombo;
+			InsertScore ();
+			Save ();
+		}
 	}
 
 	public void Save () {
