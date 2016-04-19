@@ -20,7 +20,7 @@ public class RankingController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		track = GlobalData.selectedTrack;
-		fileName = "/" + track.songName;
+		fileName = "/" + track.songName + "_" + track.difficulty;
 		Load ();
 		if (players != null) {
 			for (int i = 0; i < 10; i++) {
