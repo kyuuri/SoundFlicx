@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using UnityEngine.UI;
 
 public class RankingController : MonoBehaviour {
 
@@ -11,6 +12,8 @@ public class RankingController : MonoBehaviour {
 	private Track track;
 	public Transform rankPanel;
 	public GameObject rankLine;
+	public Text songName;
+	public Text difficulty;
 	private string fileName;
 
 	void Awake(){
@@ -21,6 +24,15 @@ public class RankingController : MonoBehaviour {
 	void Start () {
 		track = GlobalData.selectedTrack;
 		fileName = "/" + track.songName + "_" + track.difficulty;
+		songName.text = track.songName;
+		difficulty.text = track.difficulty+"";
+		if (difficulty.text.Contains("EASY")) {
+			difficulty.color = new Color (19 / 255f, (255 / 255f), 0f, 1f);
+		} else if (difficulty.text.Contains("NORMAL")) {
+			difficulty.color = new Color (255 / 255f, (247 / 255f), 0f, 1f);
+		} else if (difficulty.text.Contains("HARD")) {
+			difficulty.color = new Color (255 / 255f, (23 / 255f), 0f, 1f);
+		}
 		Load ();
 		if (players != null) {
 			for (int i = 0; i < 10; i++) {
