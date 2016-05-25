@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public class LineHitChecker : MonoBehaviour {
+public class LineHitCheckerNW : NetworkBehaviour {
 
 	public enum LaneHitState {NONE, HIT, HOLD} //0, 1, 2
 
@@ -32,8 +33,6 @@ public class LineHitChecker : MonoBehaviour {
 
 	private int countHold = 0;
 
-	public bool isLocal = true;
-
 	public LaneHitState laneState = LaneHitState.NONE;
 
 	void Start () {
@@ -58,7 +57,7 @@ public class LineHitChecker : MonoBehaviour {
 		scale = transform.localScale;
 
 		if(scale.z > 1){
-		//if(counterDraw < counterDraw){
+			//if(counterDraw < counterDraw){
 			transform.localScale = new Vector3 (initPivotScale.x, initPivotScale.y, scale.z * 0.8f);
 		}
 	}
@@ -73,35 +72,34 @@ public class LineHitChecker : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (isLocal) {
-			if (Input.GetKeyDown (key)) {
-				KeyDown ();
-			} else if (Input.GetKeyUp (key)) {
-				KeyUp ();
-			}
-			
-			CheckPress ();
+		if (Input.GetKeyDown(key)) {
+			KeyDown ();
+		}
+		else if(Input.GetKeyUp (key)){
+			KeyUp ();
+		}
 
-			if (Input.GetKey (key)) {
-				KeyHold ();
-			}
+		CheckPress ();
 
-			if (counterDraw >= delayDraw) {
-				isDrawing = false;
-			}
-			if (counterShrink >= delayShrink) {
-				isShrinking = true;
-			}
+		if (Input.GetKey(key)) {
+			KeyHold ();
+		}
 
-			if (isDrawing) {
-				counterDraw += Time.deltaTime;
-				DrawEffect ();
-			}
+		if (counterDraw >= delayDraw) {
+			isDrawing = false;
+		}
+		if (counterShrink >= delayShrink) {
+			isShrinking = true;
+		}
 
-			if (isShrinking) {
-				counterShrink += Time.deltaTime;
-				ShrinkEffect ();
-			}
+		if (isDrawing) {
+			counterDraw += Time.deltaTime;
+			DrawEffect ();
+		}
+
+		if (isShrinking) {
+			counterShrink += Time.deltaTime;
+			ShrinkEffect ();
 		}
 	}
 
@@ -170,7 +168,7 @@ public class LineHitChecker : MonoBehaviour {
 			for (int i = 0; i < laneNotes.Count; i++) {
 				NoteDescription note = laneNotes [i];
 				float hitDeltaTime = GetHitDeltaTime (hitTime, note.HitTime);
-			
+
 				if (InRange (hitDeltaTime)) {
 					if (note.NoteState == NoteDescription.NoteHitState.READY) {
 						score = CalculatePercentage (hitDeltaTime, note);
@@ -190,7 +188,7 @@ public class LineHitChecker : MonoBehaviour {
 				note.NoteState = NoteDescription.NoteHitState.HIT;
 			}
 		} else if (laneState == LaneHitState.HOLD) {
-			
+
 			laneNotes = playInformation.noteRenderer.allnotes [laneNumber];
 
 			for (int i = 0; i < laneNotes.Count; i++) {

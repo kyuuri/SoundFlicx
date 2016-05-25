@@ -1554,9 +1554,11 @@ GameObject:
   - 20: {fileID: 2021636}
   - 92: {fileID: 9292730}
   - 124: {fileID: 12423526}
-  - 81: {fileID: 8191534}
   - 114: {fileID: 11445150}
   - 114: {fileID: 11485068}
+  - 114: {fileID: 11400354}
+  - 114: {fileID: 11498494}
+  - 114: {fileID: 11402438}
   m_Layer: 0
   m_Name: GameCameraPrefab
   m_TagString: Untagged
@@ -2176,7 +2178,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 471088}
-  - 114: {fileID: 11400578}
   m_Layer: 0
   m_Name: PlayerPrefabTest
   m_TagString: Untagged
@@ -2622,7 +2623,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &199560
 GameObject:
   m_ObjectHideFlags: 1
@@ -4279,7 +4280,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 157934}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 471088}
@@ -5451,13 +5452,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 148084}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!81 &8191534
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 157934}
-  m_Enabled: 1
 --- !u!82 &8269466
 AudioSource:
   m_ObjectHideFlags: 1
@@ -5568,38 +5562,17 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 157934}
   m_Enabled: 1
---- !u!114 &11400578
+--- !u!114 &11400354
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 183876}
+  m_GameObject: {fileID: 157934}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Script: {fileID: 11500000, guid: b4029d1b4c10a85488d3e4877cb81f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 127
-    i1: 110
-    i2: 126
-    i3: 191
-    i4: 184
-    i5: 244
-    i6: 40
-    i7: 148
-    i8: 43
-    i9: 139
-    i10: 208
-    i11: 158
-    i12: 218
-    i13: 200
-    i14: 42
-    i15: 243
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
 --- !u!114 &11400750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5613,6 +5586,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreP1: {fileID: 11472206}
   scoreP2: {fileID: 0}
+--- !u!114 &11402438
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 157934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62944e2ad75624ea591a0b70a20cfaee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  line1: {fileID: 11467206}
+  line2: {fileID: 11478464}
+  line3: {fileID: 11474330}
+  line4: {fileID: 11492270}
 --- !u!114 &11407276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6135,6 +6123,7 @@ MonoBehaviour:
   hitParticle: {fileID: 19851380}
   laneNumber: 0
   key: q
+  isLocal: 1
   laneState: 0
 --- !u!114 &11467578
 MonoBehaviour:
@@ -6254,6 +6243,7 @@ MonoBehaviour:
   hitParticle: {fileID: 19877170}
   laneNumber: 2
   key: e
+  isLocal: 1
   laneState: 0
 --- !u!114 &11477266
 MonoBehaviour:
@@ -6318,6 +6308,7 @@ MonoBehaviour:
   hitParticle: {fileID: 19852390}
   laneNumber: 1
   key: w
+  isLocal: 1
   laneState: 0
 --- !u!114 &11481538
 MonoBehaviour:
@@ -6434,7 +6425,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 199182}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d7f3ed79a923424cb3fe37e2690ef16, type: 3}
   m_Name: 
@@ -6469,6 +6460,7 @@ MonoBehaviour:
   hitParticle: {fileID: 19839094}
   laneNumber: 3
   key: r
+  isLocal: 1
   laneState: 0
 --- !u!114 &11493482
 MonoBehaviour:
@@ -6557,6 +6549,31 @@ MonoBehaviour:
   - {fileID: 11492270}
   rTiltChecker: {fileID: 11477266}
   lTiltChecker: {fileID: 11471986}
+--- !u!114 &11498494
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 157934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a3030445b63f4d459536966a1c756e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteRenderer: {fileID: 11487958}
+  itemController: {fileID: 0}
+  b1: {fileID: 11467206}
+  b2: {fileID: 11478464}
+  b3: {fileID: 11474330}
+  b4: {fileID: 11492270}
+  f1: {fileID: 11410998}
+  f2: {fileID: 11434600}
+  rt: {fileID: 11477266}
+  lt: {fileID: 11471986}
+  handController: {fileID: 0}
+  maxAngle: 45
+  offsetDegrees: 25
+  offset: 0
 --- !u!114 &11499266
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -124623,7 +124640,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 157934}

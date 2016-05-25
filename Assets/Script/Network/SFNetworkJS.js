@@ -2,8 +2,6 @@
 import UnityEngine.Networking;
 import UnityEngine.Networking.Match;
  
- 
- 
 public class SFNetworkJS extends NetworkManager{
  
 private var networkMatch:NetworkMatch;
